@@ -15,6 +15,12 @@ namespace PowerBackend
         public Main()
         {
             InitializeComponent();
+            DevExpress.LookAndFeel.UserLookAndFeel.Default.SkinName = "DevExpress Dark Style";
+        }
+
+        private void navExit_ElementClick(object sender, DevExpress.XtraBars.Navigation.NavElementEventArgs e)
+        {
+            this.Dispose();
         }
     }
 }
