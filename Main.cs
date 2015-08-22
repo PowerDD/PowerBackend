@@ -22,5 +22,16 @@ namespace PowerBackend
         {
             this.Dispose();
         }
+
+        private void tileNavPane1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tileNavPane1_TileClick(object sender, DevExpress.XtraBars.Navigation.NavElementEventArgs e)
+        {
+            Console.WriteLine(e.Element.Tag);
+            //e.Element.Tag
+        }
     }
 }
