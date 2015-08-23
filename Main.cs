@@ -16,6 +16,7 @@ namespace PowerBackend
         {
             InitializeComponent();
             DevExpress.LookAndFeel.UserLookAndFeel.Default.SkinName = "DevExpress Dark Style";
+            Util.InitialAzureStorage("xx", "yy");
         }
 
         private void navExit_ElementClick(object sender, DevExpress.XtraBars.Navigation.NavElementEventArgs e)
@@ -23,14 +24,16 @@ namespace PowerBackend
             this.Dispose();
         }
 
-        private void tileNavPane1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void tileNavPane1_TileClick(object sender, DevExpress.XtraBars.Navigation.NavElementEventArgs e)
         {
-            Console.WriteLine(e.Element.Tag);
+            if (e.Element.Tag.ToString()  == "data-product")
+            {
+                pnlMain.Controls.Clear();
+                UcDataProduct uc = new UcDataProduct();
+                uc.Dock = DockStyle.Fill;
+                pnlMain.Controls.Add(uc);
+
+            }
             //e.Element.Tag
         }
     }
