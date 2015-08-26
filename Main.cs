@@ -16,7 +16,8 @@ namespace PowerBackend
         {
             InitializeComponent();
             DevExpress.LookAndFeel.UserLookAndFeel.Default.SkinName = "DevExpress Dark Style";
-            Util.InitialAzureStorage("xx", "yy");
+            DevExpress.Utils.AppearanceObject.DefaultFont = new Font("Tahoma", 9.5f);
+            Util.InitialAzureStorage("abc", "123");
         }
 
         private void navExit_ElementClick(object sender, DevExpress.XtraBars.Navigation.NavElementEventArgs e)
@@ -35,6 +36,22 @@ namespace PowerBackend
 
             }
             //e.Element.Tag
+        }
+
+        private void navMinimize_ElementClick(object sender, DevExpress.XtraBars.Navigation.NavElementEventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void navSize_ElementClick(object sender, DevExpress.XtraBars.Navigation.NavElementEventArgs e)
+        {
+            this.WindowState = FormWindowState.Normal;
+        }
+
+        private void navMaximize_ElementClick(object sender, DevExpress.XtraBars.Navigation.NavElementEventArgs e)
+        {
+            this.FormBorderStyle = FormBorderStyle.None;
+            this.WindowState = FormWindowState.Maximized;
         }
     }
 }

@@ -29,16 +29,19 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
-            DevExpress.XtraEditors.TileItemElement tileItemElement1 = new DevExpress.XtraEditors.TileItemElement();
-            DevExpress.XtraEditors.TileItemElement tileItemElement3 = new DevExpress.XtraEditors.TileItemElement();
-            DevExpress.XtraEditors.TileItemElement tileItemElement2 = new DevExpress.XtraEditors.TileItemElement();
+            DevExpress.XtraEditors.TileItemElement tileItemElement4 = new DevExpress.XtraEditors.TileItemElement();
+            DevExpress.XtraEditors.TileItemElement tileItemElement6 = new DevExpress.XtraEditors.TileItemElement();
+            DevExpress.XtraEditors.TileItemElement tileItemElement5 = new DevExpress.XtraEditors.TileItemElement();
             this.tileNavPane1 = new DevExpress.XtraBars.Navigation.TileNavPane();
             this.navButton2 = new DevExpress.XtraBars.Navigation.NavButton();
+            this.navMinimize = new DevExpress.XtraBars.Navigation.NavButton();
+            this.navSize = new DevExpress.XtraBars.Navigation.NavButton();
             this.navExit = new DevExpress.XtraBars.Navigation.NavButton();
             this.tileNavItem1 = new DevExpress.XtraBars.Navigation.TileNavItem();
             this.tileNavItem2 = new DevExpress.XtraBars.Navigation.TileNavItem();
             this.tileNavSubItem1 = new DevExpress.XtraBars.Navigation.TileNavSubItem();
             this.pnlMain = new DevExpress.XtraEditors.PanelControl();
+            this.navMaximize = new DevExpress.XtraBars.Navigation.NavButton();
             ((System.ComponentModel.ISupportInitialize)(this.pnlMain)).BeginInit();
             this.SuspendLayout();
             // 
@@ -46,6 +49,9 @@
             // 
             this.tileNavPane1.ButtonPadding = new System.Windows.Forms.Padding(12);
             this.tileNavPane1.Buttons.Add(this.navButton2);
+            this.tileNavPane1.Buttons.Add(this.navMaximize);
+            this.tileNavPane1.Buttons.Add(this.navMinimize);
+            this.tileNavPane1.Buttons.Add(this.navSize);
             this.tileNavPane1.Buttons.Add(this.navExit);
             this.tileNavPane1.ContinuousNavigation = true;
             // 
@@ -80,6 +86,26 @@
             this.navButton2.IsMain = true;
             this.navButton2.Name = "navButton2";
             // 
+            // navMinimize
+            // 
+            this.navMinimize.Alignment = DevExpress.XtraBars.Navigation.NavButtonAlignment.Right;
+            this.navMinimize.AllowGlyphSkinning = DevExpress.Utils.DefaultBoolean.True;
+            this.navMinimize.Caption = "";
+            this.navMinimize.Glyph = ((System.Drawing.Image)(resources.GetObject("navMinimize.Glyph")));
+            this.navMinimize.Name = "navMinimize";
+            this.navMinimize.Visible = false;
+            this.navMinimize.ElementClick += new DevExpress.XtraBars.Navigation.NavElementClickEventHandler(this.navMinimize_ElementClick);
+            // 
+            // navSize
+            // 
+            this.navSize.Alignment = DevExpress.XtraBars.Navigation.NavButtonAlignment.Right;
+            this.navSize.AllowGlyphSkinning = DevExpress.Utils.DefaultBoolean.True;
+            this.navSize.Caption = "";
+            this.navSize.Glyph = ((System.Drawing.Image)(resources.GetObject("navSize.Glyph")));
+            this.navSize.Name = "navSize";
+            this.navSize.Visible = false;
+            this.navSize.ElementClick += new DevExpress.XtraBars.Navigation.NavElementClickEventHandler(this.navSize_ElementClick);
+            // 
             // navExit
             // 
             this.navExit.Alignment = DevExpress.XtraBars.Navigation.NavButtonAlignment.Right;
@@ -88,6 +114,7 @@
             this.navExit.Glyph = ((System.Drawing.Image)(resources.GetObject("navExit.Glyph")));
             this.navExit.GlyphAlignment = DevExpress.XtraBars.Navigation.NavButtonAlignment.Right;
             this.navExit.Name = "navExit";
+            this.navExit.Visible = false;
             this.navExit.ElementClick += new DevExpress.XtraBars.Navigation.NavElementClickEventHandler(this.navExit_ElementClick);
             // 
             // tileNavItem1
@@ -101,10 +128,10 @@
             // 
             // 
             this.tileNavItem1.Tile.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
-            tileItemElement1.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement1.Image")));
-            tileItemElement1.ImageToTextAlignment = DevExpress.XtraEditors.TileControlImageToTextAlignment.Left;
-            tileItemElement1.Text = "รายงาน";
-            this.tileNavItem1.Tile.Elements.Add(tileItemElement1);
+            tileItemElement4.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement4.Image")));
+            tileItemElement4.ImageToTextAlignment = DevExpress.XtraEditors.TileControlImageToTextAlignment.Left;
+            tileItemElement4.Text = "รายงาน";
+            this.tileNavItem1.Tile.Elements.Add(tileItemElement4);
             this.tileNavItem1.Tile.ItemSize = DevExpress.XtraBars.Navigation.TileBarItemSize.Default;
             this.tileNavItem1.Tile.Name = "tileBarItem1";
             this.tileNavItem1.Tile.ShowDropDownButton = DevExpress.Utils.DefaultBoolean.False;
@@ -123,10 +150,10 @@
             // 
             // 
             this.tileNavItem2.Tile.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
-            tileItemElement3.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement3.Image")));
-            tileItemElement3.ImageToTextAlignment = DevExpress.XtraEditors.TileControlImageToTextAlignment.Left;
-            tileItemElement3.Text = "ข้อมูล";
-            this.tileNavItem2.Tile.Elements.Add(tileItemElement3);
+            tileItemElement6.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement6.Image")));
+            tileItemElement6.ImageToTextAlignment = DevExpress.XtraEditors.TileControlImageToTextAlignment.Left;
+            tileItemElement6.Text = "ข้อมูล";
+            this.tileNavItem2.Tile.Elements.Add(tileItemElement6);
             this.tileNavItem2.Tile.ItemSize = DevExpress.XtraBars.Navigation.TileBarItemSize.Default;
             this.tileNavItem2.Tile.Name = "tileBarItem2";
             this.tileNavItem2.Tile.ShowDropDownButton = DevExpress.Utils.DefaultBoolean.False;
@@ -142,10 +169,10 @@
             // 
             // 
             this.tileNavSubItem1.Tile.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
-            tileItemElement2.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement2.Image")));
-            tileItemElement2.ImageToTextAlignment = DevExpress.XtraEditors.TileControlImageToTextAlignment.Left;
-            tileItemElement2.Text = "สินค้า";
-            this.tileNavSubItem1.Tile.Elements.Add(tileItemElement2);
+            tileItemElement5.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement5.Image")));
+            tileItemElement5.ImageToTextAlignment = DevExpress.XtraEditors.TileControlImageToTextAlignment.Left;
+            tileItemElement5.Text = "สินค้า";
+            this.tileNavSubItem1.Tile.Elements.Add(tileItemElement5);
             this.tileNavSubItem1.Tile.ItemSize = DevExpress.XtraBars.Navigation.TileBarItemSize.Wide;
             this.tileNavSubItem1.Tile.Name = "tileBarItem3";
             this.tileNavSubItem1.Tile.ShowItemShadow = DevExpress.Utils.DefaultBoolean.True;
@@ -158,6 +185,16 @@
             this.pnlMain.Size = new System.Drawing.Size(1205, 558);
             this.pnlMain.TabIndex = 1;
             // 
+            // navMaximize
+            // 
+            this.navMaximize.Alignment = DevExpress.XtraBars.Navigation.NavButtonAlignment.Right;
+            this.navMaximize.AllowGlyphSkinning = DevExpress.Utils.DefaultBoolean.True;
+            this.navMaximize.Caption = "";
+            this.navMaximize.Glyph = ((System.Drawing.Image)(resources.GetObject("navMaximize.Glyph")));
+            this.navMaximize.Name = "navMaximize";
+            this.navMaximize.Visible = false;
+            this.navMaximize.ElementClick += new DevExpress.XtraBars.Navigation.NavElementClickEventHandler(this.navMaximize_ElementClick);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -165,9 +202,8 @@
             this.ClientSize = new System.Drawing.Size(1205, 598);
             this.Controls.Add(this.pnlMain);
             this.Controls.Add(this.tileNavPane1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Main";
-            this.Text = "Form1";
+            this.Text = "Power Backend";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)(this.pnlMain)).EndInit();
             this.ResumeLayout(false);
@@ -183,6 +219,9 @@
         private DevExpress.XtraBars.Navigation.TileNavItem tileNavItem1;
         private DevExpress.XtraBars.Navigation.TileNavItem tileNavItem2;
         private DevExpress.XtraBars.Navigation.TileNavSubItem tileNavSubItem1;
+        private DevExpress.XtraBars.Navigation.NavButton navMinimize;
+        private DevExpress.XtraBars.Navigation.NavButton navSize;
+        private DevExpress.XtraBars.Navigation.NavButton navMaximize;
     }
 }
 
