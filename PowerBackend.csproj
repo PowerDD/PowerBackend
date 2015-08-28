@@ -27,7 +27,7 @@
     <InstallUrl>https://powerdd.azurewebsites.net/app/PowerBackend/</InstallUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>7</ApplicationRevision>
+    <ApplicationRevision>8</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -104,6 +104,12 @@
     <Reference Include="Extensibility, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="Geckofx-Core">
+      <HintPath>dll\Geckofx-Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Geckofx-Winforms">
+      <HintPath>dll\Geckofx-Winforms.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Azure.KeyVault.Core">
       <HintPath>dll\Microsoft.Azure.KeyVault.Core.dll</HintPath>
     </Reference>
@@ -132,6 +138,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
     <Reference Include="System.Web" />
@@ -152,6 +159,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FmUploadImage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FmUploadImage.Designer.cs">
+      <DependentUpon>FmUploadImage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form\FmLabel.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -198,6 +211,9 @@
       <DependentUpon>UcDataProduct.cs</DependentUpon>
     </Compile>
     <Compile Include="Util.cs" />
+    <EmbeddedResource Include="FmUploadImage.resx">
+      <DependentUpon>FmUploadImage.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form\FmLabel.resx">
       <DependentUpon>FmLabel.cs</DependentUpon>
     </EmbeddedResource>
@@ -999,6 +1015,12 @@
       <IncludeHash>True</IncludeHash>
       <FileType>Satellite</FileType>
     </PublishFile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\picture.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\picture_empty.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

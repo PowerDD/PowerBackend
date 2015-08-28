@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UcDataProduct));
             this.navBarControl1 = new DevExpress.XtraNavBar.NavBarControl();
             this.navBarProduct = new DevExpress.XtraNavBar.NavBarGroup();
@@ -39,19 +40,20 @@
             this.navBarItem4 = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarItem5 = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarGroup1 = new DevExpress.XtraNavBar.NavBarGroup();
+            this.navLabel = new DevExpress.XtraNavBar.NavBarItem();
             this.navDevice = new DevExpress.XtraNavBar.NavBarItem();
             this.navMadeIn = new DevExpress.XtraNavBar.NavBarItem();
             this.navStandard = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarConfig = new DevExpress.XtraNavBar.NavBarGroup();
-            this.navLabel = new DevExpress.XtraNavBar.NavBarItem();
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.splitContainerControl1 = new DevExpress.XtraEditors.SplitContainerControl();
             this.splitContainerControl2 = new DevExpress.XtraEditors.SplitContainerControl();
             this.gridControl1 = new DevExpress.XtraGrid.GridControl();
             this.bandedGridView1 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridView();
             this.gridBand1 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+            this.HasPicture = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.Sku = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.Name = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.ProductName = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.gridBand2 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.Price = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.Price1 = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
@@ -62,12 +64,17 @@
             this.Cost = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.gridBand3 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.Active = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.Visible = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.VisibleOnWeb = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.Stock = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.Warranty = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.Category = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.Brand = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.panelControl3 = new DevExpress.XtraEditors.PanelControl();
+            this.tileControl1 = new DevExpress.XtraEditors.TileControl();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ตงเปนภาพหลกToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ลบภาพทเลอกToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tileGroup1 = new DevExpress.XtraEditors.TileGroup();
             this.vGridControl1 = new DevExpress.XtraVerticalGrid.VGridControl();
             this.txtPrice = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.txtPrice1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
@@ -163,6 +170,7 @@
             this.bwLoadCategory = new System.ComponentModel.BackgroundWorker();
             this.bwLoadProduct = new System.ComponentModel.BackgroundWorker();
             this.splashScreenManager = new DevExpress.XtraSplashScreen.SplashScreenManager(this, typeof(global::PowerBackend.FmWait), true, true, typeof(System.Windows.Forms.UserControl), true);
+            this.bwLoadImage = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.navBarControl1)).BeginInit();
             this.navBarControl1.SuspendLayout();
             this.navBarGroupControlContainer1.SuspendLayout();
@@ -178,6 +186,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bandedGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl3)).BeginInit();
+            this.panelControl3.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.vGridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPrice)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPrice1)).BeginInit();
@@ -267,7 +277,7 @@
             this.navBarGroupControlContainer1.Controls.Add(this.chkIsNotActive);
             this.navBarGroupControlContainer1.Controls.Add(this.txtSearch);
             this.navBarGroupControlContainer1.Name = "navBarGroupControlContainer1";
-            this.navBarGroupControlContainer1.Size = new System.Drawing.Size(180, 314);
+            this.navBarGroupControlContainer1.Size = new System.Drawing.Size(204, 314);
             this.navBarGroupControlContainer1.TabIndex = 0;
             // 
             // chkIsNotVisible
@@ -334,6 +344,13 @@
             this.navBarGroup1.LargeImage = ((System.Drawing.Image)(resources.GetObject("navBarGroup1.LargeImage")));
             this.navBarGroup1.Name = "navBarGroup1";
             // 
+            // navLabel
+            // 
+            this.navLabel.Caption = "ป้ายกำกับสินค้า";
+            this.navLabel.Name = "navLabel";
+            this.navLabel.SmallImage = ((System.Drawing.Image)(resources.GetObject("navLabel.SmallImage")));
+            this.navLabel.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navLabel_LinkClicked);
+            // 
             // navDevice
             // 
             this.navDevice.Caption = "อุปกรณ์ที่รองรับ";
@@ -364,13 +381,6 @@
             this.navBarConfig.GroupStyle = DevExpress.XtraNavBar.NavBarGroupStyle.ControlContainer;
             this.navBarConfig.LargeImage = ((System.Drawing.Image)(resources.GetObject("navBarConfig.LargeImage")));
             this.navBarConfig.Name = "navBarConfig";
-            // 
-            // navLabel
-            // 
-            this.navLabel.Caption = "ป้ายกำกับสินค้า";
-            this.navLabel.Name = "navLabel";
-            this.navLabel.SmallImage = ((System.Drawing.Image)(resources.GetObject("navLabel.SmallImage")));
-            this.navLabel.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navLabel_LinkClicked);
             // 
             // panelControl1
             // 
@@ -411,7 +421,7 @@
             this.splitContainerControl2.Panel2.Controls.Add(this.panelControl3);
             this.splitContainerControl2.Panel2.Text = "Panel2";
             this.splitContainerControl2.Size = new System.Drawing.Size(699, 559);
-            this.splitContainerControl2.SplitterPosition = 155;
+            this.splitContainerControl2.SplitterPosition = 160;
             this.splitContainerControl2.TabIndex = 0;
             this.splitContainerControl2.Text = "splitContainerControl2";
             // 
@@ -422,7 +432,7 @@
             this.gridControl1.Location = new System.Drawing.Point(0, 0);
             this.gridControl1.MainView = this.bandedGridView1;
             this.gridControl1.Name = "gridControl1";
-            this.gridControl1.Size = new System.Drawing.Size(699, 399);
+            this.gridControl1.Size = new System.Drawing.Size(699, 394);
             this.gridControl1.TabIndex = 2;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.bandedGridView1});
@@ -435,7 +445,7 @@
             this.gridBand3});
             this.bandedGridView1.Columns.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn[] {
             this.Sku,
-            this.Name,
+            this.ProductName,
             this.Price,
             this.Price1,
             this.Price2,
@@ -445,10 +455,11 @@
             this.Warranty,
             this.Brand,
             this.Active,
-            this.Visible,
+            this.VisibleOnWeb,
             this.Category,
             this.Stock,
-            this.Cost});
+            this.Cost,
+            this.HasPicture});
             this.bandedGridView1.GridControl = this.gridControl1;
             this.bandedGridView1.Name = "bandedGridView1";
             this.bandedGridView1.OptionsView.ShowFilterPanelMode = DevExpress.XtraGrid.Views.Base.ShowFilterPanelMode.Never;
@@ -460,12 +471,26 @@
             this.gridBand1.AppearanceHeader.Options.UseTextOptions = true;
             this.gridBand1.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridBand1.Caption = "ข้อมูลทั่วไป";
+            this.gridBand1.Columns.Add(this.HasPicture);
             this.gridBand1.Columns.Add(this.Sku);
-            this.gridBand1.Columns.Add(this.Name);
+            this.gridBand1.Columns.Add(this.ProductName);
             this.gridBand1.Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Left;
             this.gridBand1.Name = "gridBand1";
             this.gridBand1.VisibleIndex = 0;
-            this.gridBand1.Width = 406;
+            this.gridBand1.Width = 431;
+            // 
+            // HasPicture
+            // 
+            this.HasPicture.FieldName = "hasCoverImage";
+            this.HasPicture.Image = ((System.Drawing.Image)(resources.GetObject("HasPicture.Image")));
+            this.HasPicture.ImageAlignment = System.Drawing.StringAlignment.Center;
+            this.HasPicture.Name = "HasPicture";
+            this.HasPicture.OptionsColumn.FixedWidth = true;
+            this.HasPicture.OptionsColumn.ReadOnly = true;
+            this.HasPicture.OptionsColumn.ShowCaption = false;
+            this.HasPicture.UnboundType = DevExpress.Data.UnboundColumnType.Object;
+            this.HasPicture.Visible = true;
+            this.HasPicture.Width = 25;
             // 
             // Sku
             // 
@@ -482,15 +507,15 @@
             this.Sku.Visible = true;
             this.Sku.Width = 68;
             // 
-            // Name
+            // ProductName
             // 
-            this.Name.Caption = "ชื่อ";
-            this.Name.FieldName = "Name";
-            this.Name.Name = "Name";
-            this.Name.OptionsColumn.AllowEdit = false;
-            this.Name.UnboundType = DevExpress.Data.UnboundColumnType.String;
-            this.Name.Visible = true;
-            this.Name.Width = 338;
+            this.ProductName.Caption = "ชื่อ";
+            this.ProductName.FieldName = "Name";
+            this.ProductName.Name = "ProductName";
+            this.ProductName.OptionsColumn.AllowEdit = false;
+            this.ProductName.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.ProductName.Visible = true;
+            this.ProductName.Width = 338;
             // 
             // gridBand2
             // 
@@ -625,7 +650,7 @@
             // 
             this.gridBand3.Caption = "ข้อมูลอื่นๆ";
             this.gridBand3.Columns.Add(this.Active);
-            this.gridBand3.Columns.Add(this.Visible);
+            this.gridBand3.Columns.Add(this.VisibleOnWeb);
             this.gridBand3.Columns.Add(this.Stock);
             this.gridBand3.Columns.Add(this.Warranty);
             this.gridBand3.Columns.Add(this.Category);
@@ -649,20 +674,20 @@
             this.Active.Visible = true;
             this.Active.Width = 50;
             // 
-            // Visible
+            // VisibleOnWeb
             // 
-            this.Visible.AppearanceCell.Options.UseTextOptions = true;
-            this.Visible.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.Visible.AppearanceHeader.Options.UseTextOptions = true;
-            this.Visible.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.Visible.Caption = "เว็บ";
-            this.Visible.FieldName = "Visible";
-            this.Visible.Name = "Visible";
-            this.Visible.OptionsColumn.AllowEdit = false;
-            this.Visible.OptionsColumn.FixedWidth = true;
-            this.Visible.UnboundType = DevExpress.Data.UnboundColumnType.Boolean;
-            this.Visible.Visible = true;
-            this.Visible.Width = 50;
+            this.VisibleOnWeb.AppearanceCell.Options.UseTextOptions = true;
+            this.VisibleOnWeb.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.VisibleOnWeb.AppearanceHeader.Options.UseTextOptions = true;
+            this.VisibleOnWeb.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.VisibleOnWeb.Caption = "เว็บ";
+            this.VisibleOnWeb.FieldName = "Visible";
+            this.VisibleOnWeb.Name = "VisibleOnWeb";
+            this.VisibleOnWeb.OptionsColumn.AllowEdit = false;
+            this.VisibleOnWeb.OptionsColumn.FixedWidth = true;
+            this.VisibleOnWeb.UnboundType = DevExpress.Data.UnboundColumnType.Boolean;
+            this.VisibleOnWeb.Visible = true;
+            this.VisibleOnWeb.Width = 50;
             // 
             // Stock
             // 
@@ -721,14 +746,72 @@
             // 
             // panelControl3
             // 
+            this.panelControl3.AutoSize = true;
+            this.panelControl3.Controls.Add(this.tileControl1);
             this.panelControl3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelControl3.Location = new System.Drawing.Point(0, 0);
             this.panelControl3.Name = "panelControl3";
-            this.panelControl3.Size = new System.Drawing.Size(699, 155);
+            this.panelControl3.Size = new System.Drawing.Size(699, 160);
             this.panelControl3.TabIndex = 1;
+            // 
+            // tileControl1
+            // 
+            this.tileControl1.AllowItemHover = true;
+            this.tileControl1.AllowSelectedItem = true;
+            this.tileControl1.AppearanceItem.Normal.BackColor = System.Drawing.Color.Gray;
+            this.tileControl1.AppearanceItem.Normal.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.tileControl1.AppearanceItem.Normal.Options.UseBackColor = true;
+            this.tileControl1.AppearanceItem.Normal.Options.UseBorderColor = true;
+            this.tileControl1.ContextMenuStrip = this.contextMenuStrip1;
+            this.tileControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tileControl1.DragSize = new System.Drawing.Size(0, 0);
+            this.tileControl1.Groups.Add(this.tileGroup1);
+            this.tileControl1.HorizontalContentAlignment = DevExpress.Utils.HorzAlignment.Near;
+            this.tileControl1.IndentBetweenGroups = 0;
+            this.tileControl1.IndentBetweenItems = 3;
+            this.tileControl1.ItemCheckMode = DevExpress.XtraEditors.TileItemCheckMode.Single;
+            this.tileControl1.ItemSize = 150;
+            this.tileControl1.Location = new System.Drawing.Point(2, 2);
+            this.tileControl1.Margin = new System.Windows.Forms.Padding(0);
+            this.tileControl1.MaxId = 14;
+            this.tileControl1.Name = "tileControl1";
+            this.tileControl1.Padding = new System.Windows.Forms.Padding(5);
+            this.tileControl1.Size = new System.Drawing.Size(695, 156);
+            this.tileControl1.TabIndex = 0;
+            this.tileControl1.Text = "tileControl1";
+            this.tileControl1.EndItemDragging += new DevExpress.XtraEditors.TileItemDragEventHandler(this.tileControl1_EndItemDragging);
+            this.tileControl1.ItemClick += new DevExpress.XtraEditors.TileItemClickEventHandler(this.tileControl1_ItemClick);
+            this.tileControl1.ItemCheckedChanged += new DevExpress.XtraEditors.TileItemClickEventHandler(this.tileControl1_ItemCheckedChanged);
+            this.tileControl1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tileControl1_KeyPress);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ตงเปนภาพหลกToolStripMenuItem,
+            this.ลบภาพทเลอกToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(144, 48);
+            // 
+            // ตงเปนภาพหลกToolStripMenuItem
+            // 
+            this.ตงเปนภาพหลกToolStripMenuItem.Name = "ตงเปนภาพหลกToolStripMenuItem";
+            this.ตงเปนภาพหลกToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.ตงเปนภาพหลกToolStripMenuItem.Text = "ตั้งเป็นภาพหลัก";
+            // 
+            // ลบภาพทเลอกToolStripMenuItem
+            // 
+            this.ลบภาพทเลอกToolStripMenuItem.Name = "ลบภาพทเลอกToolStripMenuItem";
+            this.ลบภาพทเลอกToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.ลบภาพทเลอกToolStripMenuItem.Text = "ลบภาพที่เลือก";
+            // 
+            // tileGroup1
+            // 
+            this.tileGroup1.Name = "tileGroup1";
+            this.tileGroup1.Text = "tileGroup1";
             // 
             // vGridControl1
             // 
+            this.vGridControl1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.vGridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.vGridControl1.Enabled = false;
             this.vGridControl1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
@@ -1572,12 +1655,18 @@
             // 
             this.splashScreenManager.ClosingDelay = 500;
             // 
+            // bwLoadImage
+            // 
+            this.bwLoadImage.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bwLoadImage_DoWork);
+            this.bwLoadImage.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bwLoadImage_RunWorkerCompleted);
+            // 
             // UcDataProduct
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.panelControl1);
             this.Controls.Add(this.navBarControl1);
+            this.Name = "UcDataProduct";
             this.Size = new System.Drawing.Size(1144, 573);
             this.Load += new System.EventHandler(this.UcDataProduct_Load);
             ((System.ComponentModel.ISupportInitialize)(this.navBarControl1)).EndInit();
@@ -1595,6 +1684,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bandedGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl3)).EndInit();
+            this.panelControl3.ResumeLayout(false);
+            this.contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.vGridControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPrice)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPrice1)).EndInit();
@@ -1663,9 +1754,7 @@
         private DevExpress.XtraGrid.GridControl gridControl1;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridView bandedGridView1;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn Active;
-        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn VisibleOnWeb;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn Sku;
-        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn ProdName;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn Price;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn Price1;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn Price2;
@@ -1778,11 +1867,18 @@
         private DevExpress.XtraNavBar.NavBarItem navDevice;
         private DevExpress.XtraNavBar.NavBarItem navMadeIn;
         private DevExpress.XtraNavBar.NavBarItem navStandard;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn ProductName;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn VisibleOnWeb;
+        private DevExpress.XtraNavBar.NavBarItem navLabel;
+        private DevExpress.XtraEditors.TileControl tileControl1;
+        private DevExpress.XtraEditors.TileGroup tileGroup1;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn HasPicture;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand1;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand2;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand3;
-        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn Name;
-        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn Visible;
-        private DevExpress.XtraNavBar.NavBarItem navLabel;
+        private System.ComponentModel.BackgroundWorker bwLoadImage;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem ตงเปนภาพหลกToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ลบภาพทเลอกToolStripMenuItem;
     }
 }

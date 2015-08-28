@@ -4,6 +4,7 @@ using Microsoft.WindowsAzure.Storage.Table;
 using System.Collections.Generic;
 using System.Data;
 using System;
+using System.Drawing;
 
 namespace PowerBackend
 {
@@ -74,6 +75,7 @@ namespace PowerBackend
             Param.DataTableProduct.Columns.Add("Weight", typeof(double));
             Param.DataTableProduct.Columns.Add("GrossWeight", typeof(double));
             Param.DataTableProduct.Columns.Add("CoverImage", typeof(string));
+            Param.DataTableProduct.Columns.Add("hasCoverImage", typeof(Image));
             Param.DataTableProduct.Columns.Add("Image1", typeof(string));
             Param.DataTableProduct.Columns.Add("Image2", typeof(string));
             Param.DataTableProduct.Columns.Add("Image3", typeof(string));

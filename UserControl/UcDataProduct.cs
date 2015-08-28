@@ -17,6 +17,7 @@ using DevExpress.DXCore.Controls.XtraEditors.Repository;
 using DevExpress.DXCore.Controls.XtraEditors.Mask;
 using System.Globalization;
 using DevExpress.XtraGrid.Views.BandedGrid;
+using System.Net;
 
 namespace PowerBackend
 {
@@ -29,6 +30,9 @@ namespace PowerBackend
         DataRow _PRODUCT_ROW_SELECTED;
         string _CATEGORY_SELECTED;
         GridView _GRID_VIEW;
+        Image _STREAM_IMAGE;
+        string _STREAM_IMAGE_URL;
+        FmUploadImage _FORM_UPLOAD_IMAGE;
 
         public UcDataProduct()
         {
@@ -39,7 +43,7 @@ namespace PowerBackend
         {
             navBarControl1.Enabled = false;
             _GRID_VIEW = (GridView) gridControl1.MainView;
-            _GRID_VIEW.Appearance.Row.Font = new Font("Tahoma", 9.5f);
+            _FORM_UPLOAD_IMAGE = new FmUploadImage();
             Param.DataSet = new DataSet();
             Util.SetProductStructure();
 
@@ -179,6 +183,8 @@ namespace PowerBackend
             TableQuery<DynamicTableEntity> query = new TableQuery<DynamicTableEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, "88888888"));
             List<DynamicTableEntity> list = azureTable.ExecuteQuery(query).ToList();
 
+            //Image has = global::PowerBackend.Properties.Resources.picture;
+
             for (int i = 0; i < list.Count; i++)
             {
                 try
@@ -217,6 +223,8 @@ namespace PowerBackend
                         list[i].Properties.ContainsKey("Weight") ? list[i].Properties["Weight"].DoubleValue : 0,
                         list[i].Properties.ContainsKey("GrossWeight") ? list[i].Properties["GrossWeight"].DoubleValue : 0,
                         list[i].Properties.ContainsKey("CoverImage") ? list[i].Properties["CoverImage"].StringValue : "",
+                        list[i].Properties.ContainsKey("CoverImage") && list[i].Properties["CoverImage"].StringValue != "" ? global::PowerBackend.Properties.Resources.picture : global::PowerBackend.Properties.Resources.picture_empty,
+                        //list[i].Properties.ContainsKey("CoverImage") ? (list[i].Properties["CoverImage"].StringValue == "" ? false : true) : false,
                         list[i].Properties.ContainsKey("Image1") ? list[i].Properties["Image1"].StringValue : "",
                         list[i].Properties.ContainsKey("Image2") ? list[i].Properties["Image2"].StringValue : "",
                         list[i].Properties.ContainsKey("Image3") ? list[i].Properties["Image3"].StringValue : "",
@@ -246,9 +254,9 @@ namespace PowerBackend
         private void bwLoadProduct_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             splashScreenManager.CloseWaitForm();
-            navBarProduct.ItemLinks[0].PerformClick();
             navBarControl1.LinkSelectionMode = LinkSelectionModeType.OneInControl;
             navBarControl1.Enabled = true;
+            LoadProductCategoryData();
         }
 
         private void navBarCategory_LinkClicked(object sender, NavBarLinkEventArgs e)
@@ -282,14 +290,26 @@ namespace PowerBackend
             {
                 sb.Append( (sb.ToString() != "" ? " AND " : "") + string.Format(" ([Name] LIKE '%{0}%' OR [SKU] LIKE '%{0}%')",txtSearch.Text.Trim()) );
             }
-            ((GridView)gridControl1.DefaultView).ActiveFilterString = sb.ToString();
+
+            //GridView view = ((GridView)gridControl1.DefaultView);
+            _GRID_VIEW.ActiveFilterString = sb.ToString();
             gridControl1.Update();
+            /*for(int i=0; i< _GRID_VIEW.RowCount; i++)
+            {
+                DataRow dr = _GRID_VIEW.GetDataRow(i);
+                if ((bool)dr["hasCoverImage"])
+                {
+                    _GRID_VIEW.SetRowCellValue(i, "HasCoverImage", Image.FromFile(@"D:\Projects\Resources\Free Icons\famfamfam\accept.png"));
+                }
+            }*/
         }
 
         private void UpdateProductData(string key, string value, Param.AzureDataType type)
         {
             Util.UpdateData("Product", Param.ShopId, _PRODUCT_PROPERTIES.Rows[0]["ID"].ToString(), key, value, type);
         }
+
+        #region Edit Properties
 
         private void txtName_EditValueChanged(object sender, EventArgs e)
         {
@@ -445,7 +465,7 @@ namespace PowerBackend
         {
             StringBuilder sb = new StringBuilder();
             var data = ((CheckedComboBoxEdit)sender).Properties.Items;
-            for(int i=0; i<data.Count; i++)
+            for (int i = 0; i < data.Count; i++)
                 if (data[i].CheckState == CheckState.Checked)
                     sb.Append(string.Format("{0}{1}", sb.ToString() == "" ? "" : ", ", data[i].Value));
 
@@ -581,6 +601,7 @@ namespace PowerBackend
             _PRODUCT_ROW_SELECTED["MadeIn"] = ((ComboBoxEdit)sender).SelectedItem.ToString();
             UpdateProductData("MadeIn", ((ComboBoxEdit)sender).SelectedItem.ToString(), Param.AzureDataType.String);
         }
+        #endregion
 
         private void bandedGridView1_FocusedRowChanged(object sender, DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventArgs e)
         {
@@ -592,6 +613,37 @@ namespace PowerBackend
                 _PRODUCT_PROPERTIES.Rows.Add(_PRODUCT_ROW_SELECTED.ItemArray);
                 vGridControl1.DataSource = _PRODUCT_PROPERTIES;
                 vGridControl1.Enabled = true;
+
+                tileGroup1.Items.Clear();
+                if (_PRODUCT_ROW_SELECTED["CoverImage"].ToString() != "")
+                {
+                    _STREAM_IMAGE_URL = _PRODUCT_ROW_SELECTED["CoverImage"].ToString();
+                    TileItem itmImg = new TileItem();
+                    TileItemElement tileItemElement1 = new TileItemElement();
+                    tileItemElement1.Text = "กำลังโหลดรูปภาพ";
+                    itmImg.Elements.Add(tileItemElement1);
+                    itmImg.BackgroundImageScaleMode = TileItemImageScaleMode.Stretch;
+                    itmImg.Id = 0;
+                    itmImg.ItemSize = TileItemSize.Medium;
+                    itmImg.Name = "CoverImage";
+                    itmImg.AppearanceItem.Normal.ForeColor = Color.DarkGray;
+                    itmImg.Checked = true;
+                    tileGroup1.Items.Add(itmImg);
+                    bwLoadImage.RunWorkerAsync();
+                }
+
+                TileItem itmAdd = new TileItem();
+                TileItemElement tileItemElement = new TileItemElement();
+                tileItemElement.Text = "เพิ่มรูปภาพ";
+                tileItemElement.TextAlignment = TileItemContentAlignment.MiddleCenter;
+                itmAdd.Elements.Add(tileItemElement);
+                itmAdd.BackgroundImageScaleMode = TileItemImageScaleMode.Stretch;
+                itmAdd.Id = 99;
+                itmAdd.ItemSize = TileItemSize.Medium;
+                itmAdd.Name = "AddImage";
+                itmAdd.AppearanceItem.Normal.ForeColor = Color.DarkGray;
+                tileGroup1.Items.Add(itmAdd);
+
             }
             catch
             {
@@ -626,6 +678,68 @@ namespace PowerBackend
             FmLabel fm = new FmLabel();
             fm.ShowDialog(this);
             Util.SetOptionDataSource(cbbLabel, Param.DataSet.Tables["Data-Label"], "Name");
+        }
+
+        #region Tile Image
+        private void tileControl1_ItemCheckedChanged(object sender, TileItemEventArgs e)
+        {
+            //ITileItem i = (ITileItem)tileControl1.Groups[0].Items[e.Item.CurrentFrameIndex];
+            //FmLabel fm = new FmLabel();
+        }
+
+        private void tileControl1_EndItemDragging(object sender, TileItemDragEventArgs e)
+        {
+            //tileControl1.Refresh();
+            var count = ((TileControl)sender).Groups[0].Items.Count;
+            ITileItem item;
+            for (int i = 0; i < count; i++)
+            {
+                item = (ITileItem)((TileControl)sender).Groups[0].Items[i];
+                item.Elements[0].Text = (i == 0) ? "ภาพหลัก" : "ภาพที่ " + i;
+            }
+        }
+
+        private void tileControl1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == Convert.ToChar(Keys.Delete))
+            {
+                //tileControl1.SelectedItem.Visible = false;
+                //btnAdd_Click(sender, e);
+            }
+        }
+
+        private void tileControl1_ItemClick(object sender, TileItemEventArgs e)
+        {
+            if(e.Item.Name == "AddImage")
+            {
+                try {
+                    if (_FORM_UPLOAD_IMAGE.ShowDialog(this) == DialogResult.OK)
+                    {
+                        MessageBox.Show(_FORM_UPLOAD_IMAGE.imageURL);
+                    }
+                }
+                catch
+                {
+
+                }
+            }
+            //tileControl1.SelectedItem.Visible = false;
+        }
+
+        #endregion
+
+        private void bwLoadImage_DoWork(object sender, DoWorkEventArgs e)
+        {
+            WebRequest requestPic = WebRequest.Create(_PRODUCT_ROW_SELECTED["CoverImage"].ToString());
+            WebResponse responsePic = requestPic.GetResponse();
+            _STREAM_IMAGE = Image.FromStream(responsePic.GetResponseStream());
+
+        }
+
+        private void bwLoadImage_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            tileGroup1.Items[0].BackgroundImage = _STREAM_IMAGE;
+            tileGroup1.Items[0].Elements[0].Text = "ภาพหลัก";
         }
     }
 }
