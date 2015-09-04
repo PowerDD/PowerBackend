@@ -1657,6 +1657,7 @@
             // 
             // bwLoadImage
             // 
+            this.bwLoadImage.WorkerSupportsCancellation = true;
             this.bwLoadImage.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bwLoadImage_DoWork);
             this.bwLoadImage.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bwLoadImage_RunWorkerCompleted);
             // 

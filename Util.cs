@@ -15,6 +15,11 @@ namespace PowerBackend
             Param.AzureStorageAccount = CloudStorageAccount.Parse(string.Format("DefaultEndpointsProtocol=http;AccountName={0};AccountKey={1}", DatabaseName, DatabasePassword));
             Param.AzureTableClient = Param.AzureStorageAccount.CreateCloudTableClient();
         }
+        public static void InitialDatabaseConnection(string DatabaseName, string DatabasePassword)
+        {
+            Param.AzureStorageAccount = CloudStorageAccount.Parse(string.Format("DefaultEndpointsProtocol=http;AccountName={0};AccountKey={1}", DatabaseName, DatabasePassword));
+            Param.AzureTableClient = Param.AzureStorageAccount.CreateCloudTableClient();
+        }
 
         public static object UpdateData(string table, string partitionKey, string rowKey, string key, string value, Param.AzureDataType type)
         {

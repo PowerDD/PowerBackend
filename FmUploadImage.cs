@@ -19,7 +19,7 @@ namespace PowerBackend
         public string imageURL = string.Empty;
         public FmUploadImage()
         {
-            Xpcom.Initialize(@"D:\Github\PowerDD\PowerBackend\bin\Debug\xulrunner"); // Directory.GetCurrentDirectory()+@"\xulrunner");
+            Xpcom.Initialize(Directory.GetCurrentDirectory()+@"\xulrunner");
             InitializeComponent();
         }
 
@@ -108,7 +108,7 @@ namespace PowerBackend
                         WebResponse responsePic = requestPic.GetResponse();
 
                         tileGroup1.Items[index].BackgroundImage = Image.FromStream(responsePic.GetResponseStream());
-                        tileGroup1.Items[index].Text = sp2[0];
+                        tileGroup1.Items[index].Tag = sp2[0];
                         //((PictureBox)this.Controls.Find("pictureBox" + index, true)[0]).ImageLocation = sp2[0];
                         index++;
                         Console.WriteLine(sp2[0]);
@@ -126,7 +126,7 @@ namespace PowerBackend
 
         private void tileControl1_ItemClick(object sender, TileItemEventArgs e)
         {
-            imageURL = ((TileControl)sender).SelectedItem.Text;
+            imageURL = ((TileControl)sender).SelectedItem.Tag.ToString();
             this.DialogResult = DialogResult.OK;
             //Console.WriteLine( ((TileControl)sender).SelectedItem.Text );
         }

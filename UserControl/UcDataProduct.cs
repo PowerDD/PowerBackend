@@ -18,6 +18,7 @@ using DevExpress.DXCore.Controls.XtraEditors.Mask;
 using System.Globalization;
 using DevExpress.XtraGrid.Views.BandedGrid;
 using System.Net;
+using System.Net.Http;
 
 namespace PowerBackend
 {
@@ -603,7 +604,7 @@ namespace PowerBackend
         }
         #endregion
 
-        private void bandedGridView1_FocusedRowChanged(object sender, DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventArgs e)
+        private async void bandedGridView1_FocusedRowChanged(object sender, DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventArgs e)
         {
             try {
                 BandedGridView bandedGridView = (BandedGridView)sender;
@@ -629,20 +630,25 @@ namespace PowerBackend
                     itmImg.AppearanceItem.Normal.ForeColor = Color.DarkGray;
                     itmImg.Checked = true;
                     tileGroup1.Items.Add(itmImg);
-                    bwLoadImage.RunWorkerAsync();
+                    /*bwLoadImage.CancelAsync();
+                    while (bwLoadImage.IsBusy)
+                    {
+                        Application.DoEvents();
+                    }
+                    bwLoadImage.RunWorkerAsync();*/
+
+
+                    tileGroup1.Items[0].BackgroundImage = await AccessTheWebAsync(); ;
+                    tileGroup1.Items[0].Elements[0].Text = "ภาพหลัก";
+
+                    tileGroup1.Items.Add(GenerateAddImageItem());
+
+                }
+                else
+                {
+                    tileGroup1.Items.Add(GenerateAddImageItem());
                 }
 
-                TileItem itmAdd = new TileItem();
-                TileItemElement tileItemElement = new TileItemElement();
-                tileItemElement.Text = "เพิ่มรูปภาพ";
-                tileItemElement.TextAlignment = TileItemContentAlignment.MiddleCenter;
-                itmAdd.Elements.Add(tileItemElement);
-                itmAdd.BackgroundImageScaleMode = TileItemImageScaleMode.Stretch;
-                itmAdd.Id = 99;
-                itmAdd.ItemSize = TileItemSize.Medium;
-                itmAdd.Name = "AddImage";
-                itmAdd.AppearanceItem.Normal.ForeColor = Color.DarkGray;
-                tileGroup1.Items.Add(itmAdd);
 
             }
             catch
@@ -651,6 +657,35 @@ namespace PowerBackend
                 vGridControl1.Enabled = false;
             }
         }
+        private async Task<Image> AccessTheWebAsync()
+        {
+            WebRequest requestPic = WebRequest.Create(_PRODUCT_ROW_SELECTED["CoverImage"].ToString());
+            WebResponse responsePic = await requestPic.GetResponseAsync();
+            DoIndependentWork();
+            return Image.FromStream(responsePic.GetResponseStream());
+        }
+
+
+        private void DoIndependentWork()
+        {
+            tileGroup1.Items[0].Elements[0].Text = "กำลังโหลดข้อมูล";
+        }
+        private TileItem GenerateAddImageItem()
+        {
+            TileItem itmAdd = new TileItem();
+            TileItemElement tileItemElement = new TileItemElement();
+            tileItemElement.Text = "เพิ่มรูปภาพ";
+            tileItemElement.TextAlignment = TileItemContentAlignment.MiddleCenter;
+            itmAdd.Elements.Add(tileItemElement);
+            itmAdd.BackgroundImageScaleMode = TileItemImageScaleMode.Stretch;
+            itmAdd.Id = 99;
+            itmAdd.ItemSize = TileItemSize.Medium;
+            itmAdd.Name = "AddImage";
+            itmAdd.AppearanceItem.Normal.ForeColor = Color.DarkGray;
+            return itmAdd;
+        }
+
+
 
         private void navDevice_LinkClicked(object sender, NavBarLinkEventArgs e)
         {
@@ -689,7 +724,7 @@ namespace PowerBackend
 
         private void tileControl1_EndItemDragging(object sender, TileItemDragEventArgs e)
         {
-            //tileControl1.Refresh();
+            /*
             var count = ((TileControl)sender).Groups[0].Items.Count;
             ITileItem item;
             for (int i = 0; i < count; i++)
@@ -697,6 +732,7 @@ namespace PowerBackend
                 item = (ITileItem)((TileControl)sender).Groups[0].Items[i];
                 item.Elements[0].Text = (i == 0) ? "ภาพหลัก" : "ภาพที่ " + i;
             }
+            */
         }
 
         private void tileControl1_KeyPress(object sender, KeyPressEventArgs e)
@@ -712,16 +748,15 @@ namespace PowerBackend
         {
             if(e.Item.Name == "AddImage")
             {
+                _FORM_UPLOAD_IMAGE.imageURL = string.Empty;
                 try {
-                    if (_FORM_UPLOAD_IMAGE.ShowDialog(this) == DialogResult.OK)
-                    {
-                        MessageBox.Show(_FORM_UPLOAD_IMAGE.imageURL);
-                    }
+                    _FORM_UPLOAD_IMAGE.ShowDialog(this);
                 }
                 catch
                 {
-
                 }
+                if(_FORM_UPLOAD_IMAGE.imageURL != "")
+                    MessageBox.Show(_FORM_UPLOAD_IMAGE.imageURL);
             }
             //tileControl1.SelectedItem.Visible = false;
         }
@@ -730,6 +765,11 @@ namespace PowerBackend
 
         private void bwLoadImage_DoWork(object sender, DoWorkEventArgs e)
         {
+            if (bwLoadImage.CancellationPending)
+            {
+                e.Cancel = true;
+                return;
+            }
             WebRequest requestPic = WebRequest.Create(_PRODUCT_ROW_SELECTED["CoverImage"].ToString());
             WebResponse responsePic = requestPic.GetResponse();
             _STREAM_IMAGE = Image.FromStream(responsePic.GetResponseStream());
