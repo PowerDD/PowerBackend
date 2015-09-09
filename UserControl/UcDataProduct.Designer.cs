@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UcDataProduct));
             this.navBarControl1 = new DevExpress.XtraNavBar.NavBarControl();
             this.navBarProduct = new DevExpress.XtraNavBar.NavBarGroup();
@@ -44,6 +43,8 @@
             this.navDevice = new DevExpress.XtraNavBar.NavBarItem();
             this.navMadeIn = new DevExpress.XtraNavBar.NavBarItem();
             this.navStandard = new DevExpress.XtraNavBar.NavBarItem();
+            this.navBatteryType = new DevExpress.XtraNavBar.NavBarItem();
+            this.navCapacity = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarConfig = new DevExpress.XtraNavBar.NavBarGroup();
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.splitContainerControl1 = new DevExpress.XtraEditors.SplitContainerControl();
@@ -71,9 +72,6 @@
             this.Brand = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.panelControl3 = new DevExpress.XtraEditors.PanelControl();
             this.tileControl1 = new DevExpress.XtraEditors.TileControl();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.ตงเปนภาพหลกToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ลบภาพทเลอกToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tileGroup1 = new DevExpress.XtraEditors.TileGroup();
             this.vGridControl1 = new DevExpress.XtraVerticalGrid.VGridControl();
             this.txtPrice = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
@@ -121,6 +119,8 @@
             this.cbbStandard = new DevExpress.XtraEditors.Repository.RepositoryItemCheckedComboBoxEdit();
             this.txtHowToUse = new DevExpress.XtraEditors.Repository.RepositoryItemMemoExEdit();
             this.txtInBox = new DevExpress.XtraEditors.Repository.RepositoryItemMemoExEdit();
+            this.cbbCapacity = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.cbbBatteryType = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.rwSKU = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
             this.rwAdviceCode = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
             this.rwTrueCode = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
@@ -156,21 +156,11 @@
             this.rwWeight = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
             this.rwGrossWeight = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
             this.rwInBox = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.rwCoverImage = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.rwImage1 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.rwImage2 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.rwImage3 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.rwImage4 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.rwImage5 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.rwImage6 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.rwImage7 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.rwImage8 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.rwImage9 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.rwImage10 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
+            this.rwCapacity = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
+            this.rwBattType = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
             this.bwLoadCategory = new System.ComponentModel.BackgroundWorker();
             this.bwLoadProduct = new System.ComponentModel.BackgroundWorker();
             this.splashScreenManager = new DevExpress.XtraSplashScreen.SplashScreenManager(this, typeof(global::PowerBackend.FmWait), true, true, typeof(System.Windows.Forms.UserControl), true);
-            this.bwLoadImage = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.navBarControl1)).BeginInit();
             this.navBarControl1.SuspendLayout();
             this.navBarGroupControlContainer1.SuspendLayout();
@@ -187,7 +177,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.bandedGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl3)).BeginInit();
             this.panelControl3.SuspendLayout();
-            this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.vGridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPrice)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPrice1)).BeginInit();
@@ -234,11 +223,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.cbbStandard)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtHowToUse)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtInBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbbCapacity)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbbBatteryType)).BeginInit();
             this.SuspendLayout();
             // 
             // navBarControl1
             // 
             this.navBarControl1.ActiveGroup = this.navBarProduct;
+            this.navBarControl1.Appearance.GroupHeaderActive.Font = new System.Drawing.Font("Tahoma", 9.5F);
+            this.navBarControl1.Appearance.GroupHeaderActive.Options.UseFont = true;
+            this.navBarControl1.Appearance.Item.Font = new System.Drawing.Font("Tahoma", 9.5F);
+            this.navBarControl1.Appearance.Item.Options.UseFont = true;
             this.navBarControl1.Controls.Add(this.navBarGroupControlContainer1);
             this.navBarControl1.Dock = System.Windows.Forms.DockStyle.Left;
             this.navBarControl1.Groups.AddRange(new DevExpress.XtraNavBar.NavBarGroup[] {
@@ -252,10 +247,13 @@
             this.navDevice,
             this.navMadeIn,
             this.navStandard,
-            this.navLabel});
+            this.navLabel,
+            this.navCapacity,
+            this.navBatteryType});
             this.navBarControl1.Location = new System.Drawing.Point(0, 0);
             this.navBarControl1.Name = "navBarControl1";
             this.navBarControl1.OptionsNavPane.ExpandedWidth = 204;
+            this.navBarControl1.OptionsNavPane.ShowOverflowPanel = false;
             this.navBarControl1.PaintStyleKind = DevExpress.XtraNavBar.NavBarViewKind.NavigationPane;
             this.navBarControl1.Size = new System.Drawing.Size(204, 573);
             this.navBarControl1.TabIndex = 0;
@@ -340,7 +338,9 @@
             new DevExpress.XtraNavBar.NavBarItemLink(this.navLabel),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navDevice),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navMadeIn),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navStandard)});
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navStandard),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navBatteryType),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navCapacity)});
             this.navBarGroup1.LargeImage = ((System.Drawing.Image)(resources.GetObject("navBarGroup1.LargeImage")));
             this.navBarGroup1.Name = "navBarGroup1";
             // 
@@ -371,6 +371,20 @@
             this.navStandard.Name = "navStandard";
             this.navStandard.SmallImage = ((System.Drawing.Image)(resources.GetObject("navStandard.SmallImage")));
             this.navStandard.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navStandard_LinkClicked);
+            // 
+            // navBatteryType
+            // 
+            this.navBatteryType.Caption = "ประเภทแบตเตอรี่";
+            this.navBatteryType.Name = "navBatteryType";
+            this.navBatteryType.SmallImage = ((System.Drawing.Image)(resources.GetObject("navBatteryType.SmallImage")));
+            this.navBatteryType.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navBatteryType_LinkClicked);
+            // 
+            // navCapacity
+            // 
+            this.navCapacity.Caption = "ความจุ (mAh)";
+            this.navCapacity.Name = "navCapacity";
+            this.navCapacity.SmallImage = ((System.Drawing.Image)(resources.GetObject("navCapacity.SmallImage")));
+            this.navCapacity.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navCapacity_LinkClicked);
             // 
             // navBarConfig
             // 
@@ -439,6 +453,8 @@
             // 
             // bandedGridView1
             // 
+            this.bandedGridView1.Appearance.Row.Font = new System.Drawing.Font("Tahoma", 9.5F);
+            this.bandedGridView1.Appearance.Row.Options.UseFont = true;
             this.bandedGridView1.Bands.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.GridBand[] {
             this.gridBand1,
             this.gridBand2,
@@ -481,7 +497,7 @@
             // 
             // HasPicture
             // 
-            this.HasPicture.FieldName = "hasCoverImage";
+            this.HasPicture.FieldName = "hasCoverImageIcon";
             this.HasPicture.Image = ((System.Drawing.Image)(resources.GetObject("HasPicture.Image")));
             this.HasPicture.ImageAlignment = System.Drawing.StringAlignment.Center;
             this.HasPicture.Name = "HasPicture";
@@ -499,7 +515,7 @@
             this.Sku.AppearanceHeader.Options.UseTextOptions = true;
             this.Sku.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.Sku.Caption = "SKU";
-            this.Sku.FieldName = "Sku";
+            this.Sku.FieldName = "sku";
             this.Sku.Name = "Sku";
             this.Sku.OptionsColumn.AllowEdit = false;
             this.Sku.OptionsColumn.FixedWidth = true;
@@ -510,7 +526,7 @@
             // ProductName
             // 
             this.ProductName.Caption = "ชื่อ";
-            this.ProductName.FieldName = "Name";
+            this.ProductName.FieldName = "name";
             this.ProductName.Name = "ProductName";
             this.ProductName.OptionsColumn.AllowEdit = false;
             this.ProductName.UnboundType = DevExpress.Data.UnboundColumnType.String;
@@ -542,7 +558,7 @@
             this.Price.Caption = "ปลีก";
             this.Price.DisplayFormat.FormatString = "{0:#,###;;\'-\'}";
             this.Price.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-            this.Price.FieldName = "Price";
+            this.Price.FieldName = "price";
             this.Price.MinWidth = 57;
             this.Price.Name = "Price";
             this.Price.OptionsColumn.AllowEdit = false;
@@ -558,7 +574,7 @@
             this.Price1.Caption = "ส่ง 1";
             this.Price1.DisplayFormat.FormatString = "{0:#,###;;\'-\'}";
             this.Price1.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-            this.Price1.FieldName = "Price1";
+            this.Price1.FieldName = "price1";
             this.Price1.MinWidth = 57;
             this.Price1.Name = "Price1";
             this.Price1.OptionsColumn.AllowEdit = false;
@@ -574,7 +590,7 @@
             this.Price2.Caption = "ส่ง 2";
             this.Price2.DisplayFormat.FormatString = "{0:#,###;;\'-\'}";
             this.Price2.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-            this.Price2.FieldName = "Price2";
+            this.Price2.FieldName = "price2";
             this.Price2.MinWidth = 57;
             this.Price2.Name = "Price2";
             this.Price2.OptionsColumn.AllowEdit = false;
@@ -590,7 +606,7 @@
             this.Price3.Caption = "ส่ง 3";
             this.Price3.DisplayFormat.FormatString = "{0:#,###;;\'-\'}";
             this.Price3.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-            this.Price3.FieldName = "Price3";
+            this.Price3.FieldName = "price3";
             this.Price3.MinWidth = 57;
             this.Price3.Name = "Price3";
             this.Price3.OptionsColumn.AllowEdit = false;
@@ -606,7 +622,7 @@
             this.Price4.Caption = "ส่ง 4";
             this.Price4.DisplayFormat.FormatString = "{0:#,###;;\'-\'}";
             this.Price4.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-            this.Price4.FieldName = "Price4";
+            this.Price4.FieldName = "price4";
             this.Price4.MinWidth = 57;
             this.Price4.Name = "Price4";
             this.Price4.OptionsColumn.AllowEdit = false;
@@ -622,7 +638,7 @@
             this.Price5.Caption = "ส่ง 5";
             this.Price5.DisplayFormat.FormatString = "{0:#,###;;\'-\'}";
             this.Price5.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-            this.Price5.FieldName = "Price5";
+            this.Price5.FieldName = "price5";
             this.Price5.MinWidth = 57;
             this.Price5.Name = "Price5";
             this.Price5.OptionsColumn.AllowEdit = false;
@@ -638,7 +654,7 @@
             this.Cost.Caption = "ต้นทุน";
             this.Cost.DisplayFormat.FormatString = "#,##0.00";
             this.Cost.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-            this.Cost.FieldName = "Cost";
+            this.Cost.FieldName = "cost";
             this.Cost.Name = "Cost";
             this.Cost.OptionsColumn.AllowEdit = false;
             this.Cost.OptionsColumn.FixedWidth = true;
@@ -666,7 +682,7 @@
             this.Active.AppearanceHeader.Options.UseTextOptions = true;
             this.Active.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.Active.Caption = "ขาย";
-            this.Active.FieldName = "Active";
+            this.Active.FieldName = "active";
             this.Active.Name = "Active";
             this.Active.OptionsColumn.AllowEdit = false;
             this.Active.OptionsColumn.FixedWidth = true;
@@ -681,7 +697,7 @@
             this.VisibleOnWeb.AppearanceHeader.Options.UseTextOptions = true;
             this.VisibleOnWeb.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.VisibleOnWeb.Caption = "เว็บ";
-            this.VisibleOnWeb.FieldName = "Visible";
+            this.VisibleOnWeb.FieldName = "visible";
             this.VisibleOnWeb.Name = "VisibleOnWeb";
             this.VisibleOnWeb.OptionsColumn.AllowEdit = false;
             this.VisibleOnWeb.OptionsColumn.FixedWidth = true;
@@ -696,7 +712,7 @@
             this.Stock.Caption = "จำนวน";
             this.Stock.DisplayFormat.FormatString = "{0:#,###;;\'-\'}";
             this.Stock.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-            this.Stock.FieldName = "Stock";
+            this.Stock.FieldName = "stock";
             this.Stock.Name = "Stock";
             this.Stock.OptionsColumn.AllowEdit = false;
             this.Stock.OptionsColumn.FixedWidth = true;
@@ -713,7 +729,7 @@
             this.Warranty.Caption = "ประกัน";
             this.Warranty.DisplayFormat.FormatString = "{0:#;;\'-\'}";
             this.Warranty.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-            this.Warranty.FieldName = "Warranty";
+            this.Warranty.FieldName = "warranty";
             this.Warranty.MinWidth = 60;
             this.Warranty.Name = "Warranty";
             this.Warranty.OptionsColumn.AllowEdit = false;
@@ -725,7 +741,7 @@
             // Category
             // 
             this.Category.Caption = "หมวดหมู่สินค้า";
-            this.Category.FieldName = "Category";
+            this.Category.FieldName = "category";
             this.Category.Name = "Category";
             this.Category.OptionsColumn.AllowEdit = false;
             this.Category.OptionsColumn.FixedWidth = true;
@@ -736,7 +752,7 @@
             // Brand
             // 
             this.Brand.Caption = "ยี่ห้อ";
-            this.Brand.FieldName = "Brand";
+            this.Brand.FieldName = "brand";
             this.Brand.MinWidth = 100;
             this.Brand.Name = "Brand";
             this.Brand.OptionsColumn.AllowEdit = false;
@@ -756,13 +772,14 @@
             // 
             // tileControl1
             // 
+            this.tileControl1.AllowDrag = false;
+            this.tileControl1.AllowDragTilesBetweenGroups = false;
             this.tileControl1.AllowItemHover = true;
             this.tileControl1.AllowSelectedItem = true;
             this.tileControl1.AppearanceItem.Normal.BackColor = System.Drawing.Color.Gray;
             this.tileControl1.AppearanceItem.Normal.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.tileControl1.AppearanceItem.Normal.Options.UseBackColor = true;
             this.tileControl1.AppearanceItem.Normal.Options.UseBorderColor = true;
-            this.tileControl1.ContextMenuStrip = this.contextMenuStrip1;
             this.tileControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tileControl1.DragSize = new System.Drawing.Size(0, 0);
             this.tileControl1.Groups.Add(this.tileGroup1);
@@ -780,29 +797,8 @@
             this.tileControl1.TabIndex = 0;
             this.tileControl1.Text = "tileControl1";
             this.tileControl1.EndItemDragging += new DevExpress.XtraEditors.TileItemDragEventHandler(this.tileControl1_EndItemDragging);
-            this.tileControl1.ItemClick += new DevExpress.XtraEditors.TileItemClickEventHandler(this.tileControl1_ItemClick);
             this.tileControl1.ItemCheckedChanged += new DevExpress.XtraEditors.TileItemClickEventHandler(this.tileControl1_ItemCheckedChanged);
             this.tileControl1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tileControl1_KeyPress);
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ตงเปนภาพหลกToolStripMenuItem,
-            this.ลบภาพทเลอกToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(144, 48);
-            // 
-            // ตงเปนภาพหลกToolStripMenuItem
-            // 
-            this.ตงเปนภาพหลกToolStripMenuItem.Name = "ตงเปนภาพหลกToolStripMenuItem";
-            this.ตงเปนภาพหลกToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
-            this.ตงเปนภาพหลกToolStripMenuItem.Text = "ตั้งเป็นภาพหลัก";
-            // 
-            // ลบภาพทเลอกToolStripMenuItem
-            // 
-            this.ลบภาพทเลอกToolStripMenuItem.Name = "ลบภาพทเลอกToolStripMenuItem";
-            this.ลบภาพทเลอกToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
-            this.ลบภาพทเลอกToolStripMenuItem.Text = "ลบภาพที่เลือก";
             // 
             // tileGroup1
             // 
@@ -811,13 +807,16 @@
             // 
             // vGridControl1
             // 
-            this.vGridControl1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.vGridControl1.Appearance.RecordValue.Font = new System.Drawing.Font("Tahoma", 9.5F);
+            this.vGridControl1.Appearance.RecordValue.Options.UseFont = true;
+            this.vGridControl1.Appearance.RowHeaderPanel.Font = new System.Drawing.Font("Tahoma", 9.5F);
+            this.vGridControl1.Appearance.RowHeaderPanel.Options.UseFont = true;
+            this.vGridControl1.Cursor = System.Windows.Forms.Cursors.SizeWE;
             this.vGridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.vGridControl1.Enabled = false;
-            this.vGridControl1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
             this.vGridControl1.Location = new System.Drawing.Point(0, 0);
             this.vGridControl1.Name = "vGridControl1";
-            this.vGridControl1.RecordWidth = 121;
+            this.vGridControl1.RecordWidth = 85;
             this.vGridControl1.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.txtPrice,
             this.txtPrice1,
@@ -863,7 +862,9 @@
             this.txtChargeType,
             this.cbbStandard,
             this.txtHowToUse,
-            this.txtInBox});
+            this.txtInBox,
+            this.cbbCapacity,
+            this.cbbBatteryType});
             this.vGridControl1.RowHeaderWidth = 115;
             this.vGridControl1.Rows.AddRange(new DevExpress.XtraVerticalGrid.Rows.BaseRow[] {
             this.rwSKU,
@@ -885,7 +886,8 @@
             this.rwLength,
             this.rwWeight,
             this.rwInBox,
-            this.rwCoverImage});
+            this.rwCapacity,
+            this.rwBattType});
             this.vGridControl1.Size = new System.Drawing.Size(222, 559);
             this.vGridControl1.TabIndex = 0;
             // 
@@ -1233,6 +1235,24 @@
             this.txtInBox.Name = "txtInBox";
             this.txtInBox.EditValueChanged += new System.EventHandler(this.txtInBox_EditValueChanged);
             // 
+            // cbbCapacity
+            // 
+            this.cbbCapacity.AutoHeight = false;
+            this.cbbCapacity.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cbbCapacity.Name = "cbbCapacity";
+            this.cbbCapacity.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            this.cbbCapacity.SelectedIndexChanged += new System.EventHandler(this.cbbCapacity_SelectedIndexChanged);
+            // 
+            // cbbBatteryType
+            // 
+            this.cbbBatteryType.AutoHeight = false;
+            this.cbbBatteryType.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cbbBatteryType.Name = "cbbBatteryType";
+            this.cbbBatteryType.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
+            this.cbbBatteryType.SelectedIndexChanged += new System.EventHandler(this.cbbBatteryType_SelectedIndexChanged);
+            // 
             // rwSKU
             // 
             this.rwSKU.ChildRows.AddRange(new DevExpress.XtraVerticalGrid.Rows.BaseRow[] {
@@ -1241,14 +1261,14 @@
             this.rwSKU.Expanded = false;
             this.rwSKU.Name = "rwSKU";
             this.rwSKU.Properties.Caption = "SKU";
-            this.rwSKU.Properties.FieldName = "Sku";
+            this.rwSKU.Properties.FieldName = "sku";
             this.rwSKU.Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
             // 
             // rwAdviceCode
             // 
             this.rwAdviceCode.Name = "rwAdviceCode";
             this.rwAdviceCode.Properties.Caption = "รหัส Advice";
-            this.rwAdviceCode.Properties.FieldName = "AdviceCode";
+            this.rwAdviceCode.Properties.FieldName = "buyerCode1";
             this.rwAdviceCode.Properties.RowEdit = this.txtAdviceCode;
             this.rwAdviceCode.Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
             // 
@@ -1256,7 +1276,7 @@
             // 
             this.rwTrueCode.Name = "rwTrueCode";
             this.rwTrueCode.Properties.Caption = "รหัส True";
-            this.rwTrueCode.Properties.FieldName = "TrueCode";
+            this.rwTrueCode.Properties.FieldName = "buyerCode2";
             this.rwTrueCode.Properties.RowEdit = this.txtTrueCode;
             this.rwTrueCode.Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
             // 
@@ -1264,7 +1284,7 @@
             // 
             this.rwName.Name = "rwName";
             this.rwName.Properties.Caption = "ชื่อสินค้า";
-            this.rwName.Properties.FieldName = "Name";
+            this.rwName.Properties.FieldName = "name";
             this.rwName.Properties.RowEdit = this.txtName;
             this.rwName.Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
             // 
@@ -1275,7 +1295,7 @@
             this.rwActive.Expanded = false;
             this.rwActive.Name = "rwActive";
             this.rwActive.Properties.Caption = "เปิดขาย";
-            this.rwActive.Properties.FieldName = "Active";
+            this.rwActive.Properties.FieldName = "active";
             this.rwActive.Properties.RowEdit = this.chkActive;
             this.rwActive.Properties.UnboundType = DevExpress.Data.UnboundColumnType.Boolean;
             // 
@@ -1283,7 +1303,7 @@
             // 
             this.rwVisible.Name = "rwVisible";
             this.rwVisible.Properties.Caption = "แสดงที่หน้าเว็บ";
-            this.rwVisible.Properties.FieldName = "Visible";
+            this.rwVisible.Properties.FieldName = "visible";
             this.rwVisible.Properties.RowEdit = this.chkVisible;
             this.rwVisible.Properties.UnboundType = DevExpress.Data.UnboundColumnType.Boolean;
             // 
@@ -1300,7 +1320,7 @@
             this.rwPrice.Expanded = false;
             this.rwPrice.Name = "rwPrice";
             this.rwPrice.Properties.Caption = "ราคาปลีก";
-            this.rwPrice.Properties.FieldName = "Price";
+            this.rwPrice.Properties.FieldName = "price";
             this.rwPrice.Properties.RowEdit = this.txtPrice;
             this.rwPrice.Properties.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
             // 
@@ -1308,7 +1328,7 @@
             // 
             this.rwPrice1.Name = "rwPrice1";
             this.rwPrice1.Properties.Caption = "ราคาส่ง 1";
-            this.rwPrice1.Properties.FieldName = "Price1";
+            this.rwPrice1.Properties.FieldName = "price1";
             this.rwPrice1.Properties.RowEdit = this.txtPrice1;
             this.rwPrice1.Properties.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
             // 
@@ -1316,7 +1336,7 @@
             // 
             this.rwPrice2.Name = "rwPrice2";
             this.rwPrice2.Properties.Caption = "ราคาส่ง 2";
-            this.rwPrice2.Properties.FieldName = "Price2";
+            this.rwPrice2.Properties.FieldName = "price2";
             this.rwPrice2.Properties.RowEdit = this.txtPrice2;
             this.rwPrice2.Properties.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
             // 
@@ -1324,7 +1344,7 @@
             // 
             this.rwPrice3.Name = "rwPrice3";
             this.rwPrice3.Properties.Caption = "ราคาส่ง 3";
-            this.rwPrice3.Properties.FieldName = "Price3";
+            this.rwPrice3.Properties.FieldName = "price3";
             this.rwPrice3.Properties.RowEdit = this.txtPrice3;
             this.rwPrice3.Properties.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
             // 
@@ -1332,7 +1352,7 @@
             // 
             this.rwPrice4.Name = "rwPrice4";
             this.rwPrice4.Properties.Caption = "ราคาส่ง 4";
-            this.rwPrice4.Properties.FieldName = "Price4";
+            this.rwPrice4.Properties.FieldName = "price4";
             this.rwPrice4.Properties.RowEdit = this.txtPrice4;
             this.rwPrice4.Properties.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
             // 
@@ -1340,7 +1360,7 @@
             // 
             this.rwPrice5.Name = "rwPrice5";
             this.rwPrice5.Properties.Caption = "ราคาส่ง 5";
-            this.rwPrice5.Properties.FieldName = "Price5";
+            this.rwPrice5.Properties.FieldName = "price5";
             this.rwPrice5.Properties.RowEdit = this.txtPrice5;
             this.rwPrice5.Properties.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
             // 
@@ -1348,7 +1368,7 @@
             // 
             this.rwCost.Name = "rwCost";
             this.rwCost.Properties.Caption = "ต้นทุน";
-            this.rwCost.Properties.FieldName = "Cost";
+            this.rwCost.Properties.FieldName = "cost";
             this.rwCost.Properties.RowEdit = this.txtCost;
             this.rwCost.Properties.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
             // 
@@ -1359,7 +1379,7 @@
             this.rwIsPromotion.Expanded = false;
             this.rwIsPromotion.Name = "rwIsPromotion";
             this.rwIsPromotion.Properties.Caption = "โปรโมชั่น";
-            this.rwIsPromotion.Properties.FieldName = "IsPromotion";
+            this.rwIsPromotion.Properties.FieldName = "isPromotion";
             this.rwIsPromotion.Properties.RowEdit = this.chkPromotion;
             this.rwIsPromotion.Properties.UnboundType = DevExpress.Data.UnboundColumnType.Boolean;
             // 
@@ -1367,7 +1387,7 @@
             // 
             this.row.Name = "row";
             this.row.Properties.Caption = "ราคา";
-            this.row.Properties.FieldName = "PricePromotion";
+            this.row.Properties.FieldName = "pricePromotion";
             this.row.Properties.RowEdit = this.txtPricePromotion;
             this.row.Properties.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
             // 
@@ -1375,7 +1395,7 @@
             // 
             this.rwWarranty.Name = "rwWarranty";
             this.rwWarranty.Properties.Caption = "รับประกัน (วัน)";
-            this.rwWarranty.Properties.FieldName = "Warranty";
+            this.rwWarranty.Properties.FieldName = "warranty";
             this.rwWarranty.Properties.RowEdit = this.txtWarranty;
             this.rwWarranty.Properties.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
             // 
@@ -1383,7 +1403,7 @@
             // 
             this.rwLabel.Name = "rwLabel";
             this.rwLabel.Properties.Caption = "ป้ายกำกับ";
-            this.rwLabel.Properties.FieldName = "Label";
+            this.rwLabel.Properties.FieldName = "label";
             this.rwLabel.Properties.RowEdit = this.cbbLabel;
             this.rwLabel.Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
             // 
@@ -1391,7 +1411,7 @@
             // 
             this.rwCategory.Name = "rwCategory";
             this.rwCategory.Properties.Caption = "หมวดหมู่";
-            this.rwCategory.Properties.FieldName = "Category";
+            this.rwCategory.Properties.FieldName = "category";
             this.rwCategory.Properties.RowEdit = this.cbbCategory;
             this.rwCategory.Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
             // 
@@ -1399,7 +1419,7 @@
             // 
             this.rwBrand.Name = "rwBrand";
             this.rwBrand.Properties.Caption = "ยี่ห้อ";
-            this.rwBrand.Properties.FieldName = "Brand";
+            this.rwBrand.Properties.FieldName = "brand";
             this.rwBrand.Properties.RowEdit = this.cbbBrand;
             this.rwBrand.Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
             // 
@@ -1407,7 +1427,7 @@
             // 
             this.rwModel.Name = "rwModel";
             this.rwModel.Properties.Caption = "รุ่น";
-            this.rwModel.Properties.FieldName = "Model";
+            this.rwModel.Properties.FieldName = "model";
             this.rwModel.Properties.RowEdit = this.txtModel;
             this.rwModel.Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
             // 
@@ -1415,7 +1435,7 @@
             // 
             this.rwColor.Name = "rwColor";
             this.rwColor.Properties.Caption = "สี";
-            this.rwColor.Properties.FieldName = "Color";
+            this.rwColor.Properties.FieldName = "color";
             this.rwColor.Properties.RowEdit = this.color;
             this.rwColor.Properties.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
             // 
@@ -1423,7 +1443,7 @@
             // 
             this.rwChargeType.Name = "rwChargeType";
             this.rwChargeType.Properties.Caption = "หัวชาร์จแบบ";
-            this.rwChargeType.Properties.FieldName = "ChargeType";
+            this.rwChargeType.Properties.FieldName = "chargeType";
             this.rwChargeType.Properties.RowEdit = this.txtChargeType;
             this.rwChargeType.Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
             // 
@@ -1431,7 +1451,7 @@
             // 
             this.rwDeviceSupport.Name = "rwDeviceSupport";
             this.rwDeviceSupport.Properties.Caption = "อุปกรณ์ที่รองรับ";
-            this.rwDeviceSupport.Properties.FieldName = "DeviceSupport";
+            this.rwDeviceSupport.Properties.FieldName = "deviceSupport";
             this.rwDeviceSupport.Properties.RowEdit = this.cbbDevice;
             this.rwDeviceSupport.Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
             // 
@@ -1442,7 +1462,7 @@
             this.rwSpecial});
             this.rwDetail.Name = "rwDetail";
             this.rwDetail.Properties.Caption = "รายละเอียดสินค้า";
-            this.rwDetail.Properties.FieldName = "Detail";
+            this.rwDetail.Properties.FieldName = "detail";
             this.rwDetail.Properties.RowEdit = this.txtDetail;
             this.rwDetail.Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
             // 
@@ -1450,7 +1470,7 @@
             // 
             this.rwMaterial.Name = "rwMaterial";
             this.rwMaterial.Properties.Caption = "วัสดุ/ผิวสัมผัส";
-            this.rwMaterial.Properties.FieldName = "Material";
+            this.rwMaterial.Properties.FieldName = "material";
             this.rwMaterial.Properties.RowEdit = this.txtMaterial;
             this.rwMaterial.Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
             // 
@@ -1458,7 +1478,7 @@
             // 
             this.rwSpecial.Name = "rwSpecial";
             this.rwSpecial.Properties.Caption = "ลักษณะพิเศษ";
-            this.rwSpecial.Properties.FieldName = "SpecialProperties";
+            this.rwSpecial.Properties.FieldName = "specialProperties";
             this.rwSpecial.Properties.RowEdit = this.txtSpecial;
             this.rwSpecial.Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
             // 
@@ -1466,7 +1486,7 @@
             // 
             this.rwHowToUse.Name = "rwHowToUse";
             this.rwHowToUse.Properties.Caption = "การใช้งาน";
-            this.rwHowToUse.Properties.FieldName = "HowToUse";
+            this.rwHowToUse.Properties.FieldName = "howToUse";
             this.rwHowToUse.Properties.RowEdit = this.txtHowToUse;
             this.rwHowToUse.Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
             // 
@@ -1474,7 +1494,7 @@
             // 
             this.rwStandard.Name = "rwStandard";
             this.rwStandard.Properties.Caption = "มาตรฐานสินค้า";
-            this.rwStandard.Properties.FieldName = "Standard";
+            this.rwStandard.Properties.FieldName = "standard";
             this.rwStandard.Properties.RowEdit = this.cbbStandard;
             this.rwStandard.Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
             // 
@@ -1482,7 +1502,7 @@
             // 
             this.rwMadeIn.Name = "rwMadeIn";
             this.rwMadeIn.Properties.Caption = "ผลิตในประเทศ";
-            this.rwMadeIn.Properties.FieldName = "MadeIn";
+            this.rwMadeIn.Properties.FieldName = "madeIn";
             this.rwMadeIn.Properties.RowEdit = this.cbbMadeIn;
             this.rwMadeIn.Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
             // 
@@ -1494,7 +1514,7 @@
             this.rwLength.Expanded = false;
             this.rwLength.Name = "rwLength";
             this.rwLength.Properties.Caption = "ยาว (cm)";
-            this.rwLength.Properties.FieldName = "Length";
+            this.rwLength.Properties.FieldName = "length";
             this.rwLength.Properties.RowEdit = this.txtLength;
             this.rwLength.Properties.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
             // 
@@ -1502,7 +1522,7 @@
             // 
             this.rwWidth.Name = "rwWidth";
             this.rwWidth.Properties.Caption = "กว้าง (cm)";
-            this.rwWidth.Properties.FieldName = "Width";
+            this.rwWidth.Properties.FieldName = "width";
             this.rwWidth.Properties.RowEdit = this.txtWidth;
             this.rwWidth.Properties.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
             // 
@@ -1510,7 +1530,7 @@
             // 
             this.rwHeight.Name = "rwHeight";
             this.rwHeight.Properties.Caption = "สูง (cm)";
-            this.rwHeight.Properties.FieldName = "Height";
+            this.rwHeight.Properties.FieldName = "height";
             this.rwHeight.Properties.RowEdit = this.txtHeight;
             this.rwHeight.Properties.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
             // 
@@ -1521,7 +1541,7 @@
             this.rwWeight.Expanded = false;
             this.rwWeight.Name = "rwWeight";
             this.rwWeight.Properties.Caption = "น้ำหนัก (g)";
-            this.rwWeight.Properties.FieldName = "Weight";
+            this.rwWeight.Properties.FieldName = "weight";
             this.rwWeight.Properties.RowEdit = this.txtWeight;
             this.rwWeight.Properties.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
             // 
@@ -1529,117 +1549,34 @@
             // 
             this.rwGrossWeight.Name = "rwGrossWeight";
             this.rwGrossWeight.Properties.Caption = "น้ำหนักรวม (g)";
-            this.rwGrossWeight.Properties.FieldName = "GrossWeight";
+            this.rwGrossWeight.Properties.FieldName = "grossWeight";
             this.rwGrossWeight.Properties.RowEdit = this.txtGrossWeight;
             this.rwGrossWeight.Properties.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
             // 
             // rwInBox
             // 
+            this.rwInBox.Height = 18;
             this.rwInBox.Name = "rwInBox";
             this.rwInBox.Properties.Caption = "อุปกรณ์ในกล่อง";
-            this.rwInBox.Properties.FieldName = "InBox";
+            this.rwInBox.Properties.FieldName = "inBox";
             this.rwInBox.Properties.RowEdit = this.txtInBox;
             this.rwInBox.Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
             // 
-            // rwCoverImage
+            // rwCapacity
             // 
-            this.rwCoverImage.ChildRows.AddRange(new DevExpress.XtraVerticalGrid.Rows.BaseRow[] {
-            this.rwImage1,
-            this.rwImage2,
-            this.rwImage3,
-            this.rwImage4,
-            this.rwImage5,
-            this.rwImage6,
-            this.rwImage7,
-            this.rwImage8,
-            this.rwImage9,
-            this.rwImage10});
-            this.rwCoverImage.Expanded = false;
-            this.rwCoverImage.Name = "rwCoverImage";
-            this.rwCoverImage.Properties.Caption = "ภาพหลัก";
-            this.rwCoverImage.Properties.FieldName = "CoverImage";
-            this.rwCoverImage.Properties.RowEdit = this.txtCoverImage;
-            this.rwCoverImage.Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.rwCapacity.Name = "rwCapacity";
+            this.rwCapacity.Properties.Caption = "ความจุ (mAh)";
+            this.rwCapacity.Properties.FieldName = "capacity";
+            this.rwCapacity.Properties.RowEdit = this.cbbCapacity;
+            this.rwCapacity.Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
             // 
-            // rwImage1
+            // rwBattType
             // 
-            this.rwImage1.Name = "rwImage1";
-            this.rwImage1.Properties.Caption = "ภาพที่ 1";
-            this.rwImage1.Properties.FieldName = "Image1";
-            this.rwImage1.Properties.RowEdit = this.txtImage1;
-            this.rwImage1.Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
-            // 
-            // rwImage2
-            // 
-            this.rwImage2.Name = "rwImage2";
-            this.rwImage2.Properties.Caption = "ภาพที่ 2";
-            this.rwImage2.Properties.FieldName = "Image2";
-            this.rwImage2.Properties.RowEdit = this.txtImage2;
-            this.rwImage2.Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
-            // 
-            // rwImage3
-            // 
-            this.rwImage3.Name = "rwImage3";
-            this.rwImage3.Properties.Caption = "ภาพที่ 3";
-            this.rwImage3.Properties.FieldName = "Image3";
-            this.rwImage3.Properties.RowEdit = this.txtImage3;
-            this.rwImage3.Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
-            // 
-            // rwImage4
-            // 
-            this.rwImage4.Name = "rwImage4";
-            this.rwImage4.Properties.Caption = "ภาพที่ 4";
-            this.rwImage4.Properties.FieldName = "Image4";
-            this.rwImage4.Properties.RowEdit = this.txtImage4;
-            this.rwImage4.Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
-            // 
-            // rwImage5
-            // 
-            this.rwImage5.Name = "rwImage5";
-            this.rwImage5.Properties.Caption = "ภาพที่ 5";
-            this.rwImage5.Properties.FieldName = "Image5";
-            this.rwImage5.Properties.RowEdit = this.txtImage5;
-            this.rwImage5.Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
-            // 
-            // rwImage6
-            // 
-            this.rwImage6.Name = "rwImage6";
-            this.rwImage6.Properties.Caption = "ภาพที่ 6";
-            this.rwImage6.Properties.FieldName = "Image6";
-            this.rwImage6.Properties.RowEdit = this.txtImage6;
-            this.rwImage6.Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
-            // 
-            // rwImage7
-            // 
-            this.rwImage7.Name = "rwImage7";
-            this.rwImage7.Properties.Caption = "ภาพที่ 7";
-            this.rwImage7.Properties.FieldName = "Image7";
-            this.rwImage7.Properties.RowEdit = this.txtImage7;
-            this.rwImage7.Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
-            // 
-            // rwImage8
-            // 
-            this.rwImage8.Name = "rwImage8";
-            this.rwImage8.Properties.Caption = "ภาพที่ 8";
-            this.rwImage8.Properties.FieldName = "Image8";
-            this.rwImage8.Properties.RowEdit = this.txtImage8;
-            this.rwImage8.Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
-            // 
-            // rwImage9
-            // 
-            this.rwImage9.Name = "rwImage9";
-            this.rwImage9.Properties.Caption = "ภาพที่ 9";
-            this.rwImage9.Properties.FieldName = "Image9";
-            this.rwImage9.Properties.RowEdit = this.txtImage9;
-            this.rwImage9.Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
-            // 
-            // rwImage10
-            // 
-            this.rwImage10.Name = "rwImage10";
-            this.rwImage10.Properties.Caption = "ภาพที่ 10";
-            this.rwImage10.Properties.FieldName = "Image10";
-            this.rwImage10.Properties.RowEdit = this.txtImage10;
-            this.rwImage10.Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            this.rwBattType.Name = "rwBattType";
+            this.rwBattType.Properties.Caption = "ประเภทแบตเตอรี่";
+            this.rwBattType.Properties.FieldName = "batteryType";
+            this.rwBattType.Properties.RowEdit = this.cbbBatteryType;
+            this.rwBattType.Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
             // 
             // bwLoadCategory
             // 
@@ -1654,12 +1591,6 @@
             // splashScreenManager
             // 
             this.splashScreenManager.ClosingDelay = 500;
-            // 
-            // bwLoadImage
-            // 
-            this.bwLoadImage.WorkerSupportsCancellation = true;
-            this.bwLoadImage.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bwLoadImage_DoWork);
-            this.bwLoadImage.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bwLoadImage_RunWorkerCompleted);
             // 
             // UcDataProduct
             // 
@@ -1686,7 +1617,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.bandedGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl3)).EndInit();
             this.panelControl3.ResumeLayout(false);
-            this.contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.vGridControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPrice)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPrice1)).EndInit();
@@ -1733,6 +1663,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.cbbStandard)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtHowToUse)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtInBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbbCapacity)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cbbBatteryType)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1822,17 +1754,6 @@
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit txtImage8;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit txtImage9;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit txtImage10;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow rwCoverImage;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow rwImage1;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow rwImage2;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow rwImage3;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow rwImage4;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow rwImage5;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow rwImage6;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow rwImage7;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow rwImage8;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow rwImage9;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow rwImage10;
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit chkPromotion;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit txtPricePromotion;
         private DevExpress.XtraVerticalGrid.Rows.EditorRow rwIsPromotion;
@@ -1877,9 +1798,11 @@
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand1;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand2;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand3;
-        private System.ComponentModel.BackgroundWorker bwLoadImage;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem ตงเปนภาพหลกToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem ลบภาพทเลอกToolStripMenuItem;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cbbCapacity;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox cbbBatteryType;
+        private DevExpress.XtraVerticalGrid.Rows.EditorRow rwCapacity;
+        private DevExpress.XtraVerticalGrid.Rows.EditorRow rwBattType;
+        private DevExpress.XtraNavBar.NavBarItem navBatteryType;
+        private DevExpress.XtraNavBar.NavBarItem navCapacity;
     }
 }

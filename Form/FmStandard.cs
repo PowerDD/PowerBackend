@@ -8,14 +8,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
-using Microsoft.WindowsAzure.Storage.Table;
 using DevExpress.XtraGrid.Views.Grid;
+using Newtonsoft.Json;
 
 namespace PowerBackend
 {
     public partial class FmStandard : DevExpress.XtraEditors.XtraForm
     {
-        string _TABLE_NAME = "Standard";
+        string _TABLE_NAME = "standard";
         public FmStandard()
         {
             InitializeComponent();
@@ -26,16 +26,23 @@ namespace PowerBackend
             gridControl1.DataSource = Param.DataSet.Tables["Data-" + _TABLE_NAME];
         }
 
+        private async void UpdateData(string value)
+        {
+            dynamic json = JsonConvert.DeserializeObject(await Util.UpdateApiData("/properties/update",
+                string.Format("shop={0}&type=common&key={1}&value={2}", Param.ShopId, _TABLE_NAME, value)
+            ));
+            if (!json.success.Value)
+            {
+                MessageBox.Show(json.errorMessage.Value, json.error.Value, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
         private void btnAdd_Click(object sender, EventArgs e)
         {
             try
             {
-                var azureTable = Param.AzureTableClient.GetTableReference("PropertiesOption");
-                TableBatchOperation batchOperation = new TableBatchOperation();
-                DynamicTableEntity data = new DynamicTableEntity(Param.ShopId + "-" + _TABLE_NAME, txtData.Text.Trim());
-                batchOperation.InsertOrMerge(data);
-                azureTable.ExecuteBatch(batchOperation);
                 Param.DataSet.Tables["Data-" + _TABLE_NAME].Rows.Add(txtData.Text.Trim());
+                UpdateData(Util.DataTableToString(Param.DataSet.Tables["Data-" + _TABLE_NAME], "Name"));
             }
             catch { }
             txtData.Text = "";
@@ -52,14 +59,8 @@ namespace PowerBackend
                 DialogResult dialogResult = XtraMessageBox.Show("คุณต้องการลบข้อมูลนี้ออกจากระบบใช่หรือไม่ ?", "ยืนยันการทำงาน", MessageBoxButtons.OKCancel);
                 if (dialogResult == DialogResult.OK)
                 {
-                    var azureTable = Param.AzureTableClient.GetTableReference("PropertiesOption");
-                    TableBatchOperation batchOperation = new TableBatchOperation();
-                    DynamicTableEntity data = new DynamicTableEntity(Param.ShopId + "-" + _TABLE_NAME, dr["Name"].ToString());
-                    data.ETag = "*";
-                    batchOperation.Delete(data);
-                    azureTable.ExecuteBatch(batchOperation);
-
-                    view.DeleteRow(row[0]);
+                    Util.DataTableDeleteRow(Param.DataSet.Tables["Data-" + _TABLE_NAME], "Name", dr["Name"].ToString());
+                    UpdateData(Util.DataTableToString(Param.DataSet.Tables["Data-" + _TABLE_NAME], "Name"));
                 }
             }
         }

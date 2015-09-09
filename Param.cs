@@ -1,6 +1,4 @@
-﻿using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Table;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -14,14 +12,17 @@ namespace PowerBackend
         public enum AzureDataType { String, Boolean, Binary, Double, Int };
         //public static String
 
-        public static CloudStorageAccount AzureStorageAccount;
-        public static CloudTableClient AzureTableClient;
+        //blic static CloudStorageAccount AzureStorageAccount;
+        //blic static CloudTableClient AzureTableClient;
         //public static CloudTable AzureTable;
 
         public static DataTable DataTableProduct;
         public static DataSet DataSet;
 
-        public static string ShopId = "88888888";
+        public static string Shop = "xxx";
+        public static string ShopId = "yyy";
+        public static string ApiUrl = "zzz";
+        public static string ApiKey = "aaa";
 
 
 

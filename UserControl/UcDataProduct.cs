@@ -8,17 +8,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
-using Microsoft.WindowsAzure.Storage.Table;
 using DevExpress.XtraNavBar;
 using System.IO;
 using System.Collections;
 using DevExpress.XtraGrid.Views.Grid;
-using DevExpress.DXCore.Controls.XtraEditors.Repository;
-using DevExpress.DXCore.Controls.XtraEditors.Mask;
 using System.Globalization;
 using DevExpress.XtraGrid.Views.BandedGrid;
 using System.Net;
 using System.Net.Http;
+using Newtonsoft.Json;
 
 namespace PowerBackend
 {
@@ -31,9 +29,14 @@ namespace PowerBackend
         DataRow _PRODUCT_ROW_SELECTED;
         string _CATEGORY_SELECTED;
         GridView _GRID_VIEW;
-        Image _STREAM_IMAGE;
+        //Image _STREAM_IMAGE;
         string _STREAM_IMAGE_URL;
-        FmUploadImage _FORM_UPLOAD_IMAGE;
+        //FmUploadImage _FORM_UPLOAD_IMAGE;
+
+        dynamic _JSON_CATEGORY;
+        dynamic _JSON_PRODUCT;
+
+        DataTable _TABLE_PRODUCT;
 
         public UcDataProduct()
         {
@@ -42,18 +45,59 @@ namespace PowerBackend
 
         private void UcDataProduct_Load(object sender, EventArgs e)
         {
+            splashScreenManager.ShowWaitForm();
             navBarControl1.Enabled = false;
             _GRID_VIEW = (GridView) gridControl1.MainView;
-            _FORM_UPLOAD_IMAGE = new FmUploadImage();
+            //_FORM_UPLOAD_IMAGE = new FmUploadImage();
             Param.DataSet = new DataSet();
-            Util.SetProductStructure();
 
-            splashScreenManager.ShowWaitForm();
             bwLoadCategory.RunWorkerAsync();
         }
 
         private void bwLoadCategory_DoWork(object sender, DoWorkEventArgs e)
         {
+            _JSON_CATEGORY = JsonConvert.DeserializeObject(Util.GetApiData("/category/info", "shop=" + Param.ShopId));
+
+            DataTable data = new DataTable();
+            dynamic json = JsonConvert.DeserializeObject(Util.GetApiData("/properties/info", "shop=" + Param.ShopId + "&type=common"));
+            for (int i = 0; i < json.result.Count; i++)
+            {
+                data = new DataTable();
+                data.Columns.Add("Name", typeof(string));
+                data.PrimaryKey = new DataColumn[] { data.Columns["Name"] };
+                data.TableName = "Data-" + json.result[i].entityKey.Value;
+                string[] ex = json.result[i].entityValue.Value.Split(',');
+                for (int j = 0; j < ex.Length; j++)
+                    data.Rows.Add(ex[j]);
+                Param.DataSet.Tables.Add(data);
+            }
+
+            /*json = JsonConvert.DeserializeObject(Util.GetApiData("/properties/info", "shop=" + Param.ShopId + "&type=category"));
+            for (int i = 0; i < json.result.Count; i++)
+            {
+                data = new DataTable();
+                data.Columns.Add("Name", typeof(string));
+                data.PrimaryKey = new DataColumn[] { data.Columns["Name"] };
+                data.TableName = "Data-" + json.result[i].entityKey.Value;
+                string[] ex = json.result[i].entityValue.Value.Split(',');
+                for (int j = 0; j < ex.Length; j++)
+                    data.Rows.Add(ex[j]);
+                Param.DataSet.Tables.Add(data);
+            }*/
+
+            json = JsonConvert.DeserializeObject(Util.GetApiData("/brand/info", "shop=" + Param.ShopId));
+            data = new DataTable();
+            data.Columns.Add("Name", typeof(string));
+            data.TableName = "Data-Brand";
+            _BRAND = new SortedDictionary<string, string>();
+            for (int i = 0; i < json.result.Count; i++)
+            {
+                data.Rows.Add(json.result[i].name.Value);
+                _BRAND.Add(json.result[i].brand.Value, json.result[i].name.Value);
+            }
+            Param.DataSet.Tables.Add(data);
+
+            /*
             var azureTable = Param.AzureTableClient.GetTableReference("Category");
             TableQuery<DynamicTableEntity> query = new TableQuery<DynamicTableEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, Param.ShopId));
             List<DynamicTableEntity> list = azureTable.ExecuteQuery(query).ToList();
@@ -146,11 +190,55 @@ namespace PowerBackend
             for (int i = 0; i < list.Count; i++)
                 data.Rows.Add(list[i].RowKey);
             Param.DataSet.Tables.Add(data);
+            */
 
         }
 
         private void bwLoadCategory_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            if (!_JSON_CATEGORY.success.Value)
+            {
+                MessageBox.Show(_JSON_CATEGORY.error, _JSON_CATEGORY.errorMessage, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                DataTable data = new DataTable();
+                data.Columns.Add("Name", typeof(string));
+                data.TableName = "Data-Category";
+
+                _CATEGORY = new SortedDictionary<string, string>();
+                navBarProduct.ItemLinks.Clear();
+                NavBarItem item;
+                for (int i = 0; i < _JSON_CATEGORY.result.Count; i++)
+                {
+                    item = new NavBarItem(_JSON_CATEGORY.result[i].name.Value);
+                    item.SmallImage = global::PowerBackend.Properties.Resources.boproduct_16x16;
+                    item.LinkClicked += new NavBarLinkEventHandler(navBarCategory_LinkClicked);
+                    navBarProduct.ItemLinks.Add(item);
+                    if (navBarProduct.ItemLinks.Count == 1)
+                    {
+                        _CATEGORY_SELECTED = _JSON_CATEGORY.result[i].name.Value;
+                    }
+                    data.Rows.Add(_JSON_CATEGORY.result[i].name.Value);
+                    _CATEGORY.Add(_JSON_CATEGORY.result[i].category.Value, _JSON_CATEGORY.result[i].name.Value);
+                    //category.Add(data.Value, data.Key);
+                }
+                Param.DataSet.Tables.Add(data);
+                bwLoadProduct.RunWorkerAsync();
+            }
+
+            Util.SetComboboxDataSource(cbbCategory, Param.DataSet.Tables["Data-Category"], "Name");
+            Util.SetComboboxDataSource(cbbBrand, Param.DataSet.Tables["Data-Brand"], "Name");
+            Util.SetComboboxDataSource(cbbMadeIn, Param.DataSet.Tables["Data-makerCountry"], "Name");
+            Util.SetOptionDataSource(cbbDevice, Param.DataSet.Tables["Data-device"], "Name");
+            Util.SetOptionDataSource(cbbStandard, Param.DataSet.Tables["Data-standard"], "Name");
+            Util.SetOptionDataSource(cbbLabel, Param.DataSet.Tables["Data-label"], "Name");
+            Util.SetComboboxDataSource(cbbCapacity, Param.DataSet.Tables["Data-capacity"], "Name");
+            Util.SetComboboxDataSource(cbbBatteryType, Param.DataSet.Tables["Data-batteryType"], "Name");
+
+            Util.SetComboboxDataSource(cbbCapacity, Param.DataSet.Tables["Data-capacity"], "Name");
+            Util.SetComboboxDataSource(cbbBatteryType, Param.DataSet.Tables["Data-batteryType"], "Name");
+            /*
             navBarProduct.ItemLinks.Clear();
             NavBarItem item;
             SortedDictionary<string, string> category = new SortedDictionary<string, string>();
@@ -168,19 +256,85 @@ namespace PowerBackend
             }
             _CATEGORY = category;
 
-            Util.SetComboboxDataSource(cbbCategory, Param.DataSet.Tables["Data-Category"], "Name");
             Util.SetComboboxDataSource(cbbBrand, Param.DataSet.Tables["Data-Brand"], "Name");
-            Util.SetComboboxDataSource(cbbMadeIn, Param.DataSet.Tables["Data-MakerCountry"], "Name");
-            Util.SetOptionDataSource(cbbDevice, Param.DataSet.Tables["Data-Device"], "Name");
-            Util.SetOptionDataSource(cbbStandard, Param.DataSet.Tables["Data-Standard"], "Name");
-            Util.SetOptionDataSource(cbbLabel, Param.DataSet.Tables["Data-Label"], "Name");
 
-            bwLoadProduct.RunWorkerAsync();
+            */
         }
 
         private void bwLoadProduct_DoWork(object sender, DoWorkEventArgs e)
         {
-            var azureTable = Param.AzureTableClient.GetTableReference("Product");
+            _JSON_PRODUCT = JsonConvert.DeserializeObject(Util.GetApiData("/product/info", 
+                string.Format("shop={0}&type=byCategoryName&value={1}", Param.ShopId, _CATEGORY_SELECTED)
+            ));
+
+            if (_JSON_PRODUCT.success.Value)
+            {
+                if (_JSON_PRODUCT.result.Count > 0)
+                {
+                    _TABLE_PRODUCT = new DataTable();
+                    List<string> columnName = new List<string>();
+                    foreach (var pair in _JSON_PRODUCT.result[0])
+                    {
+                        try {
+                            Type type;
+                            if (pair.Value.Value != null)
+                            {
+                                if (pair.Value.Value.GetType().Name == "Double")
+                                    type = typeof(Double);
+                                else if (pair.Value.Value.GetType().Name == "Int32")
+                                    type = typeof(Int32);
+                                else if (pair.Value.Value.GetType().Name == "Int64")
+                                    type = typeof(Int64);
+                                else if (pair.Value.Value.GetType().Name == "Boolean")
+                                    type = typeof(Boolean);
+                                else if (pair.Value.Value.GetType().Name == "DateTime")
+                                    type = typeof(DateTime);
+                                else
+                                    type = typeof(String);
+                            }
+                            else
+                                type = typeof(String);
+
+                            _TABLE_PRODUCT.Columns.Add(pair.Name, type);
+                            columnName.Add(pair.Name);
+                        }
+                        catch(Exception ex)
+                        {
+                            Console.WriteLine("Add column type error ({0}) : {1}", pair.Name, ex.Message);
+                        }
+                    }
+
+                    _TABLE_PRODUCT.Columns.Add("hasCoverImageIcon", typeof(Image));
+                    columnName.Add("hasCoverImageIcon");
+
+                    for (int i=0; i< _JSON_PRODUCT.result.Count; i++)
+                    {
+                        object[] values = new object[columnName.Count];
+                        for (int j = 0; j < columnName.Count; j++)
+                        {
+                            if(columnName[j] == "hasCoverImageIcon")
+                                values[j] = _JSON_PRODUCT.result[i]["hasCoverImage"].Value ? global::PowerBackend.Properties.Resources.picture : global::PowerBackend.Properties.Resources.picture_empty;
+                            else
+                                values[j] = _JSON_PRODUCT.result[i][columnName[j]].Value == null ? "" : _JSON_PRODUCT.result[i][columnName[j]].Value;                                
+                        }
+                        _TABLE_PRODUCT.Rows.Add(values);
+                    }
+
+                }
+            }
+
+            /*   dynamic d = _JSON_PRODUCT.result[0];
+           Dictionary<string, object> values = JsonConvert.DeserializeObject<Dictionary<string, object>>(_JSON_PRODUCT.result[0].ToString());
+           foreach (var pair in d)
+           {
+               Console.WriteLine("{0}:{1}", pair.Name, pair.Value);
+           }*/
+
+
+
+
+
+            /*var azureTable = Param.AzureTableClient.GetTableReference("Product");
             TableQuery<DynamicTableEntity> query = new TableQuery<DynamicTableEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, "88888888"));
             List<DynamicTableEntity> list = azureTable.ExecuteQuery(query).ToList();
 
@@ -192,25 +346,7 @@ namespace PowerBackend
                 {
                     var categoryName = list[i].Properties.ContainsKey("Category") ? _CATEGORY[list[i].Properties["Category"].StringValue] : "";
                     Param.DataSet.Tables[categoryName].Rows.Add(list[i].RowKey,
-                        list[i].Properties.ContainsKey("SKU") ? list[i].Properties["SKU"].StringValue : "",
-                        list[i].Properties.ContainsKey("AdviceCode") ? list[i].Properties["AdviceCode"].StringValue : "",
-                        list[i].Properties.ContainsKey("TrueCode") ? list[i].Properties["TrueCode"].StringValue : "",
-                        list[i].Properties.ContainsKey("Name") ? list[i].Properties["Name"].StringValue : "",
-                        list[i].Properties.ContainsKey("Price") ? list[i].Properties["Price"].DoubleValue : 0,
-                        list[i].Properties.ContainsKey("Price1") ? list[i].Properties["Price1"].DoubleValue : 0,
-                        list[i].Properties.ContainsKey("Price2") ? list[i].Properties["Price2"].DoubleValue : 0,
-                        list[i].Properties.ContainsKey("Price3") ? list[i].Properties["Price3"].DoubleValue : 0,
-                        list[i].Properties.ContainsKey("Price4") ? list[i].Properties["Price4"].DoubleValue : 0,
-                        list[i].Properties.ContainsKey("Price5") ? list[i].Properties["Price5"].DoubleValue : 0,
-                        list[i].Properties.ContainsKey("Cost") ? list[i].Properties["Cost"].DoubleValue : 0,
-                        list[i].Properties.ContainsKey("Stock") ? list[i].Properties["Stock"].Int32Value : 0,
-                        list[i].Properties.ContainsKey("Active") ? list[i].Properties["Active"].BooleanValue : false,
-                        list[i].Properties.ContainsKey("Visible") ? list[i].Properties["Visible"].BooleanValue : false,
-                        list[i].Properties.ContainsKey("BrandId") ? list[i].Properties["Brand"].StringValue : "",
-                        list[i].Properties.ContainsKey("Brand") ? _BRAND[list[i].Properties["Brand"].StringValue] : "",
-                        list[i].Properties.ContainsKey("CategoryId") ? list[i].Properties["Category"].StringValue : "",
-                        categoryName,
-                        list[i].Properties.ContainsKey("Warranty") ? list[i].Properties["Warranty"].Int32Value : 0,
+                        list[i].Properties.Contain
                         list[i].Properties.ContainsKey("Material") ? list[i].Properties["Material"].StringValue : "",
                         list[i].Properties.ContainsKey("Model") ? list[i].Properties["Model"].StringValue : "",
                         list[i].Properties.ContainsKey("Detail") ? list[i].Properties["Detail"].StringValue : "",
@@ -223,22 +359,7 @@ namespace PowerBackend
                         list[i].Properties.ContainsKey("Height") ? list[i].Properties["Height"].DoubleValue : 0,
                         list[i].Properties.ContainsKey("Weight") ? list[i].Properties["Weight"].DoubleValue : 0,
                         list[i].Properties.ContainsKey("GrossWeight") ? list[i].Properties["GrossWeight"].DoubleValue : 0,
-                        list[i].Properties.ContainsKey("CoverImage") ? list[i].Properties["CoverImage"].StringValue : "",
-                        list[i].Properties.ContainsKey("CoverImage") && list[i].Properties["CoverImage"].StringValue != "" ? global::PowerBackend.Properties.Resources.picture : global::PowerBackend.Properties.Resources.picture_empty,
-                        //list[i].Properties.ContainsKey("CoverImage") ? (list[i].Properties["CoverImage"].StringValue == "" ? false : true) : false,
-                        list[i].Properties.ContainsKey("Image1") ? list[i].Properties["Image1"].StringValue : "",
-                        list[i].Properties.ContainsKey("Image2") ? list[i].Properties["Image2"].StringValue : "",
-                        list[i].Properties.ContainsKey("Image3") ? list[i].Properties["Image3"].StringValue : "",
-                        list[i].Properties.ContainsKey("Image4") ? list[i].Properties["Image4"].StringValue : "",
-                        list[i].Properties.ContainsKey("Image5") ? list[i].Properties["Image5"].StringValue : "",
-                        list[i].Properties.ContainsKey("Image6") ? list[i].Properties["Image6"].StringValue : "",
-                        list[i].Properties.ContainsKey("Image7") ? list[i].Properties["Image7"].StringValue : "",
-                        list[i].Properties.ContainsKey("Image8") ? list[i].Properties["Image8"].StringValue : "",
-                        list[i].Properties.ContainsKey("Image9") ? list[i].Properties["Image9"].StringValue : "",
-                        list[i].Properties.ContainsKey("Image10") ? list[i].Properties["Image10"].StringValue : "",
                         list[i].Properties.ContainsKey("Label") ? list[i].Properties["Label"].StringValue : "",
-                        list[i].Properties.ContainsKey("IsPromotion") ? list[i].Properties["IsPromotion"].BooleanValue : false,
-                        list[i].Properties.ContainsKey("PricePromotion") ? list[i].Properties["PricePromotion"].DoubleValue : 0,
                         list[i].Properties.ContainsKey("ChargeType") ? list[i].Properties["ChargeType"].StringValue : "",
                         list[i].Properties.ContainsKey("HowToUse") ? list[i].Properties["HowToUse"].StringValue : "",
                         list[i].Properties.ContainsKey("Standard") ? list[i].Properties["Standard"].StringValue : "",
@@ -248,22 +369,33 @@ namespace PowerBackend
                 catch(Exception ex)
                 {
                     Console.WriteLine("{0} : {1}", list[i].RowKey, ex.Message);
-                }
-            }
+                }*/
+            //}
         }
 
         private void bwLoadProduct_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            splashScreenManager.CloseWaitForm();
+            try
+            {
+                splashScreenManager.CloseWaitForm();
+            }
+            catch { }
             navBarControl1.LinkSelectionMode = LinkSelectionModeType.OneInControl;
-            navBarControl1.Enabled = true;
             LoadProductCategoryData();
         }
 
         private void navBarCategory_LinkClicked(object sender, NavBarLinkEventArgs e)
         {
             _CATEGORY_SELECTED = e.Link.Caption;
-            LoadProductCategoryData();
+            try
+            {
+                splashScreenManager.ShowWaitForm();
+            }
+            catch { }
+            navBarControl1.Enabled = false;
+            gridControl1.Enabled = false;
+            bwLoadProduct.RunWorkerAsync();
+            //LoadProductCategoryData();
         }
 
         private void chkIsNotActive_CheckedChanged(object sender, EventArgs e)
@@ -278,23 +410,27 @@ namespace PowerBackend
 
         private void LoadProductCategoryData()
         {
-            gridControl1.DataSource = Param.DataSet.Tables[_CATEGORY_SELECTED];
+            //gridControl1.DataSource = Param.DataSet.Tables[_CATEGORY_SELECTED];
+            gridControl1.DataSource = _TABLE_PRODUCT;
 
             StringBuilder sb = new StringBuilder();
             if(!chkIsNotActive.Checked && !chkIsNotVisible.Checked)
-                sb.Append("[Active] = true AND [Visible] = true");
+                sb.Append("[active] = true AND [visible] = true");
             else if (chkIsNotActive.Checked && !chkIsNotVisible.Checked)
-                sb.Append("[Visible] = true");
+                sb.Append("[visible] = true");
             else if (!chkIsNotActive.Checked && chkIsNotVisible.Checked)
-                sb.Append("[Active] = true");
+                sb.Append("[active] = true");
             if (txtSearch.Text.Trim() != "")
             {
-                sb.Append( (sb.ToString() != "" ? " AND " : "") + string.Format(" ([Name] LIKE '%{0}%' OR [SKU] LIKE '%{0}%')",txtSearch.Text.Trim()) );
+                sb.Append( (sb.ToString() != "" ? " AND " : "") + string.Format(" (name] LIKE '%{0}%' OR [sku] LIKE '%{0}%')",txtSearch.Text.Trim()) );
             }
 
             //GridView view = ((GridView)gridControl1.DefaultView);
             _GRID_VIEW.ActiveFilterString = sb.ToString();
             gridControl1.Update();
+
+            navBarControl1.Enabled = true;
+            gridControl1.Enabled = true;
             /*for(int i=0; i< _GRID_VIEW.RowCount; i++)
             {
                 DataRow dr = _GRID_VIEW.GetDataRow(i);
@@ -305,161 +441,195 @@ namespace PowerBackend
             }*/
         }
 
-        private void UpdateProductData(string key, string value, Param.AzureDataType type)
+        private async void UpdateProductData(string id, string key, string value)
         {
-            Util.UpdateData("Product", Param.ShopId, _PRODUCT_PROPERTIES.Rows[0]["ID"].ToString(), key, value, type);
+
+            dynamic json = JsonConvert.DeserializeObject(await Util.UpdateApiData("/product/update",
+                string.Format("shop={0}&id={1}&entity={2}&value={3}", Param.ShopId, id, key, value)
+            ));
+            if (!json.success.Value)
+            {
+                MessageBox.Show(json.errorMessage.Value, json.error.Value, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            //Util.UpdateData("Product", Param.ShopId, _PRODUCT_PROPERTIES.Rows[0]["ID"].ToString(), key, value, type);
         }
+
 
         #region Edit Properties
 
         private void txtName_EditValueChanged(object sender, EventArgs e)
         {
-            _PRODUCT_ROW_SELECTED["Name"] = ((TextEdit)sender).Text;
-            UpdateProductData("Name", ((TextEdit)sender).Text, Param.AzureDataType.String);
+            _PRODUCT_ROW_SELECTED["name"] = ((TextEdit)sender).Text;
+            UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "name", ((TextEdit)sender).Text);
+            //UpdateProductData("Name", ((TextEdit)sender).Text, Param.AzureDataType.String);
         }
 
         private void txtModel_EditValueChanged(object sender, EventArgs e)
         {
-            _PRODUCT_ROW_SELECTED["Model"] = ((TextEdit)sender).Text;
-            UpdateProductData("Model", ((TextEdit)sender).Text, Param.AzureDataType.String);
+            _PRODUCT_ROW_SELECTED["model"] = ((TextEdit)sender).Text;
+            UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "model", ((TextEdit)sender).Text);
+            //UpdateProductData("Model", ((TextEdit)sender).Text, Param.AzureDataType.String);
         }
 
         private void txtMaterial_EditValueChanged(object sender, EventArgs e)
         {
-            _PRODUCT_ROW_SELECTED["Material"] = ((TextEdit)sender).Text;
-            UpdateProductData("Material", ((TextEdit)sender).Text, Param.AzureDataType.String);
+            _PRODUCT_ROW_SELECTED["material"] = ((TextEdit)sender).Text;
+            UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "material", ((TextEdit)sender).Text);
+            //UpdateProductData("Material", ((TextEdit)sender).Text, Param.AzureDataType.String);
         }
 
         private void txtMadeIn_EditValueChanged(object sender, EventArgs e)
         {
-            _PRODUCT_ROW_SELECTED["MadeIn"] = ((TextEdit)sender).Text;
-            UpdateProductData("MadeIn", ((TextEdit)sender).Text, Param.AzureDataType.String);
+            _PRODUCT_ROW_SELECTED["madeIn"] = ((TextEdit)sender).Text;
+            UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "madeIn", ((TextEdit)sender).Text);
+            //UpdateProductData("MadeIn", ((TextEdit)sender).Text, Param.AzureDataType.String);
         }
 
         private void txtWarranty_EditValueChanged(object sender, EventArgs e)
         {
-            _PRODUCT_ROW_SELECTED["Warranty"] = ((TextEdit)sender).Text;
-            UpdateProductData("Warranty", ((TextEdit)sender).Text, Param.AzureDataType.Int);
+            _PRODUCT_ROW_SELECTED["warranty"] = ((TextEdit)sender).Text;
+            UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "warranty", ((TextEdit)sender).Text);
+            //UpdateProductData("Warranty", ((TextEdit)sender).Text, Param.AzureDataType.Int);
         }
 
         private void txtPrice_EditValueChanged(object sender, EventArgs e)
         {
-            _PRODUCT_ROW_SELECTED["Price"] = ((TextEdit)sender).Text;
-            UpdateProductData("Price", ((TextEdit)sender).Text, Param.AzureDataType.Double);
+            _PRODUCT_ROW_SELECTED["price"] = double.Parse(((TextEdit)sender).Text.Replace(",", ""));
+            UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "price", ((TextEdit)sender).Text.Replace(",", ""));
+            //UpdateProductData("Price", ((TextEdit)sender).Text, Param.AzureDataType.Double);
         }
 
         private void txtPrice1_EditValueChanged(object sender, EventArgs e)
         {
-            _PRODUCT_ROW_SELECTED["Price1"] = ((TextEdit)sender).Text;
-            UpdateProductData("Price1", ((TextEdit)sender).Text, Param.AzureDataType.Double);
+            _PRODUCT_ROW_SELECTED["price1"] = double.Parse(((TextEdit)sender).Text.Replace(",", ""));
+            UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "price1", ((TextEdit)sender).Text.Replace(",", ""));
+            //UpdateProductData("Price1", ((TextEdit)sender).Text, Param.AzureDataType.Double);
         }
 
         private void txtPrice2_EditValueChanged(object sender, EventArgs e)
         {
-            _PRODUCT_ROW_SELECTED["Price2"] = ((TextEdit)sender).Text;
-            UpdateProductData("Price2", ((TextEdit)sender).Text, Param.AzureDataType.Double);
+            _PRODUCT_ROW_SELECTED["price2"] = double.Parse(((TextEdit)sender).Text.Replace(",", ""));
+            UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "price2", ((TextEdit)sender).Text.Replace(",", ""));
+            //UpdateProductData("Price2", ((TextEdit)sender).Text, Param.AzureDataType.Double);
         }
 
         private void txtPrice3_EditValueChanged(object sender, EventArgs e)
         {
-            _PRODUCT_ROW_SELECTED["Price3"] = ((TextEdit)sender).Text;
-            UpdateProductData("Price3", ((TextEdit)sender).Text, Param.AzureDataType.Double);
+            _PRODUCT_ROW_SELECTED["price3"] = double.Parse(((TextEdit)sender).Text.Replace(",", ""));
+            UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "price3", ((TextEdit)sender).Text.Replace(",", ""));
+            //UpdateProductData("Price3", ((TextEdit)sender).Text, Param.AzureDataType.Double);
         }
 
         private void txtPrice4_EditValueChanged(object sender, EventArgs e)
         {
-            _PRODUCT_ROW_SELECTED["Price4"] = ((TextEdit)sender).Text;
-            UpdateProductData("Price4", ((TextEdit)sender).Text, Param.AzureDataType.Double);
+            _PRODUCT_ROW_SELECTED["price4"] = double.Parse(((TextEdit)sender).Text.Replace(",", ""));
+            UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "price4", ((TextEdit)sender).Text.Replace(",", ""));
+            //UpdateProductData("Price4", ((TextEdit)sender).Text, Param.AzureDataType.Double);
         }
 
         private void txtPrice5_EditValueChanged(object sender, EventArgs e)
         {
-            _PRODUCT_ROW_SELECTED["Price5"] = ((TextEdit)sender).Text;
-            UpdateProductData("Price5", ((TextEdit)sender).Text, Param.AzureDataType.Double);
+            _PRODUCT_ROW_SELECTED["price5"] = double.Parse(((TextEdit)sender).Text.Replace(",", ""));
+            UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "price5", ((TextEdit)sender).Text.Replace(",", ""));
+            //UpdateProductData("Price5", ((TextEdit)sender).Text, Param.AzureDataType.Double);
         }
 
         private void txtDetail_EditValueChanged(object sender, EventArgs e)
         {
-            _PRODUCT_ROW_SELECTED["Detail"] = ((TextEdit)sender).Text;
-            UpdateProductData("Detail", ((TextEdit)sender).Text, Param.AzureDataType.String);
+            _PRODUCT_ROW_SELECTED["detail"] = ((TextEdit)sender).Text;
+            UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "detail", ((TextEdit)sender).Text);
+            //UpdateProductData("Detail", ((TextEdit)sender).Text, Param.AzureDataType.String);
         }
 
         private void txtSpecial_EditValueChanged(object sender, EventArgs e)
         {
-            _PRODUCT_ROW_SELECTED["SpecialProperties"] = ((TextEdit)sender).Text;
-            UpdateProductData("SpecialProperties", ((TextEdit)sender).Text, Param.AzureDataType.String);
+            _PRODUCT_ROW_SELECTED["specialProperties"] = ((TextEdit)sender).Text;
+            UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "specialProperties", ((TextEdit)sender).Text);
+            //UpdateProductData("SpecialProperties", ((TextEdit)sender).Text, Param.AzureDataType.String);
         }
 
         private void txtWidth_EditValueChanged(object sender, EventArgs e)
         {
-            _PRODUCT_ROW_SELECTED["Width"] = ((TextEdit)sender).Text;
-            UpdateProductData("Width", ((TextEdit)sender).Text, Param.AzureDataType.Double);
+            _PRODUCT_ROW_SELECTED["width"] = double.Parse(((TextEdit)sender).Text.Replace(",", ""));
+            UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "width", ((TextEdit)sender).Text.Replace(",", ""));
+            //UpdateProductData("Width", ((TextEdit)sender).Text, Param.AzureDataType.Double);
         }
 
         private void txtLength_EditValueChanged(object sender, EventArgs e)
         {
-            _PRODUCT_ROW_SELECTED["Length"] = ((TextEdit)sender).Text;
-            UpdateProductData("Length", ((TextEdit)sender).Text, Param.AzureDataType.Double);
+            _PRODUCT_ROW_SELECTED["length"] = double.Parse(((TextEdit)sender).Text.Replace(",", ""));
+            UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "length", ((TextEdit)sender).Text.Replace(",", ""));
+            //UpdateProductData("Length", ((TextEdit)sender).Text, Param.AzureDataType.Double);
         }
 
         private void txtHeight_EditValueChanged(object sender, EventArgs e)
         {
-            _PRODUCT_ROW_SELECTED["Height"] = ((TextEdit)sender).Text;
-            UpdateProductData("Height", ((TextEdit)sender).Text, Param.AzureDataType.Double);
+            _PRODUCT_ROW_SELECTED["height"] = double.Parse(((TextEdit)sender).Text.Replace(",", ""));
+            UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "height", ((TextEdit)sender).Text.Replace(",", ""));
+            //UpdateProductData("Height", ((TextEdit)sender).Text, Param.AzureDataType.Double);
         }
 
         private void txtWeight_EditValueChanged(object sender, EventArgs e)
         {
-            _PRODUCT_ROW_SELECTED["Weight"] = ((TextEdit)sender).Text;
-            UpdateProductData("Weight", ((TextEdit)sender).Text, Param.AzureDataType.Double);
+            _PRODUCT_ROW_SELECTED["weight"] = double.Parse(((TextEdit)sender).Text.Replace(",", ""));
+            UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "weight", ((TextEdit)sender).Text.Replace(",", ""));
+            //UpdateProductData("Weight", ((TextEdit)sender).Text, Param.AzureDataType.Double);
         }
 
         private void txtGrossWeight_EditValueChanged(object sender, EventArgs e)
         {
-            _PRODUCT_ROW_SELECTED["GrossWeight"] = ((TextEdit)sender).Text;
-            UpdateProductData("GrossWeight", ((TextEdit)sender).Text, Param.AzureDataType.Double);
+            _PRODUCT_ROW_SELECTED["grossWeight"] = double.Parse(((TextEdit)sender).Text.Replace(",", ""));
+            UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "grossWeight", ((TextEdit)sender).Text.Replace(",", ""));
+            //UpdateProductData("GrossWeight", ((TextEdit)sender).Text, Param.AzureDataType.Double);
         }
 
         private void color_EditValueChanged(object sender, EventArgs e)
         {
-            _PRODUCT_ROW_SELECTED["Color"] = ((ColorEdit)sender).EditValue;
-            UpdateProductData("Color", ColorTranslator.ToHtml(Color.FromArgb(int.Parse(((ColorEdit)sender).EditValue.ToString()))), Param.AzureDataType.String);
+            _PRODUCT_ROW_SELECTED["color"] = ((ColorEdit)sender).EditValue;
+            UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "color", ColorTranslator.ToHtml(Color.FromArgb(int.Parse(((ColorEdit)sender).EditValue.ToString()))));
+            //UpdateProductData("Color", ColorTranslator.ToHtml(Color.FromArgb(int.Parse(((ColorEdit)sender).EditValue.ToString()))), Param.AzureDataType.String);
         }
 
         private void txtPricePromotion_EditValueChanged(object sender, EventArgs e)
         {
-            _PRODUCT_ROW_SELECTED["PricePromotion"] = ((TextEdit)sender).Text;
-            UpdateProductData("PricePromotion", ((TextEdit)sender).Text, Param.AzureDataType.Double);
+            _PRODUCT_ROW_SELECTED["pricePromotion"] = double.Parse(((TextEdit)sender).Text.Replace(",", ""));
+            UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "pricePromotion", ((TextEdit)sender).Text.Replace(",", ""));
+            //UpdateProductData("PricePromotion", ((TextEdit)sender).Text, Param.AzureDataType.Double);
         }
 
         private void txtAdviceCode_EditValueChanged(object sender, EventArgs e)
         {
-            _PRODUCT_ROW_SELECTED["AdviceCode"] = ((TextEdit)sender).Text;
-            UpdateProductData("AdviceCode", ((TextEdit)sender).Text, Param.AzureDataType.String);
+            _PRODUCT_ROW_SELECTED["buyerCode1"] = ((TextEdit)sender).Text;
+            UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "buyerCode1", ((TextEdit)sender).Text);
+            //UpdateProductData("AdviceCode", ((TextEdit)sender).Text, Param.AzureDataType.String);
         }
 
         private void txtTrueCode_EditValueChanged(object sender, EventArgs e)
         {
-            _PRODUCT_ROW_SELECTED["TrueCode"] = ((TextEdit)sender).Text;
-            UpdateProductData("TrueCode", ((TextEdit)sender).Text, Param.AzureDataType.String);
+            _PRODUCT_ROW_SELECTED["buyerCode2"] = ((TextEdit)sender).Text;
+            UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "buyerCode2", ((TextEdit)sender).Text);
+            //UpdateProductData("TrueCode", ((TextEdit)sender).Text, Param.AzureDataType.String);
         }
 
         private void txtChargeType_EditValueChanged(object sender, EventArgs e)
         {
-            _PRODUCT_ROW_SELECTED["ChargeType"] = ((TextEdit)sender).Text;
-            UpdateProductData("ChargeType", ((TextEdit)sender).Text, Param.AzureDataType.String);
+            _PRODUCT_ROW_SELECTED["chargeType"] = ((TextEdit)sender).Text;
+            UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "chargeType", ((TextEdit)sender).Text);
+            //UpdateProductData("ChargeType", ((TextEdit)sender).Text, Param.AzureDataType.String);
         }
 
         private void txtHowToUse_EditValueChanged(object sender, EventArgs e)
         {
-            _PRODUCT_ROW_SELECTED["HowToUse"] = ((TextEdit)sender).Text;
-            UpdateProductData("HowToUse", ((TextEdit)sender).Text, Param.AzureDataType.String);
+            _PRODUCT_ROW_SELECTED["howToUse"] = ((TextEdit)sender).Text;
+            UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "howToUse", ((TextEdit)sender).Text);
+            //UpdateProductData("HowToUse", ((TextEdit)sender).Text, Param.AzureDataType.String);
         }
 
         private void txtInBox_EditValueChanged(object sender, EventArgs e)
         {
-            _PRODUCT_ROW_SELECTED["InBox"] = ((TextEdit)sender).Text;
-            UpdateProductData("InBox", ((TextEdit)sender).Text, Param.AzureDataType.String);
+            _PRODUCT_ROW_SELECTED["inBox"] = ((TextEdit)sender).Text;
+            UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "inBox", ((TextEdit)sender).Text);
+            //UpdateProductData("InBox", ((TextEdit)sender).Text, Param.AzureDataType.String);
         }
 
         private void cbbDevice_EditValueChanged(object sender, EventArgs e)
@@ -471,8 +641,9 @@ namespace PowerBackend
                     sb.Append(string.Format("{0}{1}", sb.ToString() == "" ? "" : ", ", data[i].Value));
 
             ((TextEdit)sender).Text = sb.ToString();
-            _PRODUCT_ROW_SELECTED["DeviceSupport"] = sb.ToString();
-            UpdateProductData("DeviceSupport", sb.ToString(), Param.AzureDataType.String);
+            _PRODUCT_ROW_SELECTED["deviceSupport"] = sb.ToString();
+            UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "deviceSupport", ((TextEdit)sender).Text);
+            //UpdateProductData("DeviceSupport", sb.ToString(), Param.AzureDataType.String);
         }
 
         private void cbbLabel_EditValueChanged(object sender, EventArgs e)
@@ -484,8 +655,9 @@ namespace PowerBackend
                     sb.Append(string.Format("{0}{1}", sb.ToString() == "" ? "" : ", ", data[i].Value));
 
             ((TextEdit)sender).Text = sb.ToString();
-            _PRODUCT_ROW_SELECTED["Label"] = sb.ToString();
-            UpdateProductData("Label", sb.ToString(), Param.AzureDataType.String);
+            _PRODUCT_ROW_SELECTED["label"] = sb.ToString();
+            UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "label", ((TextEdit)sender).Text);
+            //UpdateProductData("Label", sb.ToString(), Param.AzureDataType.String);
         }
 
         private void cbbStandard_EditValueChanged(object sender, EventArgs e)
@@ -497,13 +669,14 @@ namespace PowerBackend
                     sb.Append(string.Format("{0}{1}", sb.ToString() == "" ? "" : ", ", data[i].Value));
 
             ((TextEdit)sender).Text = sb.ToString();
-            _PRODUCT_ROW_SELECTED["Standard"] = sb.ToString();
-            UpdateProductData("Standard", sb.ToString(), Param.AzureDataType.String);
+            _PRODUCT_ROW_SELECTED["standard"] = sb.ToString();
+            UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "standard", ((TextEdit)sender).Text);
+            //UpdateProductData("Standard", sb.ToString(), Param.AzureDataType.String);
         }
 
         private void cbbDevice_QueryPopUp(object sender, CancelEventArgs e)
         {
-            var checkedData = string.Format("|{0}|", _PRODUCT_ROW_SELECTED["DeviceSupport"].ToString().Replace(", ", "|"));
+            var checkedData = string.Format("|{0}|", _PRODUCT_ROW_SELECTED["deviceSupport"].ToString().Replace(", ", "|"));
             CheckedComboBoxEdit checkedComboBoxEdit = (CheckedComboBoxEdit)sender;
             var data = checkedComboBoxEdit.Properties.Items;
             for (int i = 0; i < data.Count; i++)
@@ -513,7 +686,7 @@ namespace PowerBackend
 
         private void cbbLabel_QueryPopUp(object sender, CancelEventArgs e)
         {
-            var checkedData = string.Format("|{0}|", _PRODUCT_ROW_SELECTED["Label"].ToString().Replace(", ", "|"));
+            var checkedData = string.Format("|{0}|", _PRODUCT_ROW_SELECTED["label"].ToString().Replace(", ", "|"));
             CheckedComboBoxEdit checkedComboBoxEdit = (CheckedComboBoxEdit)sender;
             var data = checkedComboBoxEdit.Properties.Items;
             for (int i = 0; i < data.Count; i++)
@@ -523,7 +696,7 @@ namespace PowerBackend
 
         private void cbbStandard_QueryPopUp(object sender, CancelEventArgs e)
         {
-            var checkedData = string.Format("|{0}|", _PRODUCT_ROW_SELECTED["Standard"].ToString().Replace(", ", "|"));
+            var checkedData = string.Format("|{0}|", _PRODUCT_ROW_SELECTED["standard"].ToString().Replace(", ", "|"));
             CheckedComboBoxEdit checkedComboBoxEdit = (CheckedComboBoxEdit)sender;
             var data = checkedComboBoxEdit.Properties.Items;
             for (int i = 0; i < data.Count; i++)
@@ -536,33 +709,38 @@ namespace PowerBackend
             CheckEdit checkedEdit = (CheckEdit)sender;
             if (checkedEdit.CheckState == CheckState.Checked)
             {
-                _PRODUCT_PROPERTIES.Rows[0]["PricePromotion"] = _PRODUCT_PROPERTIES.Rows[0]["Price4"];
-                UpdateProductData("IsPromotion", "1", Param.AzureDataType.Boolean);
+                _PRODUCT_PROPERTIES.Rows[0]["pricePromotion"] = _PRODUCT_PROPERTIES.Rows[0]["price4"];
+                UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "isPromotion", "1");
+                //UpdateProductData("IsPromotion", "1", Param.AzureDataType.Boolean);
             }
             else
             {
-                _PRODUCT_PROPERTIES.Rows[0]["PricePromotion"] = 0;
-                UpdateProductData("IsPromotion", "0", Param.AzureDataType.Boolean);
+                _PRODUCT_PROPERTIES.Rows[0]["pricePromotion"] = 0;
+                UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "isPromotion", "0");
+                //UpdateProductData("IsPromotion", "0", Param.AzureDataType.Boolean);
             }
-            UpdateProductData("PricePromotion", _PRODUCT_PROPERTIES.Rows[0]["PricePromotion"].ToString(), Param.AzureDataType.Double);
-            _PRODUCT_ROW_SELECTED["PricePromotion"] = _PRODUCT_PROPERTIES.Rows[0]["PricePromotion"];
+            UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "pricePromotion", _PRODUCT_PROPERTIES.Rows[0]["pricePromotion"].ToString());
+            //UpdateProductData("PricePromotion", _PRODUCT_PROPERTIES.Rows[0]["PricePromotion"].ToString(), Param.AzureDataType.Double);
+            _PRODUCT_ROW_SELECTED["pricePromotion"] = _PRODUCT_PROPERTIES.Rows[0]["pricePromotion"];
 
             //_PRODUCT_PROPERTIES.Rows[0]["IsPromotion"] = checkedEdit.CheckState;
-            _PRODUCT_ROW_SELECTED["IsPromotion"] = checkedEdit.CheckState == CheckState.Checked;
+            _PRODUCT_ROW_SELECTED["isPromotion"] = checkedEdit.CheckState == CheckState.Checked;
         }
 
         private void chkVisible_CheckedChanged(object sender, EventArgs e)
         {
             CheckEdit checkedEdit = (CheckEdit)sender;
-            UpdateProductData("Visible", (checkedEdit.CheckState == CheckState.Checked) ? "1" : "0", Param.AzureDataType.Boolean);
-            _PRODUCT_ROW_SELECTED["Visible"] = checkedEdit.CheckState == CheckState.Checked;
+            UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "visible", (checkedEdit.CheckState == CheckState.Checked) ? "1" : "0");
+            //UpdateProductData("Visible", (checkedEdit.CheckState == CheckState.Checked) ? "1" : "0", Param.AzureDataType.Boolean);
+            _PRODUCT_ROW_SELECTED["visible"] = checkedEdit.CheckState == CheckState.Checked;
         }
 
         private void chkActive_CheckedChanged(object sender, EventArgs e)
         {
             CheckEdit checkedEdit = (CheckEdit)sender;
-            UpdateProductData("Active", (checkedEdit.CheckState == CheckState.Checked) ? "1" : "0", Param.AzureDataType.Boolean);
-            _PRODUCT_ROW_SELECTED["Active"] = checkedEdit.CheckState == CheckState.Checked;
+            UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "active", (checkedEdit.CheckState == CheckState.Checked) ? "1" : "0");
+            //UpdateProductData("Active", (checkedEdit.CheckState == CheckState.Checked) ? "1" : "0", Param.AzureDataType.Boolean);
+            _PRODUCT_ROW_SELECTED["active"] = checkedEdit.CheckState == CheckState.Checked;
         }
 
         private void cbbCategory_SelectedIndexChanged(object sender, EventArgs e)
@@ -577,8 +755,9 @@ namespace PowerBackend
                     break;
                 }
             }
-            _PRODUCT_ROW_SELECTED["Category"] = name;
-            UpdateProductData("Category", id, Param.AzureDataType.String);
+            _PRODUCT_ROW_SELECTED["category"] = name;
+            UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "category", id);
+            //UpdateProductData("Category", id, Param.AzureDataType.String);
         }
 
         private void cbbBrand_SelectedIndexChanged(object sender, EventArgs e)
@@ -593,15 +772,30 @@ namespace PowerBackend
                     break;
                 }
             }
-            _PRODUCT_ROW_SELECTED["Brand"] = name;
-            UpdateProductData("Brand", id, Param.AzureDataType.String);
+            _PRODUCT_ROW_SELECTED["brand"] = name;
+            UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "brand", id);
+            //UpdateProductData("Brand", id, Param.AzureDataType.String);
         }
 
         private void cbbMadeIn_SelectedIndexChanged(object sender, EventArgs e)
         {
-            _PRODUCT_ROW_SELECTED["MadeIn"] = ((ComboBoxEdit)sender).SelectedItem.ToString();
-            UpdateProductData("MadeIn", ((ComboBoxEdit)sender).SelectedItem.ToString(), Param.AzureDataType.String);
+            _PRODUCT_ROW_SELECTED["madeIn"] = ((ComboBoxEdit)sender).SelectedItem.ToString();
+            UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "madeIn", ((ComboBoxEdit)sender).SelectedItem.ToString());
+            //UpdateProductData("MadeIn", ((ComboBoxEdit)sender).SelectedItem.ToString(), Param.AzureDataType.String);
         }
+
+        private void cbbCapacity_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _PRODUCT_ROW_SELECTED["capacity"] = ((ComboBoxEdit)sender).SelectedItem.ToString();
+            UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "capacity", ((ComboBoxEdit)sender).SelectedItem.ToString());
+        }
+
+        private void cbbBatteryType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _PRODUCT_ROW_SELECTED["batteryType"] = ((ComboBoxEdit)sender).SelectedItem.ToString();
+            UpdateProductData(_PRODUCT_ROW_SELECTED["product"].ToString(), "batteryType", ((ComboBoxEdit)sender).SelectedItem.ToString());
+        }
+
         #endregion
 
         private async void bandedGridView1_FocusedRowChanged(object sender, DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventArgs e)
@@ -610,15 +804,17 @@ namespace PowerBackend
                 BandedGridView bandedGridView = (BandedGridView)sender;
                 _PRODUCT_ROW_SELECTED = bandedGridView.GetFocusedDataRow();
                 _PRODUCT_PROPERTIES = new DataTable();
-                _PRODUCT_PROPERTIES = Param.DataTableProduct.Clone();
+                _PRODUCT_PROPERTIES = _TABLE_PRODUCT.Clone();
                 _PRODUCT_PROPERTIES.Rows.Add(_PRODUCT_ROW_SELECTED.ItemArray);
                 vGridControl1.DataSource = _PRODUCT_PROPERTIES;
                 vGridControl1.Enabled = true;
 
                 tileGroup1.Items.Clear();
-                if (_PRODUCT_ROW_SELECTED["CoverImage"].ToString() != "")
+                if ((bool)_PRODUCT_ROW_SELECTED["hasCoverImage"])
                 {
-                    _STREAM_IMAGE_URL = _PRODUCT_ROW_SELECTED["CoverImage"].ToString();
+                    //http://src.powerdd.com/img/product/88888888/D1400010/1.jpg
+                    //api-test.powerdd.com/img/remax/product/88888888/D1400010/300/300/1.jpg
+                    _STREAM_IMAGE_URL = "http://src.powerdd.com/img/product/" + Param.Shop + "/" + _PRODUCT_ROW_SELECTED["sku"].ToString() + "/" + _PRODUCT_ROW_SELECTED["image"].ToString().Split(',')[0];
                     TileItem itmImg = new TileItem();
                     TileItemElement tileItemElement1 = new TileItemElement();
                     tileItemElement1.Text = "กำลังโหลดรูปภาพ";
@@ -638,15 +834,48 @@ namespace PowerBackend
                     bwLoadImage.RunWorkerAsync();*/
 
 
-                    tileGroup1.Items[0].BackgroundImage = await AccessTheWebAsync(); ;
+                    tileGroup1.Items[0].BackgroundImage = await DownloadImage("http://src.powerdd.com/img/product/" + Param.Shop + "/" +
+                        _PRODUCT_ROW_SELECTED["sku"].ToString() + "/" + _PRODUCT_ROW_SELECTED["image"].ToString().Split(',')[0]);
                     tileGroup1.Items[0].Elements[0].Text = "ภาพหลัก";
 
-                    tileGroup1.Items.Add(GenerateAddImageItem());
+                    //tileGroup1.Items.Add(GenerateAddImageItem());
 
                 }
                 else
                 {
-                    tileGroup1.Items.Add(GenerateAddImageItem());
+                    //tileGroup1.Items.Add(GenerateAddImageItem());
+                }
+
+                int idx = 1;
+                string[] image = _PRODUCT_ROW_SELECTED["image"].ToString().Split(',');
+                for(int i=1; i< image.Length; i++)
+                {
+                    if (image[i] != image[0] && image[i].Substring(0,1).ToLower() != "d")
+                    {
+                        try {
+                            TileItem itmImg = new TileItem();
+                            TileItemElement tileItemElement1 = new TileItemElement();
+                            tileItemElement1.Text = "ภาพที่ " + idx; //"กำลังโหลดรูปภาพ";
+                            itmImg.Elements.Add(tileItemElement1);
+                            itmImg.BackgroundImageScaleMode = TileItemImageScaleMode.Stretch;
+                            itmImg.Id = idx;
+                            itmImg.ItemSize = TileItemSize.Medium;
+                            itmImg.Name = "Image" + idx;
+                            itmImg.AppearanceItem.Normal.ForeColor = Color.DarkGray;
+                            tileGroup1.Items.Add(itmImg);
+
+                            tileGroup1.Items[idx].BackgroundImage = await DownloadImage("http://src.powerdd.com/img/product/" + Param.Shop + "/" +
+                                _PRODUCT_ROW_SELECTED["sku"].ToString() + "/" + image[i]);
+                        }
+                        catch
+                        {
+
+                        }
+                        //tileGroup1.Items[idx].Elements[0].Text = "ภาพที่ " + idx;
+
+                        //tileGroup1.Items.Add(GenerateAddImageItem());
+                        idx++;
+                    }
                 }
 
 
@@ -657,12 +886,19 @@ namespace PowerBackend
                 vGridControl1.Enabled = false;
             }
         }
-        private async Task<Image> AccessTheWebAsync()
+
+        private async Task<Image> DownloadImage(string url)
         {
-            WebRequest requestPic = WebRequest.Create(_PRODUCT_ROW_SELECTED["CoverImage"].ToString());
-            WebResponse responsePic = await requestPic.GetResponseAsync();
-            DoIndependentWork();
-            return Image.FromStream(responsePic.GetResponseStream());
+            try {
+                WebRequest requestPic = WebRequest.Create(url);
+                WebResponse responsePic = await requestPic.GetResponseAsync();
+                //DoIndependentWork();
+                return Image.FromStream(responsePic.GetResponseStream());
+            }
+            catch
+            {
+                return null;
+            }
         }
 
 
@@ -691,28 +927,28 @@ namespace PowerBackend
         {
             FmDevice fm = new FmDevice();
             fm.ShowDialog(this);
-            Util.SetOptionDataSource(cbbDevice, Param.DataSet.Tables["Data-Device"], "Name");
+            Util.SetOptionDataSource(cbbDevice, Param.DataSet.Tables["Data-device"], "Name");
         }
 
         private void navMadeIn_LinkClicked(object sender, NavBarLinkEventArgs e)
         {
             FmMadeIn fm = new FmMadeIn();
             fm.ShowDialog(this);
-            Util.SetComboboxDataSource(cbbMadeIn, Param.DataSet.Tables["Data-MakerCountry"], "Name");
+            Util.SetComboboxDataSource(cbbMadeIn, Param.DataSet.Tables["Data-makerCountry"], "Name");
         }
 
         private void navStandard_LinkClicked(object sender, NavBarLinkEventArgs e)
         {
             FmStandard fm = new FmStandard();
             fm.ShowDialog(this);
-            Util.SetOptionDataSource(cbbStandard, Param.DataSet.Tables["Data-Standard"], "Name");
+            Util.SetOptionDataSource(cbbStandard, Param.DataSet.Tables["Data-standard"], "Name");
         }
 
         private void navLabel_LinkClicked(object sender, NavBarLinkEventArgs e)
         {
             FmLabel fm = new FmLabel();
             fm.ShowDialog(this);
-            Util.SetOptionDataSource(cbbLabel, Param.DataSet.Tables["Data-Label"], "Name");
+            Util.SetOptionDataSource(cbbLabel, Param.DataSet.Tables["Data-label"], "Name");
         }
 
         #region Tile Image
@@ -744,42 +980,20 @@ namespace PowerBackend
             }
         }
 
-        private void tileControl1_ItemClick(object sender, TileItemEventArgs e)
+        private void navCapacity_LinkClicked(object sender, NavBarLinkEventArgs e)
         {
-            if(e.Item.Name == "AddImage")
-            {
-                _FORM_UPLOAD_IMAGE.imageURL = string.Empty;
-                try {
-                    _FORM_UPLOAD_IMAGE.ShowDialog(this);
-                }
-                catch
-                {
-                }
-                if(_FORM_UPLOAD_IMAGE.imageURL != "")
-                    MessageBox.Show(_FORM_UPLOAD_IMAGE.imageURL);
-            }
-            //tileControl1.SelectedItem.Visible = false;
+            FmCapacity fm = new FmCapacity();
+            fm.ShowDialog(this);
+            Util.SetComboboxDataSource(cbbCapacity, Param.DataSet.Tables["Data-capacity"], "Name");
+        }
+
+        private void navBatteryType_LinkClicked(object sender, NavBarLinkEventArgs e)
+        {
+            FmBatteryType fm = new FmBatteryType();
+            fm.ShowDialog(this);
+            Util.SetComboboxDataSource(cbbBatteryType, Param.DataSet.Tables["Data-batteryType"], "Name");
         }
 
         #endregion
-
-        private void bwLoadImage_DoWork(object sender, DoWorkEventArgs e)
-        {
-            if (bwLoadImage.CancellationPending)
-            {
-                e.Cancel = true;
-                return;
-            }
-            WebRequest requestPic = WebRequest.Create(_PRODUCT_ROW_SELECTED["CoverImage"].ToString());
-            WebResponse responsePic = requestPic.GetResponse();
-            _STREAM_IMAGE = Image.FromStream(responsePic.GetResponseStream());
-
-        }
-
-        private void bwLoadImage_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            tileGroup1.Items[0].BackgroundImage = _STREAM_IMAGE;
-            tileGroup1.Items[0].Elements[0].Text = "ภาพหลัก";
-        }
     }
 }

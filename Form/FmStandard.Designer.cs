@@ -39,7 +39,7 @@
             this.barButtonItem2 = new DevExpress.XtraBars.BarButtonItem();
             this.gridControl1 = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.country = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.name = new DevExpress.XtraGrid.Columns.GridColumn();
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.btnAdd = new DevExpress.XtraEditors.SimpleButton();
             this.txtData = new DevExpress.XtraEditors.TextEdit();
@@ -121,22 +121,24 @@
             // 
             // gridView1
             // 
+            this.gridView1.Appearance.Row.Font = new System.Drawing.Font("Tahoma", 9.5F);
+            this.gridView1.Appearance.Row.Options.UseFont = true;
             this.gridView1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.country});
+            this.name});
             this.gridView1.GridControl = this.gridControl1;
             this.gridView1.Name = "gridView1";
             this.gridView1.OptionsView.ShowFilterPanelMode = DevExpress.XtraGrid.Views.Base.ShowFilterPanelMode.Never;
             this.gridView1.OptionsView.ShowGroupPanel = false;
             this.gridView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.gridView1_KeyDown);
             // 
-            // country
+            // name
             // 
-            this.country.Caption = "มาตรฐานสินค้า";
-            this.country.FieldName = "Name";
-            this.country.Name = "name";
-            this.country.OptionsColumn.AllowEdit = false;
-            this.country.Visible = true;
-            this.country.VisibleIndex = 0;
+            this.name.Caption = "มาตรฐานสินค้า";
+            this.name.FieldName = "Name";
+            this.name.Name = "name";
+            this.name.OptionsColumn.AllowEdit = false;
+            this.name.Visible = true;
+            this.name.VisibleIndex = 0;
             // 
             // panelControl1
             // 
@@ -212,5 +214,6 @@
         private DevExpress.XtraEditors.TextEdit txtData;
         private DevExpress.XtraBars.BarButtonItem barButtonItem1;
         private DevExpress.XtraBars.BarButtonItem barButtonItem2;
+        private DevExpress.XtraGrid.Columns.GridColumn name;
     }
 }
