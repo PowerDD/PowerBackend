@@ -11,8 +11,7 @@ namespace PowerBackend
 {
     public class Util
     {
-
-        public static string GetApiData(string method, string parameter)
+        public static string ApiProcess(string method, string parameter)
         {
             using (WebClient wc = new WebClient())
             {
@@ -21,14 +20,14 @@ namespace PowerBackend
                 return wc.UploadString(new Uri(Param.ApiUrl + method), parameter + "&apiKey=" + Param.ApiKey);
             }
         }
-        public static async Task<string> UpdateApiData(string method, string parameter)
+
+        public static async Task<string> ApiProcessAsync(string method, string parameter)
         {
             using (WebClient wc = new WebClient())
             {
                 wc.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
                 wc.Encoding = System.Text.Encoding.UTF8;
-                var html = await wc.UploadStringTaskAsync(new Uri(Param.ApiUrl + method), parameter + "&apiKey=" + Param.ApiKey);
-                return html;
+                return await wc.UploadStringTaskAsync(new Uri(Param.ApiUrl + method), parameter + "&apiKey=" + Param.ApiKey);
             }
         }
 

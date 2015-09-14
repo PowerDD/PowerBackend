@@ -26,9 +26,9 @@ namespace PowerBackend
             gridControl1.DataSource = Param.DataSet.Tables["Data-" + _TABLE_NAME];
         }
 
-        private async void UpdateData(string value)
+        private void UpdateData(string value)
         {
-            dynamic json = JsonConvert.DeserializeObject(await Util.UpdateApiData("/properties/update",
+            dynamic json = JsonConvert.DeserializeObject(Util.ApiProcess("/properties/update",
                 string.Format("shop={0}&type=common&key={1}&value={2}", Param.ShopId, _TABLE_NAME, value)
             ));
             if (!json.success.Value)

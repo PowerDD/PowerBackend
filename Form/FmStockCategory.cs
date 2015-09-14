@@ -8,22 +8,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
-using DevExpress.XtraGrid.Views.Grid;
 using Newtonsoft.Json;
+using DevExpress.XtraGrid.Views.Grid;
 
 namespace PowerBackend
 {
-    public partial class FmMadeIn : DevExpress.XtraEditors.XtraForm
+    public partial class FmStockCategory : DevExpress.XtraEditors.XtraForm
     {
-        string _TABLE_NAME = "makerCountry";
-        public FmMadeIn()
+        string _TABLE_NAME = "category";
+
+        public FmStockCategory()
         {
             InitializeComponent();
         }
 
-        private void FmMadeIn_Load(object sender, EventArgs e)
+        private void FmStockCategory_Load(object sender, EventArgs e)
         {
-            gridControl1.DataSource = Param.DataSet.Tables["Data-"+_TABLE_NAME];
+            gridControl1.DataSource = Param.DataSet.Tables["Data-" + _TABLE_NAME];
         }
 
         private void UpdateData(string value)
@@ -57,7 +58,7 @@ namespace PowerBackend
                 DataRow dr = view.GetFocusedDataRow();
                 XtraMessageBox.AllowCustomLookAndFeel = true;
                 DialogResult dialogResult = XtraMessageBox.Show("คุณต้องการลบข้อมูลนี้ออกจากระบบใช่หรือไม่ ?", "ยืนยันการทำงาน", MessageBoxButtons.OKCancel);
-                if(dialogResult == DialogResult.OK)
+                if (dialogResult == DialogResult.OK)
                 {
                     Util.DataTableDeleteRow(Param.DataSet.Tables["Data-" + _TABLE_NAME], "Name", dr["Name"].ToString());
                     UpdateData(Util.DataTableToString(Param.DataSet.Tables["Data-" + _TABLE_NAME], "Name"));

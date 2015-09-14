@@ -109,6 +109,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Form\FmStockCategory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\FmStockCategory.Designer.cs">
+      <DependentUpon>FmStockCategory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\FmStockPriority.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\FmStockPriority.Designer.cs">
+      <DependentUpon>FmStockPriority.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\FmStockShippingType.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\FmStockShippingType.Designer.cs">
+      <DependentUpon>FmStockShippingType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\FmStockUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\FmStockUser.Designer.cs">
+      <DependentUpon>FmStockUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form\FmBatteryType.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -166,6 +190,12 @@
     <Compile Include="Param.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserControl\UcStockMonitor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl\UcStockMonitor.Designer.cs">
+      <DependentUpon>UcStockMonitor.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControl\UcClaim.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -184,6 +214,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form\FmCapacity.resx">
       <DependentUpon>FmCapacity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\FmStockCategory.resx">
+      <DependentUpon>FmStockCategory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\FmStockPriority.resx">
+      <DependentUpon>FmStockPriority.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\FmStockShippingType.resx">
+      <DependentUpon>FmStockShippingType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\FmStockUser.resx">
+      <DependentUpon>FmStockUser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form\FmUploadImage.resx">
       <DependentUpon>FmUploadImage.cs</DependentUpon>
@@ -206,6 +248,7 @@
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -216,6 +259,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="UserControl\UcStockMonitor.resx">
+      <DependentUpon>UcStockMonitor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControl\UcClaim.resx">
       <DependentUpon>UcClaim.cs</DependentUpon>
     </EmbeddedResource>

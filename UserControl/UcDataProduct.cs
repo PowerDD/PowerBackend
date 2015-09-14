@@ -56,10 +56,10 @@ namespace PowerBackend
 
         private void bwLoadCategory_DoWork(object sender, DoWorkEventArgs e)
         {
-            _JSON_CATEGORY = JsonConvert.DeserializeObject(Util.GetApiData("/category/info", "shop=" + Param.ShopId));
+            _JSON_CATEGORY = JsonConvert.DeserializeObject(Util.ApiProcess("/category/info", "shop=" + Param.ShopId));
 
             DataTable data = new DataTable();
-            dynamic json = JsonConvert.DeserializeObject(Util.GetApiData("/properties/info", "shop=" + Param.ShopId + "&type=common"));
+            dynamic json = JsonConvert.DeserializeObject(Util.ApiProcess("/properties/info", "shop=" + Param.ShopId + "&type=common"));
             for (int i = 0; i < json.result.Count; i++)
             {
                 data = new DataTable();
@@ -85,7 +85,7 @@ namespace PowerBackend
                 Param.DataSet.Tables.Add(data);
             }*/
 
-            json = JsonConvert.DeserializeObject(Util.GetApiData("/brand/info", "shop=" + Param.ShopId));
+            json = JsonConvert.DeserializeObject(Util.ApiProcess("/brand/info", "shop=" + Param.ShopId));
             data = new DataTable();
             data.Columns.Add("Name", typeof(string));
             data.TableName = "Data-Brand";
@@ -263,7 +263,7 @@ namespace PowerBackend
 
         private void bwLoadProduct_DoWork(object sender, DoWorkEventArgs e)
         {
-            _JSON_PRODUCT = JsonConvert.DeserializeObject(Util.GetApiData("/product/info", 
+            _JSON_PRODUCT = JsonConvert.DeserializeObject(Util.ApiProcess("/product/info", 
                 string.Format("shop={0}&type=byCategoryName&value={1}", Param.ShopId, _CATEGORY_SELECTED)
             ));
 
@@ -441,10 +441,10 @@ namespace PowerBackend
             }*/
         }
 
-        private async void UpdateProductData(string id, string key, string value)
+        private void UpdateProductData(string id, string key, string value)
         {
 
-            dynamic json = JsonConvert.DeserializeObject(await Util.UpdateApiData("/product/update",
+            dynamic json = JsonConvert.DeserializeObject(Util.ApiProcess("/product/update",
                 string.Format("shop={0}&id={1}&entity={2}&value={3}", Param.ShopId, id, key, value)
             ));
             if (!json.success.Value)

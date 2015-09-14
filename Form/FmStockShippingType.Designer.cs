@@ -1,6 +1,6 @@
 ﻿namespace PowerBackend
 {
-    partial class FmBatteryType
+    partial class FmStockShippingType
     {
         /// <summary>
         /// Required designer variable.
@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FmBatteryType));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FmStockShippingType));
             this.gridControl1 = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.batteryType = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.capacity = new DevExpress.XtraGrid.Columns.GridColumn();
             this.barManager1 = new DevExpress.XtraBars.BarManager(this.components);
             this.barDockControlTop = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
@@ -43,6 +43,8 @@
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.btnAdd = new DevExpress.XtraEditors.SimpleButton();
             this.txtData = new DevExpress.XtraEditors.TextEdit();
+            this.btnDown = new DevExpress.XtraEditors.SimpleButton();
+            this.btnUp = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.barManager1)).BeginInit();
@@ -53,36 +55,41 @@
             // 
             // gridControl1
             // 
+            this.gridControl1.AllowDrop = true;
             this.gridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gridControl1.Location = new System.Drawing.Point(0, 0);
             this.gridControl1.MainView = this.gridView1;
             this.gridControl1.MenuManager = this.barManager1;
             this.gridControl1.Name = "gridControl1";
             this.gridControl1.Size = new System.Drawing.Size(284, 227);
-            this.gridControl1.TabIndex = 6;
+            this.gridControl1.TabIndex = 8;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
+            //this.gridControl1.DragDrop += new System.Windows.Forms.DragEventHandler(this.gridControl1_DragDrop);
+            //this.gridControl1.DragOver += new System.Windows.Forms.DragEventHandler(this.gridControl1_DragOver);
             // 
             // gridView1
             // 
             this.gridView1.Appearance.Row.Font = new System.Drawing.Font("Tahoma", 9.5F);
             this.gridView1.Appearance.Row.Options.UseFont = true;
             this.gridView1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.batteryType});
+            this.capacity});
             this.gridView1.GridControl = this.gridControl1;
             this.gridView1.Name = "gridView1";
             this.gridView1.OptionsView.ShowFilterPanelMode = DevExpress.XtraGrid.Views.Base.ShowFilterPanelMode.Never;
             this.gridView1.OptionsView.ShowGroupPanel = false;
             this.gridView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.gridView1_KeyDown);
+            //this.gridView1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gridView1_MouseDown);
+            //this.gridView1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.gridView1_MouseMove);
             // 
-            // batteryType
+            // capacity
             // 
-            this.batteryType.Caption = "ประเภทแบตเตอรี่";
-            this.batteryType.FieldName = "Name";
-            this.batteryType.Name = "batteryType";
-            this.batteryType.OptionsColumn.AllowEdit = false;
-            this.batteryType.Visible = true;
-            this.batteryType.VisibleIndex = 0;
+            this.capacity.Caption = "ประเภทการขนส่ง";
+            this.capacity.FieldName = "Name";
+            this.capacity.Name = "capacity";
+            this.capacity.OptionsColumn.AllowEdit = false;
+            this.capacity.Visible = true;
+            this.capacity.VisibleIndex = 0;
             // 
             // barManager1
             // 
@@ -142,19 +149,21 @@
             // 
             // panelControl1
             // 
+            this.panelControl1.Controls.Add(this.btnUp);
+            this.panelControl1.Controls.Add(this.btnDown);
             this.panelControl1.Controls.Add(this.btnAdd);
             this.panelControl1.Controls.Add(this.txtData);
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panelControl1.Location = new System.Drawing.Point(0, 227);
             this.panelControl1.Name = "panelControl1";
             this.panelControl1.Size = new System.Drawing.Size(284, 34);
-            this.panelControl1.TabIndex = 7;
+            this.panelControl1.TabIndex = 9;
             // 
             // btnAdd
             // 
             this.btnAdd.Image = ((System.Drawing.Image)(resources.GetObject("btnAdd.Image")));
             this.btnAdd.ImageLocation = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.btnAdd.Location = new System.Drawing.Point(248, 6);
+            this.btnAdd.Location = new System.Drawing.Point(179, 6);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(30, 23);
             this.btnAdd.TabIndex = 1;
@@ -167,11 +176,31 @@
             this.txtData.Name = "txtData";
             this.txtData.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
             this.txtData.Properties.Appearance.Options.UseFont = true;
-            this.txtData.Size = new System.Drawing.Size(236, 22);
+            this.txtData.Size = new System.Drawing.Size(167, 22);
             this.txtData.TabIndex = 0;
             this.txtData.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtData_KeyPress);
             // 
-            // FmBatteryType
+            // btnDown
+            // 
+            this.btnDown.Image = ((System.Drawing.Image)(resources.GetObject("btnDown.Image")));
+            this.btnDown.ImageLocation = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
+            this.btnDown.Location = new System.Drawing.Point(249, 6);
+            this.btnDown.Name = "btnDown";
+            this.btnDown.Size = new System.Drawing.Size(30, 23);
+            this.btnDown.TabIndex = 2;
+            this.btnDown.Click += new System.EventHandler(this.btnDown_Click);
+            // 
+            // btnUp
+            // 
+            this.btnUp.Image = ((System.Drawing.Image)(resources.GetObject("btnUp.Image")));
+            this.btnUp.ImageLocation = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
+            this.btnUp.Location = new System.Drawing.Point(215, 6);
+            this.btnUp.Name = "btnUp";
+            this.btnUp.Size = new System.Drawing.Size(30, 23);
+            this.btnUp.TabIndex = 3;
+            this.btnUp.Click += new System.EventHandler(this.btnUp_Click);
+            // 
+            // FmStockShippingType
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -184,10 +213,10 @@
             this.Controls.Add(this.barDockControlTop);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
-            this.Name = "FmBatteryType";
+            this.Name = "FmStockShippingType";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "จัดการข้อมูลประเภทแบตเตอรี่";
-            this.Load += new System.EventHandler(this.FmBatteryType_Load);
+            this.Text = "จัดการข้อมูลประเภทการขนส่ง";
+            this.Load += new System.EventHandler(this.FmStockShippingType_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.barManager1)).EndInit();
@@ -203,7 +232,7 @@
 
         private DevExpress.XtraGrid.GridControl gridControl1;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
-        private DevExpress.XtraGrid.Columns.GridColumn batteryType;
+        private DevExpress.XtraGrid.Columns.GridColumn capacity;
         private DevExpress.XtraBars.BarManager barManager1;
         private DevExpress.XtraBars.BarDockControl barDockControlTop;
         private DevExpress.XtraBars.BarDockControl barDockControlBottom;
@@ -214,5 +243,7 @@
         private DevExpress.XtraEditors.TextEdit txtData;
         private DevExpress.XtraBars.BarButtonItem barButtonItem1;
         private DevExpress.XtraBars.BarButtonItem barButtonItem2;
+        private DevExpress.XtraEditors.SimpleButton btnUp;
+        private DevExpress.XtraEditors.SimpleButton btnDown;
     }
 }

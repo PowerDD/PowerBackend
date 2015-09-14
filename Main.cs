@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevExpress.XtraEditors;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,10 +14,22 @@ namespace PowerBackend
 {
     public partial class Main : Form
     {
+        enum Screen { Product, Claim, StockMonitor };
+        XtraUserControl _USER_CONTROL;
+        UcDataProduct _UC_PRODUCT;
+        UcClaim _UC_CLAIM;
+        UcStockMonitor _UC_STOCK_MONITOR;
+
+
         public Main()
         {
             InitializeComponent();
             DevExpress.LookAndFeel.UserLookAndFeel.Default.SkinName = "DevExpress Dark Style";
+        }
+
+        private void Main_Load(object sender, EventArgs e)
+        {
+
         }
 
         private void navExit_ElementClick(object sender, DevExpress.XtraBars.Navigation.NavElementEventArgs e)
@@ -30,22 +43,19 @@ namespace PowerBackend
             {
                 if (e.Element.Tag.ToString() == "data-product")
                 {
-                    pnlMain.Controls.Clear();
-                    UcDataProduct uc = new UcDataProduct();
-                    uc.Dock = DockStyle.Fill;
-                    pnlMain.Controls.Add(uc);
+                    AddPanel(Screen.Product);
 
                 }
                 else if (e.Element.Tag.ToString() == "system-claim")
                 {
-                    pnlMain.Controls.Clear();
-                    UcClaim uc = new UcClaim();
-                    uc.Dock = DockStyle.Fill;
-                    pnlMain.Controls.Add(uc);
+                    AddPanel(Screen.Claim);
 
                 }
+                else if (e.Element.Tag.ToString() == "system-stock-monitor")
+                {
+                    AddPanel(Screen.StockMonitor);
+                }
             }
-            //e.Element.Tag
         }
 
         private void navMinimize_ElementClick(object sender, DevExpress.XtraBars.Navigation.NavElementEventArgs e)
@@ -63,5 +73,34 @@ namespace PowerBackend
             this.FormBorderStyle = FormBorderStyle.None;
             this.WindowState = FormWindowState.Maximized;
         }
+
+
+        #region Internal Method
+        private void AddPanel(Screen screen)
+        {
+            switch (screen)
+            {
+                case Screen.Product:
+                    if (_UC_PRODUCT == null) _UC_PRODUCT = new UcDataProduct();
+                    _USER_CONTROL = _UC_PRODUCT;
+                    break;
+                case Screen.Claim:
+                    if (_UC_CLAIM == null) _UC_CLAIM = new UcClaim();
+                    _USER_CONTROL = _UC_CLAIM;
+                    break;
+                case Screen.StockMonitor:
+                    if (_UC_STOCK_MONITOR == null) _UC_STOCK_MONITOR = new UcStockMonitor();
+                    _USER_CONTROL = _UC_STOCK_MONITOR;
+                    break;
+            }
+
+            if (!pnlMain.Contains(_USER_CONTROL))
+            {
+                pnlMain.Controls.Clear();
+                _USER_CONTROL.Dock = DockStyle.Fill;
+                pnlMain.Controls.Add(_USER_CONTROL);
+            }
+        }
+        #endregion
     }
 }
