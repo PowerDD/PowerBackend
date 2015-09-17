@@ -28,28 +28,28 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DevExpress.XtraEditors.TileItemElement tileItemElement4 = new DevExpress.XtraEditors.TileItemElement();
-            DevExpress.XtraEditors.TileItemElement tileItemElement6 = new DevExpress.XtraEditors.TileItemElement();
-            DevExpress.XtraEditors.TileItemElement tileItemElement7 = new DevExpress.XtraEditors.TileItemElement();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             DevExpress.XtraEditors.TileItemElement tileItemElement1 = new DevExpress.XtraEditors.TileItemElement();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
+            DevExpress.XtraEditors.TileItemElement tileItemElement4 = new DevExpress.XtraEditors.TileItemElement();
             DevExpress.XtraEditors.TileItemElement tileItemElement2 = new DevExpress.XtraEditors.TileItemElement();
             DevExpress.XtraEditors.TileItemElement tileItemElement3 = new DevExpress.XtraEditors.TileItemElement();
+            DevExpress.XtraEditors.TileItemElement tileItemElement7 = new DevExpress.XtraEditors.TileItemElement();
             DevExpress.XtraEditors.TileItemElement tileItemElement5 = new DevExpress.XtraEditors.TileItemElement();
+            DevExpress.XtraEditors.TileItemElement tileItemElement6 = new DevExpress.XtraEditors.TileItemElement();
             this.tileNavPane1 = new DevExpress.XtraBars.Navigation.TileNavPane();
-            this.tileNavItem2 = new DevExpress.XtraBars.Navigation.TileNavItem();
-            this.tileNavItem3 = new DevExpress.XtraBars.Navigation.TileNavItem();
-            this.tileNavSubItem4 = new DevExpress.XtraBars.Navigation.TileNavSubItem();
-            this.pnlMain = new DevExpress.XtraEditors.PanelControl();
+            this.tileNavItem1 = new DevExpress.XtraBars.Navigation.TileNavItem();
             this.navButton2 = new DevExpress.XtraBars.Navigation.NavButton();
             this.navMaximize = new DevExpress.XtraBars.Navigation.NavButton();
             this.navMinimize = new DevExpress.XtraBars.Navigation.NavButton();
             this.navSize = new DevExpress.XtraBars.Navigation.NavButton();
             this.navExit = new DevExpress.XtraBars.Navigation.NavButton();
-            this.tileNavItem1 = new DevExpress.XtraBars.Navigation.TileNavItem();
+            this.tileNavItem2 = new DevExpress.XtraBars.Navigation.TileNavItem();
             this.tileNavSubItem1 = new DevExpress.XtraBars.Navigation.TileNavSubItem();
             this.tileNavSubItem2 = new DevExpress.XtraBars.Navigation.TileNavSubItem();
+            this.tileNavItem3 = new DevExpress.XtraBars.Navigation.TileNavItem();
             this.tileNavSubItem3 = new DevExpress.XtraBars.Navigation.TileNavSubItem();
+            this.tileNavSubItem4 = new DevExpress.XtraBars.Navigation.TileNavSubItem();
+            this.pnlMain = new DevExpress.XtraEditors.PanelControl();
             ((System.ComponentModel.ISupportInitialize)(this.pnlMain)).BeginInit();
             this.SuspendLayout();
             // 
@@ -72,83 +72,28 @@
             // tileNavCategory1
             // 
             // 
-            // tileNavItem2
+            // tileNavItem1
             // 
-            this.tileNavItem2.Caption = "ข้อมูล";
-            this.tileNavItem2.Name = "tileNavItem2";
-            this.tileNavItem2.OptionsDropDown.BackColor = System.Drawing.Color.Empty;
-            this.tileNavItem2.OwnerCollection = this.tileNavPane1.DefaultCategory.Items;
-            this.tileNavItem2.SubItems.AddRange(new DevExpress.XtraBars.Navigation.TileNavSubItem[] {
-            this.tileNavSubItem1,
-            this.tileNavSubItem2});
-            this.tileNavItem2.Tag = "item-data";
+            this.tileNavItem1.Caption = "รายงาน";
+            this.tileNavItem1.Name = "tileNavItem1";
+            this.tileNavItem1.OptionsDropDown.BackColor = System.Drawing.Color.Empty;
+            this.tileNavItem1.OwnerCollection = this.tileNavPane1.DefaultCategory.Items;
+            this.tileNavItem1.Tag = "item-report";
             // 
             // 
             // 
-            this.tileNavItem2.Tile.AppearanceItem.Normal.Font = new System.Drawing.Font("DilleniaUPC", 22F, System.Drawing.FontStyle.Bold);
-            this.tileNavItem2.Tile.AppearanceItem.Normal.Options.UseFont = true;
-            this.tileNavItem2.Tile.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
-            tileItemElement4.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement4.Image")));
-            tileItemElement4.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleLeft;
-            tileItemElement4.ImageToTextAlignment = DevExpress.XtraEditors.TileControlImageToTextAlignment.Left;
-            tileItemElement4.Text = "ข้อมูล";
-            this.tileNavItem2.Tile.Elements.Add(tileItemElement4);
-            this.tileNavItem2.Tile.ItemSize = DevExpress.XtraBars.Navigation.TileBarItemSize.Default;
-            this.tileNavItem2.Tile.Name = "tileBarItem2";
-            this.tileNavItem2.Tile.ShowDropDownButton = DevExpress.Utils.DefaultBoolean.False;
-            this.tileNavItem2.Tile.ShowItemShadow = DevExpress.Utils.DefaultBoolean.True;
-            // 
-            // tileNavItem3
-            // 
-            this.tileNavItem3.Caption = "ระบบ";
-            this.tileNavItem3.Name = "tileNavItem3";
-            this.tileNavItem3.OptionsDropDown.BackColor = System.Drawing.Color.Empty;
-            this.tileNavItem3.OwnerCollection = this.tileNavPane1.DefaultCategory.Items;
-            // 
-            // tileNavSubItem4
-            // 
-            this.tileNavSubItem4.Appearance.Options.UseTextOptions = true;
-            this.tileNavSubItem4.Appearance.TextOptions.WordWrap = DevExpress.Utils.WordWrap.NoWrap;
-            this.tileNavSubItem4.Caption = "คลังสินค้า";
-            this.tileNavSubItem4.Name = "tileNavSubItem4";
-            this.tileNavSubItem4.OptionsDropDown.BackColor = System.Drawing.Color.Empty;
-            this.tileNavSubItem4.Tag = "system-stock-monitor";
-            // 
-            // 
-            // 
-            this.tileNavSubItem4.Tile.AppearanceItem.Normal.Font = new System.Drawing.Font("DilleniaUPC", 20F, System.Drawing.FontStyle.Bold);
-            this.tileNavSubItem4.Tile.AppearanceItem.Normal.Options.UseFont = true;
-            this.tileNavSubItem4.Tile.AppearanceItem.Normal.Options.UseTextOptions = true;
-            this.tileNavSubItem4.Tile.AppearanceItem.Normal.TextOptions.Trimming = DevExpress.Utils.Trimming.None;
-            this.tileNavSubItem4.Tile.AppearanceItem.Normal.TextOptions.WordWrap = DevExpress.Utils.WordWrap.NoWrap;
-            this.tileNavSubItem4.Tile.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
-            tileItemElement6.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement6.Image")));
-            tileItemElement6.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleLeft;
-            tileItemElement6.ImageToTextAlignment = DevExpress.XtraEditors.TileControlImageToTextAlignment.Left;
-            tileItemElement6.ImageToTextIndent = 2;
-            tileItemElement6.Text = "คลังสินค้า";
-            this.tileNavSubItem4.Tile.Elements.Add(tileItemElement6);
-            this.tileNavSubItem4.Tile.ItemSize = DevExpress.XtraBars.Navigation.TileBarItemSize.Wide;
-            this.tileNavSubItem4.Tile.Name = "tileBarItem1";
-            this.tileNavItem3.SubItems.AddRange(new DevExpress.XtraBars.Navigation.TileNavSubItem[] {
-            this.tileNavSubItem3,
-            this.tileNavSubItem4});
-            // 
-            // 
-            // 
-            this.tileNavItem3.Tile.AppearanceItem.Normal.Font = new System.Drawing.Font("DilleniaUPC", 22F, System.Drawing.FontStyle.Bold);
-            this.tileNavItem3.Tile.AppearanceItem.Normal.Options.UseFont = true;
-            this.tileNavItem3.Tile.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
-            tileItemElement7.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement7.Image")));
-            tileItemElement7.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleLeft;
-            tileItemElement7.ImageToTextAlignment = DevExpress.XtraEditors.TileControlImageToTextAlignment.Left;
-            tileItemElement7.Text = "ระบบ";
-            tileItemElement7.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleLeft;
-            this.tileNavItem3.Tile.Elements.Add(tileItemElement7);
-            this.tileNavItem3.Tile.ItemSize = DevExpress.XtraBars.Navigation.TileBarItemSize.Default;
-            this.tileNavItem3.Tile.Name = "tileBarItem1";
-            this.tileNavItem3.Tile.ShowDropDownButton = DevExpress.Utils.DefaultBoolean.False;
-            this.tileNavItem3.Tile.ShowItemShadow = DevExpress.Utils.DefaultBoolean.True;
+            this.tileNavItem1.Tile.AppearanceItem.Normal.Font = new System.Drawing.Font("DilleniaUPC", 22F, System.Drawing.FontStyle.Bold);
+            this.tileNavItem1.Tile.AppearanceItem.Normal.Options.UseFont = true;
+            this.tileNavItem1.Tile.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
+            tileItemElement1.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement1.Image")));
+            tileItemElement1.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleLeft;
+            tileItemElement1.ImageToTextAlignment = DevExpress.XtraEditors.TileControlImageToTextAlignment.Left;
+            tileItemElement1.Text = "รายงาน";
+            this.tileNavItem1.Tile.Elements.Add(tileItemElement1);
+            this.tileNavItem1.Tile.ItemSize = DevExpress.XtraBars.Navigation.TileBarItemSize.Default;
+            this.tileNavItem1.Tile.Name = "tileBarItem1";
+            this.tileNavItem1.Tile.ShowDropDownButton = DevExpress.Utils.DefaultBoolean.False;
+            this.tileNavItem1.Tile.ShowItemShadow = DevExpress.Utils.DefaultBoolean.True;
             this.tileNavPane1.DefaultCategory.Items.AddRange(new DevExpress.XtraBars.Navigation.TileNavItem[] {
             this.tileNavItem1,
             this.tileNavItem2,
@@ -170,14 +115,6 @@
             this.tileNavPane1.TabIndex = 0;
             this.tileNavPane1.Text = "tileNavPane1";
             this.tileNavPane1.TileClick += new DevExpress.XtraBars.Navigation.NavElementClickEventHandler(this.tileNavPane1_TileClick);
-            // 
-            // pnlMain
-            // 
-            this.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlMain.Location = new System.Drawing.Point(0, 40);
-            this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Size = new System.Drawing.Size(1205, 558);
-            this.pnlMain.TabIndex = 1;
             // 
             // navButton2
             // 
@@ -228,28 +165,31 @@
             this.navExit.Visible = false;
             this.navExit.ElementClick += new DevExpress.XtraBars.Navigation.NavElementClickEventHandler(this.navExit_ElementClick);
             // 
-            // tileNavItem1
+            // tileNavItem2
             // 
-            this.tileNavItem1.Caption = "รายงาน";
-            this.tileNavItem1.Name = "tileNavItem1";
-            this.tileNavItem1.OptionsDropDown.BackColor = System.Drawing.Color.Empty;
-            this.tileNavItem1.OwnerCollection = this.tileNavPane1.DefaultCategory.Items;
-            this.tileNavItem1.Tag = "item-report";
+            this.tileNavItem2.Caption = "ข้อมูล";
+            this.tileNavItem2.Name = "tileNavItem2";
+            this.tileNavItem2.OptionsDropDown.BackColor = System.Drawing.Color.Empty;
+            this.tileNavItem2.OwnerCollection = this.tileNavPane1.DefaultCategory.Items;
+            this.tileNavItem2.SubItems.AddRange(new DevExpress.XtraBars.Navigation.TileNavSubItem[] {
+            this.tileNavSubItem1,
+            this.tileNavSubItem2});
+            this.tileNavItem2.Tag = "item-data";
             // 
             // 
             // 
-            this.tileNavItem1.Tile.AppearanceItem.Normal.Font = new System.Drawing.Font("DilleniaUPC", 22F, System.Drawing.FontStyle.Bold);
-            this.tileNavItem1.Tile.AppearanceItem.Normal.Options.UseFont = true;
-            this.tileNavItem1.Tile.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
-            tileItemElement1.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement1.Image")));
-            tileItemElement1.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleLeft;
-            tileItemElement1.ImageToTextAlignment = DevExpress.XtraEditors.TileControlImageToTextAlignment.Left;
-            tileItemElement1.Text = "รายงาน";
-            this.tileNavItem1.Tile.Elements.Add(tileItemElement1);
-            this.tileNavItem1.Tile.ItemSize = DevExpress.XtraBars.Navigation.TileBarItemSize.Default;
-            this.tileNavItem1.Tile.Name = "tileBarItem1";
-            this.tileNavItem1.Tile.ShowDropDownButton = DevExpress.Utils.DefaultBoolean.False;
-            this.tileNavItem1.Tile.ShowItemShadow = DevExpress.Utils.DefaultBoolean.True;
+            this.tileNavItem2.Tile.AppearanceItem.Normal.Font = new System.Drawing.Font("DilleniaUPC", 22F, System.Drawing.FontStyle.Bold);
+            this.tileNavItem2.Tile.AppearanceItem.Normal.Options.UseFont = true;
+            this.tileNavItem2.Tile.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
+            tileItemElement4.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement4.Image")));
+            tileItemElement4.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleLeft;
+            tileItemElement4.ImageToTextAlignment = DevExpress.XtraEditors.TileControlImageToTextAlignment.Left;
+            tileItemElement4.Text = "ข้อมูล";
+            this.tileNavItem2.Tile.Elements.Add(tileItemElement4);
+            this.tileNavItem2.Tile.ItemSize = DevExpress.XtraBars.Navigation.TileBarItemSize.Default;
+            this.tileNavItem2.Tile.Name = "tileBarItem2";
+            this.tileNavItem2.Tile.ShowDropDownButton = DevExpress.Utils.DefaultBoolean.False;
+            this.tileNavItem2.Tile.ShowItemShadow = DevExpress.Utils.DefaultBoolean.True;
             // 
             // tileNavSubItem1
             // 
@@ -296,6 +236,32 @@
             this.tileNavSubItem2.Tile.Name = "tileBarItem2";
             this.tileNavSubItem2.Tile.ShowItemShadow = DevExpress.Utils.DefaultBoolean.True;
             // 
+            // tileNavItem3
+            // 
+            this.tileNavItem3.Caption = "ระบบ";
+            this.tileNavItem3.Name = "tileNavItem3";
+            this.tileNavItem3.OptionsDropDown.BackColor = System.Drawing.Color.Empty;
+            this.tileNavItem3.OwnerCollection = this.tileNavPane1.DefaultCategory.Items;
+            this.tileNavItem3.SubItems.AddRange(new DevExpress.XtraBars.Navigation.TileNavSubItem[] {
+            this.tileNavSubItem3,
+            this.tileNavSubItem4});
+            // 
+            // 
+            // 
+            this.tileNavItem3.Tile.AppearanceItem.Normal.Font = new System.Drawing.Font("DilleniaUPC", 22F, System.Drawing.FontStyle.Bold);
+            this.tileNavItem3.Tile.AppearanceItem.Normal.Options.UseFont = true;
+            this.tileNavItem3.Tile.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
+            tileItemElement7.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement7.Image")));
+            tileItemElement7.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleLeft;
+            tileItemElement7.ImageToTextAlignment = DevExpress.XtraEditors.TileControlImageToTextAlignment.Left;
+            tileItemElement7.Text = "ระบบ";
+            tileItemElement7.TextAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleLeft;
+            this.tileNavItem3.Tile.Elements.Add(tileItemElement7);
+            this.tileNavItem3.Tile.ItemSize = DevExpress.XtraBars.Navigation.TileBarItemSize.Default;
+            this.tileNavItem3.Tile.Name = "tileBarItem1";
+            this.tileNavItem3.Tile.ShowDropDownButton = DevExpress.Utils.DefaultBoolean.False;
+            this.tileNavItem3.Tile.ShowItemShadow = DevExpress.Utils.DefaultBoolean.True;
+            // 
             // tileNavSubItem3
             // 
             this.tileNavSubItem3.Appearance.Options.UseTextOptions = true;
@@ -317,6 +283,40 @@
             this.tileNavSubItem3.Tile.Elements.Add(tileItemElement5);
             this.tileNavSubItem3.Tile.ItemSize = DevExpress.XtraBars.Navigation.TileBarItemSize.Default;
             this.tileNavSubItem3.Tile.Name = "tileBarItem1";
+            // 
+            // tileNavSubItem4
+            // 
+            this.tileNavSubItem4.Appearance.Options.UseTextOptions = true;
+            this.tileNavSubItem4.Appearance.TextOptions.WordWrap = DevExpress.Utils.WordWrap.NoWrap;
+            this.tileNavSubItem4.Caption = "คลังสินค้า";
+            this.tileNavSubItem4.Name = "tileNavSubItem4";
+            this.tileNavSubItem4.OptionsDropDown.BackColor = System.Drawing.Color.Empty;
+            this.tileNavSubItem4.Tag = "system-stock-monitor";
+            // 
+            // 
+            // 
+            this.tileNavSubItem4.Tile.AppearanceItem.Normal.Font = new System.Drawing.Font("DilleniaUPC", 20F, System.Drawing.FontStyle.Bold);
+            this.tileNavSubItem4.Tile.AppearanceItem.Normal.Options.UseFont = true;
+            this.tileNavSubItem4.Tile.AppearanceItem.Normal.Options.UseTextOptions = true;
+            this.tileNavSubItem4.Tile.AppearanceItem.Normal.TextOptions.Trimming = DevExpress.Utils.Trimming.None;
+            this.tileNavSubItem4.Tile.AppearanceItem.Normal.TextOptions.WordWrap = DevExpress.Utils.WordWrap.NoWrap;
+            this.tileNavSubItem4.Tile.DropDownOptions.BeakColor = System.Drawing.Color.Empty;
+            tileItemElement6.Image = ((System.Drawing.Image)(resources.GetObject("tileItemElement6.Image")));
+            tileItemElement6.ImageAlignment = DevExpress.XtraEditors.TileItemContentAlignment.MiddleLeft;
+            tileItemElement6.ImageToTextAlignment = DevExpress.XtraEditors.TileControlImageToTextAlignment.Left;
+            tileItemElement6.ImageToTextIndent = 2;
+            tileItemElement6.Text = "คลังสินค้า";
+            this.tileNavSubItem4.Tile.Elements.Add(tileItemElement6);
+            this.tileNavSubItem4.Tile.ItemSize = DevExpress.XtraBars.Navigation.TileBarItemSize.Wide;
+            this.tileNavSubItem4.Tile.Name = "tileBarItem1";
+            // 
+            // pnlMain
+            // 
+            this.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlMain.Location = new System.Drawing.Point(0, 40);
+            this.pnlMain.Name = "pnlMain";
+            this.pnlMain.Size = new System.Drawing.Size(1205, 558);
+            this.pnlMain.TabIndex = 1;
             // 
             // Main
             // 
@@ -340,7 +340,6 @@
         private DevExpress.XtraBars.Navigation.NavButton navButton2;
         private DevExpress.XtraBars.Navigation.NavButton navExit;
         private DevExpress.XtraEditors.PanelControl pnlMain;
-        private DevExpress.XtraBars.Navigation.TileNavItem tileNavItem1;
         private DevExpress.XtraBars.Navigation.NavButton navMinimize;
         private DevExpress.XtraBars.Navigation.NavButton navSize;
         private DevExpress.XtraBars.Navigation.NavButton navMaximize;
@@ -350,6 +349,7 @@
         private DevExpress.XtraBars.Navigation.TileNavItem tileNavItem2;
         private DevExpress.XtraBars.Navigation.TileNavItem tileNavItem3;
         private DevExpress.XtraBars.Navigation.TileNavSubItem tileNavSubItem4;
+        private DevExpress.XtraBars.Navigation.TileNavItem tileNavItem1;
     }
 }
 
