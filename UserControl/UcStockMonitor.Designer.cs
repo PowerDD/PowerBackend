@@ -32,6 +32,7 @@
             this.navBarControl1 = new DevExpress.XtraNavBar.NavBarControl();
             this.navBarGroup1 = new DevExpress.XtraNavBar.NavBarGroup();
             this.navCategory = new DevExpress.XtraNavBar.NavBarItem();
+            this.navCategoryMapping = new DevExpress.XtraNavBar.NavBarItem();
             this.navUser = new DevExpress.XtraNavBar.NavBarItem();
             this.navShippingType = new DevExpress.XtraNavBar.NavBarItem();
             this.navPriority = new DevExpress.XtraNavBar.NavBarItem();
@@ -48,7 +49,7 @@
             // 
             // navBarControl1
             // 
-            this.navBarControl1.ActiveGroup = this.navBarGroup1;
+            this.navBarControl1.ActiveGroup = this.navBarDataType;
             this.navBarControl1.Appearance.GroupHeaderActive.Font = new System.Drawing.Font("Tahoma", 9.5F);
             this.navBarControl1.Appearance.GroupHeaderActive.Options.UseFont = true;
             this.navBarControl1.Appearance.Item.Font = new System.Drawing.Font("Tahoma", 9.5F);
@@ -66,7 +67,9 @@
             this.navCategory,
             this.navWaitConfirm,
             this.navNoTracking,
-            this.navWaitShipping});
+            this.navWaitShipping,
+            this.navCategoryMapping});
+            this.navBarControl1.LinkSelectionMode = DevExpress.XtraNavBar.LinkSelectionModeType.OneInControl;
             this.navBarControl1.Location = new System.Drawing.Point(0, 0);
             this.navBarControl1.Name = "navBarControl1";
             this.navBarControl1.OptionsNavPane.ExpandedWidth = 204;
@@ -82,6 +85,7 @@
             this.navBarGroup1.Expanded = true;
             this.navBarGroup1.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
             new DevExpress.XtraNavBar.NavBarItemLink(this.navCategory),
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navCategoryMapping),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navUser),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navShippingType),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navPriority)});
@@ -90,10 +94,17 @@
             // 
             // navCategory
             // 
-            this.navCategory.Caption = "หมวดหมู่การจัดสินค้า";
+            this.navCategory.Caption = "โซนการจัดสินค้า";
             this.navCategory.Name = "navCategory";
             this.navCategory.SmallImage = ((System.Drawing.Image)(resources.GetObject("navCategory.SmallImage")));
             this.navCategory.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navCategory_LinkClicked);
+            // 
+            // navCategoryMapping
+            // 
+            this.navCategoryMapping.Caption = "แบ่งโซนหมวดหมู่สินค้า";
+            this.navCategoryMapping.Name = "navCategoryMapping";
+            this.navCategoryMapping.SmallImage = ((System.Drawing.Image)(resources.GetObject("navCategoryMapping.SmallImage")));
+            this.navCategoryMapping.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navCategoryMapping_LinkClicked);
             // 
             // navUser
             // 
@@ -120,6 +131,7 @@
             // 
             this.navBarDataType.Caption = "ประเภทของข้อมูล";
             this.navBarDataType.DragDropFlags = DevExpress.XtraNavBar.NavBarDragDrop.None;
+            this.navBarDataType.Expanded = true;
             this.navBarDataType.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
             new DevExpress.XtraNavBar.NavBarItemLink(this.navQueue),
             new DevExpress.XtraNavBar.NavBarItemLink(this.navWaitPack),
@@ -201,5 +213,6 @@
         private DevExpress.XtraNavBar.NavBarItem navWaitShipping;
         private DevExpress.XtraNavBar.NavBarItem navNoTracking;
         private DevExpress.XtraNavBar.NavBarItem navWaitConfirm;
+        private DevExpress.XtraNavBar.NavBarItem navCategoryMapping;
     }
 }

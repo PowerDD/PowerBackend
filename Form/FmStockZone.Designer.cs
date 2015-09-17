@@ -77,7 +77,7 @@
             // 
             // capacity
             // 
-            this.capacity.Caption = "หมวดหมู่การจัดสินค้า";
+            this.capacity.Caption = "โซนการจัดสินค้า";
             this.capacity.FieldName = "Name";
             this.capacity.Name = "capacity";
             this.capacity.OptionsColumn.AllowEdit = false;
@@ -186,7 +186,7 @@
             this.MaximizeBox = false;
             this.Name = "FmStockCategory";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "จัดการข้อมูลหมวดหมู่การจัดสินค้า";
+            this.Text = "จัดการข้อมูลโซนการจัดสินค้า";
             this.Load += new System.EventHandler(this.FmStockCategory_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();

@@ -22,5 +22,16 @@ namespace PowerBackend.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\\test.mdf;Inte" +
+            "grated Security=True;Replication=True;Connect Timeout=30")]
+        public string testConnectionString {
+            get {
+                return ((string)(this["testConnectionString"]));
+            }
+        }
     }
 }

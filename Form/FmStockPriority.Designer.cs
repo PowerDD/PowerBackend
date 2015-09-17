@@ -43,6 +43,8 @@
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.btnAdd = new DevExpress.XtraEditors.SimpleButton();
             this.txtData = new DevExpress.XtraEditors.TextEdit();
+            this.btnUp = new DevExpress.XtraEditors.SimpleButton();
+            this.btnDown = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.barManager1)).BeginInit();
@@ -142,6 +144,8 @@
             // 
             // panelControl1
             // 
+            this.panelControl1.Controls.Add(this.btnUp);
+            this.panelControl1.Controls.Add(this.btnDown);
             this.panelControl1.Controls.Add(this.btnAdd);
             this.panelControl1.Controls.Add(this.txtData);
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -154,7 +158,7 @@
             // 
             this.btnAdd.Image = ((System.Drawing.Image)(resources.GetObject("btnAdd.Image")));
             this.btnAdd.ImageLocation = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
-            this.btnAdd.Location = new System.Drawing.Point(248, 6);
+            this.btnAdd.Location = new System.Drawing.Point(179, 6);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(30, 23);
             this.btnAdd.TabIndex = 1;
@@ -167,9 +171,29 @@
             this.txtData.Name = "txtData";
             this.txtData.Properties.Appearance.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
             this.txtData.Properties.Appearance.Options.UseFont = true;
-            this.txtData.Size = new System.Drawing.Size(236, 22);
+            this.txtData.Size = new System.Drawing.Size(167, 22);
             this.txtData.TabIndex = 0;
             this.txtData.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtData_KeyPress);
+            // 
+            // btnUp
+            // 
+            this.btnUp.Image = ((System.Drawing.Image)(resources.GetObject("btnUp.Image")));
+            this.btnUp.ImageLocation = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
+            this.btnUp.Location = new System.Drawing.Point(215, 6);
+            this.btnUp.Name = "btnUp";
+            this.btnUp.Size = new System.Drawing.Size(30, 23);
+            this.btnUp.TabIndex = 5;
+            this.btnUp.Click += new System.EventHandler(this.btnUp_Click);
+            // 
+            // btnDown
+            // 
+            this.btnDown.Image = ((System.Drawing.Image)(resources.GetObject("btnDown.Image")));
+            this.btnDown.ImageLocation = DevExpress.XtraEditors.ImageLocation.MiddleCenter;
+            this.btnDown.Location = new System.Drawing.Point(249, 6);
+            this.btnDown.Name = "btnDown";
+            this.btnDown.Size = new System.Drawing.Size(30, 23);
+            this.btnDown.TabIndex = 4;
+            this.btnDown.Click += new System.EventHandler(this.btnDown_Click);
             // 
             // FmStockPriority
             // 
@@ -214,5 +238,7 @@
         private DevExpress.XtraEditors.TextEdit txtData;
         private DevExpress.XtraBars.BarButtonItem barButtonItem1;
         private DevExpress.XtraBars.BarButtonItem barButtonItem2;
+        private DevExpress.XtraEditors.SimpleButton btnUp;
+        private DevExpress.XtraEditors.SimpleButton btnDown;
     }
 }

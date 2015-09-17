@@ -109,11 +109,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form\FmStockCategory.cs">
+    <Compile Include="Form\FmStockZone.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form\FmStockCategory.Designer.cs">
-      <DependentUpon>FmStockCategory.cs</DependentUpon>
+    <Compile Include="Form\FmStockZone.Designer.cs">
+      <DependentUpon>FmStockZone.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form\FmStockCategoryMapping.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\FmStockCategoryMapping.Designer.cs">
+      <DependentUpon>FmStockCategoryMapping.cs</DependentUpon>
     </Compile>
     <Compile Include="Form\FmStockPriority.cs">
       <SubType>Form</SubType>
@@ -190,6 +196,11 @@
     <Compile Include="Param.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="testDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>testDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="UserControl\UcStockMonitor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -215,8 +226,11 @@
     <EmbeddedResource Include="Form\FmCapacity.resx">
       <DependentUpon>FmCapacity.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form\FmStockCategory.resx">
-      <DependentUpon>FmStockCategory.cs</DependentUpon>
+    <EmbeddedResource Include="Form\FmStockZone.resx">
+      <DependentUpon>FmStockZone.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\FmStockCategoryMapping.resx">
+      <DependentUpon>FmStockCategoryMapping.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form\FmStockPriority.resx">
       <DependentUpon>FmStockPriority.cs</DependentUpon>
@@ -248,6 +262,7 @@
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -276,6 +291,17 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="testDataSet.xsc">
+      <DependentUpon>testDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="testDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>testDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="testDataSet.xss">
+      <DependentUpon>testDataSet.xsd</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -985,6 +1011,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+    <Content Include="test.mdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="test_log.ldf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DependentUpon>test.mdf</DependentUpon>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -30,14 +30,27 @@ namespace PowerBackend
             gridControl1.DataSource = Param.DataSet.Tables["Data-" + _TABLE_NAME];
         }
 
-        private void UpdateData(string value)
+        private async void UpdateData(string name, int priority)
         {
-            dynamic json = JsonConvert.DeserializeObject(Util.ApiProcess("/properties/update",
-                string.Format("shop={0}&type=common&key={1}&value={2}", Param.ShopId, _TABLE_NAME, value)
+            dynamic json = JsonConvert.DeserializeObject(await Util.ApiProcessAsync("/warehouse-queue/properties/update",
+                string.Format("shop={0}&type={1}&name={2}&priority={3}", Param.ShopId, _TABLE_NAME, name, priority)
             ));
             if (!json.success.Value)
             {
-                MessageBox.Show(json.errorMessage.Value, json.error.Value, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Console.WriteLine("Update Error : shop={0}&type={1}&name={2}&priority={3} : {4}", Param.ShopId, _TABLE_NAME, name, priority, json.error.Value);
+                //MessageBox.Show(json.errorMessage.Value, json.error.Value, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private async void DeleteData(string name)
+        {
+            dynamic json = JsonConvert.DeserializeObject(await Util.ApiProcessAsync("/warehouse-queue/properties/delete",
+                string.Format("shop={0}&type={1}&name={2}", Param.ShopId, _TABLE_NAME, name)
+            ));
+            if (!json.success.Value)
+            {
+                Console.WriteLine("Update Error : shop={0}&type={1}&name={2} : {3}", Param.ShopId, _TABLE_NAME, name, json.error.Value);
+                //MessageBox.Show(json.errorMessage.Value, json.error.Value, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -49,7 +62,7 @@ namespace PowerBackend
                 {
                     Param.DataSet.Tables["Data-" + _TABLE_NAME].PrimaryKey = new DataColumn[] { Param.DataSet.Tables["Data-" + _TABLE_NAME].Columns["Name"] };
                     Param.DataSet.Tables["Data-" + _TABLE_NAME].Rows.Add(txtData.Text.Trim());
-                    UpdateData(Util.DataTableToString(Param.DataSet.Tables["Data-" + _TABLE_NAME], "Name"));
+                    UpdateData(txtData.Text.Trim(), Param.DataSet.Tables["Data-" + _TABLE_NAME].Rows.Count);
                 }
                 catch { }
                 txtData.Text = "";
@@ -58,25 +71,23 @@ namespace PowerBackend
             {
                 for(int i=0; i<Param.DataSet.Tables["Data-" + _TABLE_NAME].Rows.Count; i++)
                 {
-                    Console.WriteLine(Param.DataSet.Tables["Data-" + _TABLE_NAME].Rows[i]["Name"]);
+                    UpdateData(Param.DataSet.Tables["Data-" + _TABLE_NAME].Rows[i]["Name"].ToString(), i);
                 }
             }
         }
 
         private void gridView1_KeyDown(object sender, KeyEventArgs e)
         {
-            GridView view = (GridView)sender;
-            int[] row = view.GetSelectedRows();
-            if (e.KeyData == Keys.Delete && row.Length > 0)
+            GridView view = gridView1;
+            view.GridControl.Focus();
+            int index = view.FocusedRowHandle;
+            XtraMessageBox.AllowCustomLookAndFeel = true;
+            DialogResult dialogResult = XtraMessageBox.Show("คุณต้องการลบข้อมูลนี้ออกจากระบบใช่หรือไม่ ?", "ยืนยันการทำงาน", MessageBoxButtons.OKCancel);
+            if (dialogResult == DialogResult.OK)
             {
-                DataRow dr = view.GetFocusedDataRow();
-                XtraMessageBox.AllowCustomLookAndFeel = true;
-                DialogResult dialogResult = XtraMessageBox.Show("คุณต้องการลบข้อมูลนี้ออกจากระบบใช่หรือไม่ ?", "ยืนยันการทำงาน", MessageBoxButtons.OKCancel);
-                if (dialogResult == DialogResult.OK)
-                {
-                    Util.DataTableDeleteRow(Param.DataSet.Tables["Data-" + _TABLE_NAME], "Name", dr["Name"].ToString());
-                    UpdateData(Util.DataTableToString(Param.DataSet.Tables["Data-" + _TABLE_NAME], "Name"));
-                }
+                var name = Param.DataSet.Tables["Data-" + _TABLE_NAME].Rows[index]["Name"].ToString();
+                DeleteData(name);
+                Util.DataTableDeleteRow(Param.DataSet.Tables["Data-" + _TABLE_NAME], "Name", name);
             }
         }
 

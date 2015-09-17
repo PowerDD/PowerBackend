@@ -56,16 +56,14 @@ namespace PowerBackend
             }
             Param.DataSet.Tables.Add(data);
 
-            // Category //
+            // Zone //
             data = new DataTable();
             data.Columns.Add("Name", typeof(string));
-            data.Columns.Add("Priority", typeof(int));
-            data.Columns.Add("Description", typeof(string));
             data.PrimaryKey = new DataColumn[] { data.Columns["Name"] };
-            data.TableName = "Data-category";
-            for (int i = 0; i < json.category.Count; i++)
+            data.TableName = "Data-zone";
+            for (int i = 0; i < json.zone.Count; i++)
             {
-                data.Rows.Add(json.category[i].name, json.category[i].priority, json.category[i].description);
+                data.Rows.Add(json.zone[i].name);
             }
             Param.DataSet.Tables.Add(data);
 
@@ -79,35 +77,49 @@ namespace PowerBackend
                 data.Rows.Add(json.user[i].name);
             }
             Param.DataSet.Tables.Add(data);
+
+            // Categry //
+            data = new DataTable();
+            data.Columns.Add("Name", typeof(string));
+            data.Columns.Add("Zone", typeof(string));
+            data.PrimaryKey = new DataColumn[] { data.Columns["Name"] };
+            data.TableName = "Data-category";
+            for (int i = 0; i < json.category.Count; i++)
+            {
+                data.Rows.Add(json.category[i].name, json.category[i].zone);
+            }
+            Param.DataSet.Tables.Add(data);
         }
 
         private void navCategory_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
             FmStockCategory fm = new FmStockCategory();
             fm.ShowDialog(this);
-            //Util.SetComboboxDataSource(cbbBatteryType, Param.DataSet.Tables["Data-batteryType"], "Name");
         }
 
         private void navUser_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
             FmStockUser fm = new FmStockUser();
             fm.ShowDialog(this);
-            //Util.SetComboboxDataSource(cbbBatteryType, Param.DataSet.Tables["Data-batteryType"], "Name");
         }
 
         private void navShippingType_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
             FmStockShippingType fm = new FmStockShippingType();
             fm.ShowDialog(this);
-            //Util.SetComboboxDataSource(cbbBatteryType, Param.DataSet.Tables["Data-batteryType"], "Name");
         }
 
         private void navPriority_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
         {
             FmStockPriority fm = new FmStockPriority();
             fm.ShowDialog(this);
+        }
+
+        private void navCategoryMapping_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            FmStockCategoryMapping fm = new FmStockCategoryMapping();
+            fm.ShowDialog(this);
             //Util.SetComboboxDataSource(cbbBatteryType, Param.DataSet.Tables["Data-batteryType"], "Name");
         }
-        
     }
 }
