@@ -36,12 +36,13 @@
             // progressPanel1
             // 
             this.progressPanel1.Appearance.BackColor = System.Drawing.Color.Transparent;
+            this.progressPanel1.Appearance.Options.UseBackColor = true;
             this.progressPanel1.AppearanceCaption.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.progressPanel1.AppearanceCaption.Options.UseFont = true;
             this.progressPanel1.AppearanceDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.progressPanel1.AppearanceDescription.Options.UseFont = true;
-            this.progressPanel1.Caption = "กรุณารอสักครู่";
-            this.progressPanel1.Description = "กำลังโหลดข้อมูล ...";
+            this.progressPanel1.Caption = "กำลังโหลดข้อมูล";
+            this.progressPanel1.Description = "กรุณารอสักครู่ ...";
             this.progressPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.progressPanel1.ImageHorzOffset = 20;
             this.progressPanel1.Location = new System.Drawing.Point(0, 17);

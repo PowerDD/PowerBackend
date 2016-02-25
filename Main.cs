@@ -14,12 +14,13 @@ namespace PowerBackend
 {
     public partial class Main : Form
     {
-        enum Screen { Product, Claim, StockMonitor, Report };
+        enum Screen { Product, Claim, StockMonitor, Report, Member };
         XtraUserControl _USER_CONTROL;
         UcDataProduct _UC_PRODUCT;
         UcClaim _UC_CLAIM;
         UcStockMonitor _UC_STOCK_MONITOR;
         UcReport _UC_REPORT;
+        UcMember _UC_MEMBER;
 
 
         public Main()
@@ -45,12 +46,14 @@ namespace PowerBackend
                 if (e.Element.Tag.ToString() == "data-product")
                 {
                     AddPanel(Screen.Product);
-
+                }
+                else if (e.Element.Tag.ToString() == "data-member")
+                {
+                    AddPanel(Screen.Member);
                 }
                 else if (e.Element.Tag.ToString() == "system-claim")
                 {
                     AddPanel(Screen.Claim);
-
                 }
                 else if (e.Element.Tag.ToString() == "system-stock-monitor")
                 {
@@ -100,6 +103,10 @@ namespace PowerBackend
                 case Screen.Report:
                     if (_UC_REPORT == null) _UC_REPORT = new UcReport();
                     _USER_CONTROL = _UC_REPORT;
+                    break;
+                case Screen.Member:
+                    if (_UC_MEMBER == null) _UC_MEMBER = new UcMember();
+                    _USER_CONTROL = _UC_MEMBER;
                     break;
             }
 

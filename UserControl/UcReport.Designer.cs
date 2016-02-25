@@ -32,9 +32,9 @@
             this.navBarControl1 = new DevExpress.XtraNavBar.NavBarControl();
             this.navSale = new DevExpress.XtraNavBar.NavBarGroup();
             this.navSaleByCategory = new DevExpress.XtraNavBar.NavBarItem();
+            this.navHeadSale = new DevExpress.XtraNavBar.NavBarItem();
             this.navSaleByCustomer = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarGroup1 = new DevExpress.XtraNavBar.NavBarGroup();
-            this.navBarItem3 = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarItem4 = new DevExpress.XtraNavBar.NavBarItem();
             this.navBarItem5 = new DevExpress.XtraNavBar.NavBarItem();
             this.pnlMain = new DevExpress.XtraEditors.PanelControl();
@@ -56,7 +56,7 @@
             this.navBarControl1.Items.AddRange(new DevExpress.XtraNavBar.NavBarItem[] {
             this.navSaleByCategory,
             this.navSaleByCustomer,
-            this.navBarItem3,
+            this.navHeadSale,
             this.navBarItem4,
             this.navBarItem5});
             this.navBarControl1.LinkSelectionMode = DevExpress.XtraNavBar.LinkSelectionModeType.OneInControl;
@@ -66,7 +66,7 @@
             this.navBarControl1.OptionsNavPane.ShowOverflowPanel = false;
             this.navBarControl1.PaintStyleKind = DevExpress.XtraNavBar.NavBarViewKind.NavigationPane;
             this.navBarControl1.Size = new System.Drawing.Size(204, 495);
-            this.navBarControl1.TabIndex = 2;
+            this.navBarControl1.TabIndex = 0;
             this.navBarControl1.Text = "navBarControl1";
             // 
             // navSale
@@ -76,7 +76,7 @@
             this.navSale.Expanded = true;
             this.navSale.ItemLinks.AddRange(new DevExpress.XtraNavBar.NavBarItemLink[] {
             new DevExpress.XtraNavBar.NavBarItemLink(this.navSaleByCategory),
-            new DevExpress.XtraNavBar.NavBarItemLink(this.navSaleByCustomer)});
+            new DevExpress.XtraNavBar.NavBarItemLink(this.navHeadSale)});
             this.navSale.LargeImage = ((System.Drawing.Image)(resources.GetObject("navSale.LargeImage")));
             this.navSale.Name = "navSale";
             this.navSale.SelectedLinkIndex = 0;
@@ -86,6 +86,14 @@
             this.navSaleByCategory.Caption = "แยกตามหมวดหมู่";
             this.navSaleByCategory.Name = "navSaleByCategory";
             this.navSaleByCategory.SmallImage = ((System.Drawing.Image)(resources.GetObject("navSaleByCategory.SmallImage")));
+            this.navSaleByCategory.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navSaleByCategory_LinkClicked);
+            // 
+            // navHeadSale
+            // 
+            this.navHeadSale.Caption = "แยกตามหัวหน้าเซลล์";
+            this.navHeadSale.Name = "navHeadSale";
+            this.navHeadSale.SmallImage = ((System.Drawing.Image)(resources.GetObject("navHeadSale.SmallImage")));
+            this.navHeadSale.LinkClicked += new DevExpress.XtraNavBar.NavBarLinkEventHandler(this.navHeadSale_LinkClicked);
             // 
             // navSaleByCustomer
             // 
@@ -98,11 +106,6 @@
             this.navBarGroup1.Caption = "จัดการข้อมูล";
             this.navBarGroup1.LargeImage = ((System.Drawing.Image)(resources.GetObject("navBarGroup1.LargeImage")));
             this.navBarGroup1.Name = "navBarGroup1";
-            // 
-            // navBarItem3
-            // 
-            this.navBarItem3.Caption = "navBarItem3";
-            this.navBarItem3.Name = "navBarItem3";
             // 
             // navBarItem4
             // 
@@ -148,7 +151,7 @@
         private DevExpress.XtraNavBar.NavBarItem navSaleByCategory;
         private DevExpress.XtraNavBar.NavBarItem navSaleByCustomer;
         private DevExpress.XtraNavBar.NavBarGroup navBarGroup1;
-        private DevExpress.XtraNavBar.NavBarItem navBarItem3;
+        private DevExpress.XtraNavBar.NavBarItem navHeadSale;
         private DevExpress.XtraNavBar.NavBarItem navBarItem4;
         private DevExpress.XtraNavBar.NavBarItem navBarItem5;
         private DevExpress.XtraEditors.PanelControl pnlMain;

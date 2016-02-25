@@ -14,7 +14,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
     <IsWebBootstrapper>true</IsWebBootstrapper>
-    <PublishUrl>\\192.168.1.20\24fin\PowerDD\app\PowerBackend\</PublishUrl>
+    <PublishUrl>\\192.168.1.20\24fin\PowerDD\web\Resources\app\PowerBackend\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -24,13 +24,13 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>http://src.powerdd.com/app/PowerBackend/</InstallUrl>
+    <InstallUrl>https://src.remaxthailand.co.th/app/PowerBackend/</InstallUrl>
     <ProductName>Power Backend</ProductName>
     <PublisherName>PowerDD.com</PublisherName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>4</ApplicationRevision>
+    <ApplicationRevision>8</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -200,6 +200,12 @@
     <Compile Include="Param.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserControl\UcMember.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl\UcMember.Designer.cs">
+      <DependentUpon>UcMember.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControl\UcReport.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -211,6 +217,12 @@
     </Compile>
     <Compile Include="UserControl\UcReportMonthlyCategory.Designer.cs">
       <DependentUpon>UcReportMonthlyCategory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl\UcReportMonthlyHeadSale.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl\UcReportMonthlyHeadSale.Designer.cs">
+      <DependentUpon>UcReportMonthlyHeadSale.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControl\UcStockMonitor.cs">
       <SubType>UserControl</SubType>
@@ -284,11 +296,17 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="UserControl\UcMember.resx">
+      <DependentUpon>UcMember.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControl\UcReport.resx">
       <DependentUpon>UcReport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl\UcReportMonthlyCategory.resx">
       <DependentUpon>UcReportMonthlyCategory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl\UcReportMonthlyHeadSale.resx">
+      <DependentUpon>UcReportMonthlyHeadSale.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl\UcStockMonitor.resx">
       <DependentUpon>UcStockMonitor.cs</DependentUpon>

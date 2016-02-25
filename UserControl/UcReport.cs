@@ -25,5 +25,21 @@ namespace PowerBackend
             uc.Dock = DockStyle.Fill;
             pnlMain.Controls.Add(uc);
         }
+
+        private void navHeadSale_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            pnlMain.Controls.Clear();
+            var uc = new UcReportMonthlyHeadSale();
+            uc.Dock = DockStyle.Fill;
+            pnlMain.Controls.Add(uc);
+        }
+
+        private void navSaleByCategory_LinkClicked(object sender, DevExpress.XtraNavBar.NavBarLinkEventArgs e)
+        {
+            pnlMain.Controls.Clear();
+            var uc = new UcReportMonthlyCategory();
+            uc.Dock = DockStyle.Fill;
+            pnlMain.Controls.Add(uc);
+        }
     }
 }
