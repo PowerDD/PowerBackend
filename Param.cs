@@ -20,9 +20,11 @@ namespace PowerBackend
         public static DataSet DataSet;
 
         public static string Shop = "88888888";
-        public static string ShopId = "POWERDDH-8888-8888-B620-48D3B6489999";
-        public static string ApiUrl = "https://api.powerdd.com";
-        public static string ApiKey = "27AD365F-FBFF-4994-BB9C-97ABAF80EFBB";
+        public static string ShopId = "1234";
+        public static string ApiUrl = "https://xxx.remaxthailand.co.th";
+        public static string ApiKey = "1234";
+        public static string SecretKey = "ProductInfo";
+        public static string token = "";
 
         public static string[] thaiMonth = {"มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"};
 
