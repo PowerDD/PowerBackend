@@ -92,8 +92,15 @@ namespace PowerBackend
             _BRAND = new SortedDictionary<string, string>();
             for (int i = 0; i < json.result.Count; i++)
             {
-                data.Rows.Add(json.result[i].name.Value);
-                _BRAND.Add(json.result[i].brand.Value, json.result[i].name.Value);
+                try {
+                    data.Rows.Add(json.result[i].name.Value);
+                    _BRAND.Add(json.result[i].brand.Value, json.result[i].name.Value);
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+
             }
             Param.DataSet.Tables.Add(data);
 
@@ -264,7 +271,7 @@ namespace PowerBackend
         private void bwLoadProduct_DoWork(object sender, DoWorkEventArgs e)
         {
             _JSON_PRODUCT = JsonConvert.DeserializeObject(Util.ApiProcess("/product/info", 
-                string.Format("shop={0}&type=byCategoryName&value={1}", Param.ShopId, _CATEGORY_SELECTED)
+                string.Format("shop={0}&type=byCategoryName&value={1}", Param.ShopId, _CATEGORY_SELECTED.Replace("&","APSN"))
             ));
 
             if (_JSON_PRODUCT.success.Value)
@@ -307,15 +314,15 @@ namespace PowerBackend
                     _TABLE_PRODUCT.Columns.Add("hasCoverImageIcon", typeof(Image));
                     columnName.Add("hasCoverImageIcon");
 
-                    for (int i=0; i< _JSON_PRODUCT.result.Count; i++)
+                    for (int i = 0; i < _JSON_PRODUCT.result.Count; i++)
                     {
                         object[] values = new object[columnName.Count];
                         for (int j = 0; j < columnName.Count; j++)
                         {
-                            if(columnName[j] == "hasCoverImageIcon")
+                            if (columnName[j] == "hasCoverImageIcon")
                                 values[j] = _JSON_PRODUCT.result[i]["hasCoverImage"].Value ? global::PowerBackend.Properties.Resources.picture : global::PowerBackend.Properties.Resources.picture_empty;
                             else
-                                values[j] = _JSON_PRODUCT.result[i][columnName[j]].Value == null ? "" : _JSON_PRODUCT.result[i][columnName[j]].Value;                                
+                                values[j] = _JSON_PRODUCT.result[i][columnName[j]].Value == null ? "" : _JSON_PRODUCT.result[i][columnName[j]].Value;
                         }
                         _TABLE_PRODUCT.Rows.Add(values);
                     }
@@ -814,7 +821,8 @@ namespace PowerBackend
                 {
                     //http://src.powerdd.com/img/product/88888888/D1400010/1.jpg
                     //api-test.powerdd.com/img/remax/product/88888888/D1400010/300/300/1.jpg
-                    _STREAM_IMAGE_URL = "http://src.powerdd.com/img/product/" + Param.Shop + "/" + _PRODUCT_ROW_SELECTED["sku"].ToString() + "/" + _PRODUCT_ROW_SELECTED["image"].ToString().Split(',')[0];
+                    //https://src.remaxthailand.co.th/img/product/D1501073/1.jpg
+                    _STREAM_IMAGE_URL = "https://src.remaxthailand.co.th/img/product/" + _PRODUCT_ROW_SELECTED["sku"].ToString() + "/" + _PRODUCT_ROW_SELECTED["image"].ToString().Split(',')[0];
                     TileItem itmImg = new TileItem();
                     TileItemElement tileItemElement1 = new TileItemElement();
                     tileItemElement1.Text = "กำลังโหลดรูปภาพ";
@@ -833,10 +841,15 @@ namespace PowerBackend
                     }
                     bwLoadImage.RunWorkerAsync();*/
 
-
-                    tileGroup1.Items[0].BackgroundImage = await DownloadImage("http://src.powerdd.com/img/product/" + Param.Shop + "/" +
+                    //https://img.remaxthailand.co.th/100x100/product/D1600089/1.jpg
+                    /*tileGroup1.Items[0].BackgroundImage = await DownloadImage("https://src.remaxthailand.co.th/img/product/" +
+                        _PRODUCT_ROW_SELECTED["sku"].ToString() + "/" + _PRODUCT_ROW_SELECTED["image"].ToString().Split(',')[0]);*/
+                    tileGroup1.Items[0].BackgroundImage = await DownloadImage("https://img.remaxthailand.co.th/300x300/product/" +
                         _PRODUCT_ROW_SELECTED["sku"].ToString() + "/" + _PRODUCT_ROW_SELECTED["image"].ToString().Split(',')[0]);
                     tileGroup1.Items[0].Elements[0].Text = "ภาพหลัก";
+
+                    Console.WriteLine("https://src.remaxthailand.co.th/img/product/" +
+                        _PRODUCT_ROW_SELECTED["sku"].ToString() + "/" + _PRODUCT_ROW_SELECTED["image"].ToString().Split(',')[0]);
 
                     //tileGroup1.Items.Add(GenerateAddImageItem());
 
@@ -846,7 +859,7 @@ namespace PowerBackend
                     //tileGroup1.Items.Add(GenerateAddImageItem());
                 }
 
-                int idx = 1;
+                /*int idx = 1;
                 string[] image = _PRODUCT_ROW_SELECTED["image"].ToString().Split(',');
                 for(int i=1; i< image.Length; i++)
                 {
@@ -864,8 +877,12 @@ namespace PowerBackend
                             itmImg.AppearanceItem.Normal.ForeColor = Color.DarkGray;
                             tileGroup1.Items.Add(itmImg);
 
-                            tileGroup1.Items[idx].BackgroundImage = await DownloadImage("http://src.powerdd.com/img/product/" + Param.Shop + "/" +
-                                _PRODUCT_ROW_SELECTED["sku"].ToString() + "/" + image[i]);
+                            try
+                            {
+                                tileGroup1.Items[idx].BackgroundImage = await DownloadImage("https://src.remaxthailand.co.th/img/product/" + "/" +
+                                    _PRODUCT_ROW_SELECTED["sku"].ToString() + "/" + image[i]);
+                            }
+                            catch { }
                         }
                         catch
                         {
@@ -876,7 +893,7 @@ namespace PowerBackend
                         //tileGroup1.Items.Add(GenerateAddImageItem());
                         idx++;
                     }
-                }
+                }*/
 
 
             }

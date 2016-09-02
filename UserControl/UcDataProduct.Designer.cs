@@ -125,21 +125,8 @@
             this.rwAdviceCode = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
             this.rwTrueCode = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
             this.rwName = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.rwActive = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.rwVisible = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.rwPrice = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.rwPrice1 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.rwPrice2 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.rwPrice3 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.rwPrice4 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.rwPrice5 = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.rwCost = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.rwIsPromotion = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.row = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
             this.rwWarranty = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
             this.rwLabel = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.rwCategory = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
-            this.rwBrand = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
             this.rwModel = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
             this.rwColor = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
             this.rwChargeType = new DevExpress.XtraVerticalGrid.Rows.EditorRow();
@@ -419,7 +406,7 @@
             this.splitContainerControl1.Panel2.Controls.Add(this.vGridControl1);
             this.splitContainerControl1.Panel2.Text = "Panel2";
             this.splitContainerControl1.Size = new System.Drawing.Size(926, 559);
-            this.splitContainerControl1.SplitterPosition = 222;
+            this.splitContainerControl1.SplitterPosition = 346;
             this.splitContainerControl1.TabIndex = 4;
             this.splitContainerControl1.Text = "splitContainerControl1";
             // 
@@ -434,7 +421,7 @@
             this.splitContainerControl2.Panel1.Text = "Panel1";
             this.splitContainerControl2.Panel2.Controls.Add(this.panelControl3);
             this.splitContainerControl2.Panel2.Text = "Panel2";
-            this.splitContainerControl2.Size = new System.Drawing.Size(699, 559);
+            this.splitContainerControl2.Size = new System.Drawing.Size(575, 559);
             this.splitContainerControl2.SplitterPosition = 160;
             this.splitContainerControl2.TabIndex = 0;
             this.splitContainerControl2.Text = "splitContainerControl2";
@@ -446,7 +433,7 @@
             this.gridControl1.Location = new System.Drawing.Point(0, 0);
             this.gridControl1.MainView = this.bandedGridView1;
             this.gridControl1.Name = "gridControl1";
-            this.gridControl1.Size = new System.Drawing.Size(699, 394);
+            this.gridControl1.Size = new System.Drawing.Size(575, 394);
             this.gridControl1.TabIndex = 2;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.bandedGridView1});
@@ -549,7 +536,7 @@
             this.gridBand2.Name = "gridBand2";
             this.gridBand2.OptionsBand.FixedWidth = true;
             this.gridBand2.VisibleIndex = 1;
-            this.gridBand2.Width = 402;
+            this.gridBand2.Width = 360;
             // 
             // Price
             // 
@@ -644,7 +631,6 @@
             this.Price5.OptionsColumn.AllowEdit = false;
             this.Price5.OptionsColumn.FixedWidth = true;
             this.Price5.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
-            this.Price5.Visible = true;
             this.Price5.Width = 57;
             // 
             // Cost
@@ -659,7 +645,6 @@
             this.Cost.OptionsColumn.AllowEdit = false;
             this.Cost.OptionsColumn.FixedWidth = true;
             this.Cost.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
-            this.Cost.Visible = true;
             this.Cost.Width = 60;
             // 
             // gridBand3
@@ -673,7 +658,7 @@
             this.gridBand3.Columns.Add(this.Brand);
             this.gridBand3.Name = "gridBand3";
             this.gridBand3.VisibleIndex = 2;
-            this.gridBand3.Width = 440;
+            this.gridBand3.Width = 340;
             // 
             // Active
             // 
@@ -687,7 +672,6 @@
             this.Active.OptionsColumn.AllowEdit = false;
             this.Active.OptionsColumn.FixedWidth = true;
             this.Active.UnboundType = DevExpress.Data.UnboundColumnType.Boolean;
-            this.Active.Visible = true;
             this.Active.Width = 50;
             // 
             // VisibleOnWeb
@@ -702,7 +686,6 @@
             this.VisibleOnWeb.OptionsColumn.AllowEdit = false;
             this.VisibleOnWeb.OptionsColumn.FixedWidth = true;
             this.VisibleOnWeb.UnboundType = DevExpress.Data.UnboundColumnType.Boolean;
-            this.VisibleOnWeb.Visible = true;
             this.VisibleOnWeb.Width = 50;
             // 
             // Stock
@@ -767,7 +750,7 @@
             this.panelControl3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelControl3.Location = new System.Drawing.Point(0, 0);
             this.panelControl3.Name = "panelControl3";
-            this.panelControl3.Size = new System.Drawing.Size(699, 160);
+            this.panelControl3.Size = new System.Drawing.Size(575, 160);
             this.panelControl3.TabIndex = 1;
             // 
             // tileControl1
@@ -793,7 +776,7 @@
             this.tileControl1.MaxId = 14;
             this.tileControl1.Name = "tileControl1";
             this.tileControl1.Padding = new System.Windows.Forms.Padding(5);
-            this.tileControl1.Size = new System.Drawing.Size(695, 156);
+            this.tileControl1.Size = new System.Drawing.Size(571, 156);
             this.tileControl1.TabIndex = 0;
             this.tileControl1.Text = "tileControl1";
             this.tileControl1.EndItemDragging += new DevExpress.XtraEditors.TileItemDragEventHandler(this.tileControl1_EndItemDragging);
@@ -811,12 +794,11 @@
             this.vGridControl1.Appearance.RecordValue.Options.UseFont = true;
             this.vGridControl1.Appearance.RowHeaderPanel.Font = new System.Drawing.Font("Tahoma", 9.5F);
             this.vGridControl1.Appearance.RowHeaderPanel.Options.UseFont = true;
-            this.vGridControl1.Cursor = System.Windows.Forms.Cursors.SizeWE;
             this.vGridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.vGridControl1.Enabled = false;
             this.vGridControl1.Location = new System.Drawing.Point(0, 0);
             this.vGridControl1.Name = "vGridControl1";
-            this.vGridControl1.RecordWidth = 85;
+            this.vGridControl1.RecordWidth = 209;
             this.vGridControl1.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.txtPrice,
             this.txtPrice1,
@@ -869,12 +851,8 @@
             this.vGridControl1.Rows.AddRange(new DevExpress.XtraVerticalGrid.Rows.BaseRow[] {
             this.rwSKU,
             this.rwName,
-            this.rwActive,
-            this.rwPrice,
             this.rwWarranty,
             this.rwLabel,
-            this.rwCategory,
-            this.rwBrand,
             this.rwModel,
             this.rwColor,
             this.rwChargeType,
@@ -888,7 +866,7 @@
             this.rwInBox,
             this.rwCapacity,
             this.rwBattType});
-            this.vGridControl1.Size = new System.Drawing.Size(222, 559);
+            this.vGridControl1.Size = new System.Drawing.Size(346, 559);
             this.vGridControl1.TabIndex = 0;
             // 
             // txtPrice
@@ -1258,6 +1236,7 @@
             this.rwSKU.ChildRows.AddRange(new DevExpress.XtraVerticalGrid.Rows.BaseRow[] {
             this.rwAdviceCode,
             this.rwTrueCode});
+            this.rwSKU.Enabled = false;
             this.rwSKU.Expanded = false;
             this.rwSKU.Name = "rwSKU";
             this.rwSKU.Properties.Caption = "SKU";
@@ -1288,109 +1267,6 @@
             this.rwName.Properties.RowEdit = this.txtName;
             this.rwName.Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
             // 
-            // rwActive
-            // 
-            this.rwActive.ChildRows.AddRange(new DevExpress.XtraVerticalGrid.Rows.BaseRow[] {
-            this.rwVisible});
-            this.rwActive.Expanded = false;
-            this.rwActive.Name = "rwActive";
-            this.rwActive.Properties.Caption = "เปิดขาย";
-            this.rwActive.Properties.FieldName = "active";
-            this.rwActive.Properties.RowEdit = this.chkActive;
-            this.rwActive.Properties.UnboundType = DevExpress.Data.UnboundColumnType.Boolean;
-            // 
-            // rwVisible
-            // 
-            this.rwVisible.Name = "rwVisible";
-            this.rwVisible.Properties.Caption = "แสดงที่หน้าเว็บ";
-            this.rwVisible.Properties.FieldName = "visible";
-            this.rwVisible.Properties.RowEdit = this.chkVisible;
-            this.rwVisible.Properties.UnboundType = DevExpress.Data.UnboundColumnType.Boolean;
-            // 
-            // rwPrice
-            // 
-            this.rwPrice.ChildRows.AddRange(new DevExpress.XtraVerticalGrid.Rows.BaseRow[] {
-            this.rwPrice1,
-            this.rwPrice2,
-            this.rwPrice3,
-            this.rwPrice4,
-            this.rwPrice5,
-            this.rwCost,
-            this.rwIsPromotion});
-            this.rwPrice.Expanded = false;
-            this.rwPrice.Name = "rwPrice";
-            this.rwPrice.Properties.Caption = "ราคาปลีก";
-            this.rwPrice.Properties.FieldName = "price";
-            this.rwPrice.Properties.RowEdit = this.txtPrice;
-            this.rwPrice.Properties.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
-            // 
-            // rwPrice1
-            // 
-            this.rwPrice1.Name = "rwPrice1";
-            this.rwPrice1.Properties.Caption = "ราคาส่ง 1";
-            this.rwPrice1.Properties.FieldName = "price1";
-            this.rwPrice1.Properties.RowEdit = this.txtPrice1;
-            this.rwPrice1.Properties.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
-            // 
-            // rwPrice2
-            // 
-            this.rwPrice2.Name = "rwPrice2";
-            this.rwPrice2.Properties.Caption = "ราคาส่ง 2";
-            this.rwPrice2.Properties.FieldName = "price2";
-            this.rwPrice2.Properties.RowEdit = this.txtPrice2;
-            this.rwPrice2.Properties.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
-            // 
-            // rwPrice3
-            // 
-            this.rwPrice3.Name = "rwPrice3";
-            this.rwPrice3.Properties.Caption = "ราคาส่ง 3";
-            this.rwPrice3.Properties.FieldName = "price3";
-            this.rwPrice3.Properties.RowEdit = this.txtPrice3;
-            this.rwPrice3.Properties.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
-            // 
-            // rwPrice4
-            // 
-            this.rwPrice4.Name = "rwPrice4";
-            this.rwPrice4.Properties.Caption = "ราคาส่ง 4";
-            this.rwPrice4.Properties.FieldName = "price4";
-            this.rwPrice4.Properties.RowEdit = this.txtPrice4;
-            this.rwPrice4.Properties.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
-            // 
-            // rwPrice5
-            // 
-            this.rwPrice5.Name = "rwPrice5";
-            this.rwPrice5.Properties.Caption = "ราคาส่ง 5";
-            this.rwPrice5.Properties.FieldName = "price5";
-            this.rwPrice5.Properties.RowEdit = this.txtPrice5;
-            this.rwPrice5.Properties.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
-            // 
-            // rwCost
-            // 
-            this.rwCost.Name = "rwCost";
-            this.rwCost.Properties.Caption = "ต้นทุน";
-            this.rwCost.Properties.FieldName = "cost";
-            this.rwCost.Properties.RowEdit = this.txtCost;
-            this.rwCost.Properties.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
-            // 
-            // rwIsPromotion
-            // 
-            this.rwIsPromotion.ChildRows.AddRange(new DevExpress.XtraVerticalGrid.Rows.BaseRow[] {
-            this.row});
-            this.rwIsPromotion.Expanded = false;
-            this.rwIsPromotion.Name = "rwIsPromotion";
-            this.rwIsPromotion.Properties.Caption = "โปรโมชั่น";
-            this.rwIsPromotion.Properties.FieldName = "isPromotion";
-            this.rwIsPromotion.Properties.RowEdit = this.chkPromotion;
-            this.rwIsPromotion.Properties.UnboundType = DevExpress.Data.UnboundColumnType.Boolean;
-            // 
-            // row
-            // 
-            this.row.Name = "row";
-            this.row.Properties.Caption = "ราคา";
-            this.row.Properties.FieldName = "pricePromotion";
-            this.row.Properties.RowEdit = this.txtPricePromotion;
-            this.row.Properties.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
-            // 
             // rwWarranty
             // 
             this.rwWarranty.Name = "rwWarranty";
@@ -1406,22 +1282,6 @@
             this.rwLabel.Properties.FieldName = "label";
             this.rwLabel.Properties.RowEdit = this.cbbLabel;
             this.rwLabel.Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
-            // 
-            // rwCategory
-            // 
-            this.rwCategory.Name = "rwCategory";
-            this.rwCategory.Properties.Caption = "หมวดหมู่";
-            this.rwCategory.Properties.FieldName = "category";
-            this.rwCategory.Properties.RowEdit = this.cbbCategory;
-            this.rwCategory.Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
-            // 
-            // rwBrand
-            // 
-            this.rwBrand.Name = "rwBrand";
-            this.rwBrand.Properties.Caption = "ยี่ห้อ";
-            this.rwBrand.Properties.FieldName = "brand";
-            this.rwBrand.Properties.RowEdit = this.cbbBrand;
-            this.rwBrand.Properties.UnboundType = DevExpress.Data.UnboundColumnType.String;
             // 
             // rwModel
             // 
@@ -1714,12 +1574,6 @@
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit txtHeight;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit txtWeight;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit txtGrossWeight;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow rwPrice;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow rwPrice1;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow rwPrice2;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow rwPrice3;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow rwPrice4;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow rwPrice5;
         private DevExpress.XtraVerticalGrid.Rows.EditorRow rwWidth;
         private DevExpress.XtraVerticalGrid.Rows.EditorRow rwLength;
         private DevExpress.XtraVerticalGrid.Rows.EditorRow rwHeight;
@@ -1756,16 +1610,9 @@
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit txtImage10;
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit chkPromotion;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit txtPricePromotion;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow rwIsPromotion;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow row;
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckedComboBoxEdit cbbLabel;
         private DevExpress.XtraVerticalGrid.Rows.EditorRow rwLabel;
         private DevExpress.XtraVerticalGrid.Rows.EditorRow rwSKU;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow rwActive;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow rwVisible;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow rwCost;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow rwCategory;
-        private DevExpress.XtraVerticalGrid.Rows.EditorRow rwBrand;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit txtCost;
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit chkActive;
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit chkVisible;

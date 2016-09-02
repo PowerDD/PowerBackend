@@ -15,9 +15,19 @@ namespace PowerBackend
         {
             using (WebClient wc = new WebClient())
             {
+                string html = "";
                 wc.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
                 wc.Encoding = System.Text.Encoding.UTF8;
-                return wc.UploadString(new Uri(Param.ApiUrl + method), parameter + "&apiKey=" + Param.ApiKey);
+                try {
+                    html = wc.UploadString(new Uri(Param.ApiUrl + method), 
+                        parameter + ((Param.token == "") ? "&apiKey=" + Param.ApiKey : "&token=" + Param.token));
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+                //Console.WriteLine(html);
+                return html;
             }
         }
 

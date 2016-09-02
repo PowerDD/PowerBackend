@@ -1,4 +1,5 @@
 ﻿using DevExpress.XtraEditors;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -31,7 +32,13 @@ namespace PowerBackend
 
         private void Main_Load(object sender, EventArgs e)
         {
-
+            if (Param.token == "")
+            {
+                dynamic json = JsonConvert.DeserializeObject(Util.ApiProcess("/api/token/request", "secretKey=" + Param.SecretKey));
+                Param.token = json.token.Value;
+                Console.WriteLine(Param.token);
+            }
+            AddPanel(Screen.Product);
         }
 
         private void navExit_ElementClick(object sender, DevExpress.XtraBars.Navigation.NavElementEventArgs e)
