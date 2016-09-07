@@ -452,7 +452,7 @@ namespace PowerBackend
         {
 
             dynamic json = JsonConvert.DeserializeObject(Util.ApiProcess("/product/update",
-                string.Format("shop={0}&id={1}&entity={2}&value={3}", Param.ShopId, id, key, value)
+                string.Format("shop={0}&id={1}&entity={2}&value={3}", Param.ShopId, id, key, value.Replace("+","|PLUS|"))
             ));
             if (!json.success.Value)
             {
